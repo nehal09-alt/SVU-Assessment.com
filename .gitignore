@@ -1,0 +1,7 @@
+.env
+data/
+*.traineddata
+CSE_2024/
+node_modules/
+*.md
+.DS_Store

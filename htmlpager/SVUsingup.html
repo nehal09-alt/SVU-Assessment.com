@@ -1,0 +1,528 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>SVU Student Signup & Exams</title>
+  <link rel="stylesheet" href="SVUdashboard.css" />
+</head>
+<body>
+  <div class="page-wrapper">
+    <header class="header">
+      <div class="logo-wrapper">
+        <img
+          src="SVU-LOGO.webp"
+          alt="SVU College Logo"
+          class="logo"
+        />
+      </div>
+      <div class="title-wrapper">
+        <h1>SVU Student Portal</h1>
+        <p>Create your account to access tests and examinations</p>
+      </div>
+    </header>
+
+    <main>
+      <section class="card">
+        <div id="apiStatus" style="margin-bottom: 12px; color: #a8b4ff; font-weight: 600;">API host: <span id="apiHost">loading...</span></div>
+        <h2 class="card-title">Student Signup</h2>
+        <p class="card-subtitle">
+          Enter your university details to create an examination account. Your name and admit number will be
+          fetched automatically from the college records using your registration number.
+        </p>
+
+        <!-- SIGNUP FORM -->
+        <form class="form" id="signupForm">
+        <div class="form-row">
+          <div class="form-group">
+            <label for="regNumber">College Registration Number</label>
+            <input
+              type="text"
+              id="regNumber"
+              name="regNumber"
+              placeholder="Enter your registration number"
+              required
+            />
+            <small>Example: 002-103-2024-373</small>
+          </div>
+
+          <div class="form-group">
+            <label for="admitNumber">Admit Number</label>
+            <input
+              type="text"
+              id="admitNumber"
+              name="admitNumber"
+              placeholder="Auto-filled from reg number"
+              readonly
+              required
+            />
+          </div>
+        </div>
+
+        <div class="form-row">
+          <div class="form-group">
+            <label for="studentName">Full Name</label>
+            <input
+              type="text"
+              id="studentName"
+              name="studentName"
+              placeholder="Auto-filled from reg number"
+              readonly
+              required
+            />
+          </div>
+
+          <div class="form-group">
+            <label for="email">Your Email (Gmail)</label>
+            <input
+              type="email"
+              id="email"
+              name="email"
+              placeholder="yourname@gmail.com"
+              required
+            />
+            <small>Use your valid college Gmail ID.</small>
+          </div>
+        </div>
+
+        <div class="form-row">
+          <div class="form-group">
+            <label for="course">Course / Department</label>
+            <input
+              type="text"
+              id="course"
+              name="course"
+              list="courseList"
+              placeholder="Start typing e.g. B.Tech..."
+              required
+            />
+            <datalist id="courseList">
+              <!-- SCHOOL OF ENGINEERING -->
+              <option value="B.Tech - Computer Science & Engineering"></option>
+              <option value="B.Tech - Civil Engineering"></option>
+              <option value="B.Tech - Electrical Engineering"></option>
+              <option value="B.Tech - Electronics & Communication Engineering"></option>
+              <option value="B.Tech - Mechanical Engineering"></option>
+
+              <!-- SCHOOL OF HUMANITIES & SOCIAL SCIENCE -->
+              <option value="B.A - English"></option>
+              <option value="B.A - Journalism & Mass Communication"></option>
+              <option value="B.Ed - Education"></option>
+
+              <!-- SCHOOL OF AGRICULTURE -->
+              <option value="B.Sc - Agriculture"></option>
+
+              <!-- SCHOOL OF MANAGEMENT -->
+              <option value="BBA - Management Studies"></option>
+
+              <!-- SCHOOL OF ALLIED HEALTH SCIENCE -->
+              <option value="BPT - Physiotherapy"></option>
+              <option value="B.Optom - Optometry"></option>
+              <option value="B.Sc - Food & Nutrition"></option>
+              <option value="B.Sc - Psychology"></option>
+              <option value="B.Sc - Medical Laboratory Technology"></option>
+              <option value="B.Sc - Medical Radiology & Imaging Technology"></option>
+
+              <!-- SCHOOL OF LEGAL STUDIES -->
+              <option value="LLB - Legal Studies"></option>
+
+              <!-- SCHOOL OF COMPUTER SCIENCE -->
+              <option value="BCA - Computer Application"></option>
+              <option value="B.Sc - Data Science"></option>
+              <option value="B.Sc - Advanced Networking & Cyber Security"></option>
+              <option value="B.Sc - Multimedia & Animation"></option>
+
+              <!-- SCHOOL OF LIFE SCIENCE -->
+              <option value="B.Sc - Biotechnology"></option>
+              <option value="B.Sc - Microbiology"></option>
+
+              <!-- SCHOOL OF BASIC SCIENCE -->
+              <option value="B.Sc - Mathematics"></option>
+              <option value="B.Sc - Chemistry"></option>
+            </datalist>
+          </div>
+
+          <div class="form-group">
+            <label for="year">Year</label>
+            <select id="year" name="year">
+              <option value="">Select year</option>
+              <option value="1">1st Year</option>
+              <option value="2">2nd Year</option>
+              <option value="3">3rd Year</option>
+              <option value="4">4th Year</option>
+            </select>
+          </div>
+
+          <div class="form-group">
+            <label for="semester">Semester</label>
+            <input
+              type="text"
+              id="semester"
+              name="semester"
+              placeholder="e.g. 4th Semester"
+            />
+          </div>
+        </div>
+
+        <div class="form-row">
+          <div class="form-group">
+            <label for="password">Create Password</label>
+            <div class="password-wrapper">
+              <input
+                type="password"
+                id="password"
+                name="password"
+                placeholder="Create a strong password"
+                minlength="6"
+                required
+              />
+              <button type="button" class="password-toggle" id="passwordToggle">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="eye-icon">
+                  <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
+                  <circle cx="12" cy="12" r="3"></circle>
+                </svg>
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="eye-off-icon" style="display: none;">
+                  <path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24"></path>
+                  <line x1="1" y1="1" x2="23" y2="23"></line>
+                </svg>
+              </button>
+            </div>
+            <small>Must contain: lowercase letter, number, special character (!@#$%^&*). NO CAPITAL LETTERS.</small>
+            <div class="password-requirements">
+              <div class="requirement" id="reqLowercase">✗ Lowercase letter (a-z)</div>
+              <div class="requirement" id="reqNumber">✗ Number (0-9)</div>
+              <div class="requirement" id="reqSpecial">✗ Special character (!@#$%^&*)</div>
+              <div class="requirement" id="reqNoCapital">✗ No capital letters (A-Z)</div>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label for="confirmPassword">Confirm Password</label>
+            <div class="password-wrapper">
+              <input
+                type="password"
+                id="confirmPassword"
+                name="confirmPassword"
+                placeholder="Re‑enter password"
+                minlength="6"
+                required
+              />
+              <button type="button" class="password-toggle" id="confirmPasswordToggle">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="eye-icon">
+                  <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
+                  <circle cx="12" cy="12" r="3"></circle>
+                </svg>
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="eye-off-icon" style="display: none;">
+                  <path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24"></path>
+                  <line x1="1" y1="1" x2="23" y2="23"></line>
+                </svg>
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <button type="submit" class="btn-primary" id="signupButton">Sign Up</button>
+      </form>
+
+      <p style="margin-top: 10px; font-size: 0.85rem; color: #9ca3af;">
+        Already have an account?
+        <a href="SVUsignin.html" style="color: #60a5fa; text-decoration: underline;">Sign in here</a>.
+      </p>
+      </section>
+
+    </main>
+
+    <footer class="footer">
+      <p>&copy; 2026 SVU College. All rights reserved.</p>
+    </footer>
+  </div>
+
+  <script>
+    const signupForm = document.getElementById("signupForm");
+    
+    // Student data (from students.json)
+    const studentDatabase = [
+      {"sno": 1, "name": "SAYAN PAL", "dept": "B.Tech. in Computer Science & Engineering", "regNum": "002-103-2024-001", "rollNum": "002-BCS-2024-001"},
+      {"sno": 2, "name": "ANKITA DEY", "dept": "B.Tech. in Computer Science & Engineering", "regNum": "002-103-2024-003", "rollNum": "002-BCS-2024-003"},
+      {"sno": 3, "name": "SATYAKI GHOSH", "dept": "B.Tech. in Computer Science & Engineering", "regNum": "002-103-2024-004", "rollNum": "002-BCS-2024-004"},
+      {"sno": 4, "name": "ARINDAM GUHA", "dept": "B.Tech. in Computer Science & Engineering", "regNum": "002-103-2024-005", "rollNum": "002-BCS-2024-005"},
+      {"sno": 5, "name": "ANJANA DE", "dept": "B.Tech. in Computer Science & Engineering", "regNum": "002-103-2024-006", "rollNum": "002-BCS-2024-006"},
+      {"sno": 6, "name": "SANIYA REJA", "dept": "B.Tech. in Computer Science & Engineering", "regNum": "002-103-2024-007", "rollNum": "002-BCS-2024-007"},
+      {"sno": 7, "name": "SANIA BHATTACHARYA", "dept": "B.Tech. in Computer Science & Engineering", "regNum": "002-103-2024-008", "rollNum": "002-BCS-2024-008"},
+      {"sno": 8, "name": "DIPANWITA BANERJEE", "dept": "B.Tech. in Computer Science & Engineering", "regNum": "002-103-2024-009", "rollNum": "002-BCS-2024-009"},
+      {"sno": 9, "name": "OMPRAKASH KARAK", "dept": "B.Tech. in Computer Science & Engineering", "regNum": "002-103-2024-010", "rollNum": "002-BCS-2024-010"},
+      {"sno": 10, "name": "RATNADIP BASAK", "dept": "B.Tech. in Computer Science & Engineering", "regNum": "002-103-2024-011", "rollNum": "002-BCS-2024-011"},
+      {"sno": 11, "name": "GOURAB GHOSH", "dept": "B.Tech. in Computer Science & Engineering", "regNum": "002-103-2024-012", "rollNum": "002-BCS-2024-012"},
+      {"sno": 12, "name": "SABUJ KHANRA", "dept": "B.Tech. in Computer Science & Engineering", "regNum": "002-103-2024-013", "rollNum": "002-BCS-2024-013"},
+      {"sno": 13, "name": "JEET BISWAS", "dept": "B.Tech. in Computer Science & Engineering", "regNum": "002-103-2024-014", "rollNum": "002-BCS-2024-014"},
+      {"sno": 14, "name": "LISA DAS", "dept": "B.Tech. in Computer Science & Engineering", "regNum": "002-103-2024-015", "rollNum": "002-BCS-2024-015"},
+      {"sno": 15, "name": "SK MAHAMMAD SAHIL", "dept": "B.Tech. in Computer Science & Engineering", "regNum": "002-103-2024-016", "rollNum": "002-BCS-2024-016"},
+      {"sno": 16, "name": "JISHU KHANRA", "dept": "B.Tech. in Computer Science & Engineering", "regNum": "002-103-2024-017", "rollNum": "002-BCS-2024-017"},
+      {"sno": 17, "name": "SAYANTIKA BHAKAT", "dept": "B.Tech. in Computer Science & Engineering", "regNum": "002-103-2024-018", "rollNum": "002-BCS-2024-018"},
+      {"sno": 18, "name": "SAIFUDDIN SK", "dept": "B.Tech. in Computer Science & Engineering", "regNum": "002-103-2024-019", "rollNum": "002-BCS-2024-019"},
+      {"sno": 19, "name": "RUPASHMI SARKAR", "dept": "B.Tech. in Computer Science & Engineering", "regNum": "002-103-2024-020", "rollNum": "002-BCS-2024-020"},
+      {"sno": 20, "name": "TUSHAR KANTI DAS", "dept": "B.Tech. in Computer Science & Engineering", "regNum": "002-103-2024-021", "rollNum": "002-BCS-2024-021"},
+      {"sno": 21, "name": "ARNAB CHAKRABORTY", "dept": "B.Tech. in Computer Science & Engineering", "regNum": "002-103-2024-022", "rollNum": "002-BCS-2024-022"},
+      {"sno": 22, "name": "SUBHASISH DAS", "dept": "B.Tech. in Computer Science & Engineering", "regNum": "002-103-2024-023", "rollNum": "002-BCS-2024-023"},
+      {"sno": 23, "name": "SRINJOY SINHA", "dept": "B.Tech. in Computer Science & Engineering", "regNum": "002-103-2024-024", "rollNum": "002-BCS-2024-024"},
+      {"sno": 24, "name": "BANHISHA PAL", "dept": "B.Tech. in Computer Science & Engineering", "regNum": "002-103-2024-025", "rollNum": "002-BCS-2024-025"},
+      {"sno": 25, "name": "SUKALPA MANNA", "dept": "B.Tech. in Computer Science & Engineering", "regNum": "002-103-2024-026", "rollNum": "002-BCS-2024-026"},
+      {"sno": 26, "name": "BUDDHADEV SINGH", "dept": "B.Tech. in Computer Science & Engineering", "regNum": "002-103-2024-027", "rollNum": "002-BCS-2024-027"},
+      {"sno": 27, "name": "MONAJIT MALIK", "dept": "B.Tech. in Computer Science & Engineering", "regNum": "002-103-2024-028", "rollNum": "002-BCS-2024-028"},
+      {"sno": 28, "name": "TAMAL GHOSH", "dept": "B.Tech. in Computer Science & Engineering", "regNum": "002-103-2024-029", "rollNum": "002-BCS-2024-029"},
+      {"sno": 29, "name": "ROHIT SARKAR", "dept": "B.Tech. in Computer Science & Engineering", "regNum": "002-103-2024-030", "rollNum": "002-BCS-2024-030"},
+      {"sno": 30, "name": "KRISHNENDU LAHA", "dept": "B.Tech. in Computer Science & Engineering", "regNum": "002-103-2024-031", "rollNum": "002-BCS-2024-031"},
+      {"sno": 31, "name": "SOURISH CHAKRABORTY", "dept": "B.Tech. in Computer Science & Engineering", "regNum": "002-103-2024-032", "rollNum": "002-BCS-2024-032"},
+      {"sno": 32, "name": "SOUMILI GOSWAMI", "dept": "B.Tech. in Computer Science & Engineering", "regNum": "002-103-2024-033", "rollNum": "002-BCS-2024-033"},
+      {"sno": 33, "name": "SHUBHAM JANA", "dept": "B.Tech. in Computer Science & Engineering", "regNum": "002-103-2024-034", "rollNum": "002-BCS-2024-034"},
+      {"sno": 34, "name": "MONDEEP KARMAKAR", "dept": "B.Tech. in Computer Science & Engineering", "regNum": "002-103-2024-035", "rollNum": "002-BCS-2024-035"},
+      {"sno": 35, "name": "PRITAM VELLO", "dept": "B.Tech. in Computer Science & Engineering", "regNum": "002-103-2024-036", "rollNum": "002-BCS-2024-036"},
+      {"sno": 36, "name": "ROUNAK NAYAK", "dept": "B.Tech. in Computer Science & Engineering", "regNum": "002-103-2024-037", "rollNum": "002-BCS-2024-037"},
+      {"sno": 37, "name": "RAJESH HALDER", "dept": "B.Tech. in Computer Science & Engineering", "regNum": "002-103-2024-038", "rollNum": "002-BCS-2024-038"},
+      {"sno": 38, "name": "SAYANTANI GHOSH", "dept": "B.Tech. in Computer Science & Engineering", "regNum": "002-103-2024-039", "rollNum": "002-BCS-2024-039"},
+      {"sno": 39, "name": "SUSHOBHAN SINGHA", "dept": "B.Tech. in Computer Science & Engineering", "regNum": "002-103-2024-040", "rollNum": "002-BCS-2024-040"},
+      {"sno": 40, "name": "ARUP SAHA", "dept": "B.Tech. in Computer Science & Engineering", "regNum": "002-103-2024-041", "rollNum": "002-BCS-2024-041"},
+      {"sno": 41, "name": "BIJOY DAS", "dept": "B.Tech. in Computer Science & Engineering", "regNum": "002-103-2024-042", "rollNum": "002-BCS-2024-042"},
+      {"sno": 42, "name": "SAMYAK DUTTA", "dept": "B.Tech. in Computer Science & Engineering", "regNum": "002-103-2024-043", "rollNum": "002-BCS-2024-043"},
+      {"sno": 43, "name": "SUDIPTA GIRI", "dept": "B.Tech. in Computer Science & Engineering", "regNum": "002-103-2024-044", "rollNum": "002-BCS-2024-044"},
+      {"sno": 44, "name": "SOUVIK HARI", "dept": "B.Tech. in Computer Science & Engineering", "regNum": "002-103-2024-045", "rollNum": "002-BCS-2024-045"},
+      {"sno": 45, "name": "HIRONMOY MONDAL", "dept": "B.Tech. in Computer Science & Engineering", "regNum": "002-103-2024-046", "rollNum": "002-BCS-2024-046"},
+      {"sno": 46, "name": "SASWATA JANA", "dept": "B.Tech. in Computer Science & Engineering", "regNum": "002-103-2024-047", "rollNum": "002-BCS-2024-047"},
+      {"sno": 47, "name": "SANJIB BHUNIA", "dept": "B.Tech. in Computer Science & Engineering", "regNum": "002-103-2024-048", "rollNum": "002-BCS-2024-048"},
+      {"sno": 48, "name": "RISHIKA NASKAR", "dept": "B.Tech. in Computer Science & Engineering", "regNum": "002-103-2024-049", "rollNum": "002-BCS-2024-049"},
+      {"sno": 49, "name": "SHOVON DHAR", "dept": "B.Tech. in Computer Science & Engineering", "regNum": "002-103-2024-050", "rollNum": "002-BCS-2024-050"},
+      {"sno": 50, "name": "BITAN BANERJEE", "dept": "B.Tech. in Computer Science & Engineering", "regNum": "002-103-2024-051", "rollNum": "002-BCS-2024-051"},
+      {"sno": 51, "name": "SRIJA SHRIBASTAB", "dept": "B.Tech. in Computer Science & Engineering", "regNum": "002-103-2024-052", "rollNum": "002-BCS-2024-052"},
+      {"sno": 52, "name": "SOURAV GHOSH", "dept": "B.Tech. in Computer Science & Engineering", "regNum": "002-103-2024-053", "rollNum": "002-BCS-2024-053"},
+      {"sno": 53, "name": "SREEJIT BHATTACHARYA", "dept": "B.Tech. in Computer Science & Engineering", "regNum": "002-103-2024-054", "rollNum": "002-BCS-2024-054"},
+      {"sno": 54, "name": "DEBALINA KARMAKAR", "dept": "B.Tech. in Computer Science & Engineering", "regNum": "002-103-2024-055", "rollNum": "002-BCS-2024-055"},
+      {"sno": 55, "name": "SOMNATH MISHRA", "dept": "B.Tech. in Computer Science & Engineering", "regNum": "002-103-2024-056", "rollNum": "002-BCS-2024-056"},
+      {"sno": 56, "name": "SURYA BHANDARI", "dept": "B.Tech. in Computer Science & Engineering", "regNum": "002-103-2024-057", "rollNum": "002-BCS-2024-057"},
+      {"sno": 57, "name": "ALIVA BISWAS", "dept": "B.Tech. in Computer Science & Engineering", "regNum": "002-103-2024-058", "rollNum": "002-BCS-2024-058"},
+      {"sno": 58, "name": "RIAZUDDIN SK", "dept": "B.Tech. in Computer Science & Engineering", "regNum": "002-103-2024-059", "rollNum": "002-BCS-2024-059"},
+      {"sno": 59, "name": "PRITANKA KARMAKAR", "dept": "B.Tech. in Computer Science & Engineering", "regNum": "002-103-2024-060", "rollNum": "002-BCS-2024-060"},
+      {"sno": 60, "name": "PRABHAT KUMAR MAHATO", "dept": "B.Tech. in Computer Science & Engineering", "regNum": "002-103-2024-061", "rollNum": "002-BCS-2024-061"},
+      {"sno": 61, "name": "BISHAL SUTRADHAR", "dept": "B.Tech. in Computer Science & Engineering", "regNum": "002-103-2024-062", "rollNum": "002-BCS-2024-062"},
+      {"sno": 62, "name": "KUNAL GHOSH", "dept": "B.Tech. in Computer Science & Engineering", "regNum": "002-103-2024-063", "rollNum": "002-BCS-2024-063"},
+      {"sno": 63, "name": "ARINDAM GHOSH", "dept": "B.Tech. in Computer Science & Engineering", "regNum": "002-103-2024-064", "rollNum": "002-BCS-2024-064"},
+      {"sno": 64, "name": "SUVAJIT SAMANTA", "dept": "B.Tech. in Computer Science & Engineering", "regNum": "002-103-2024-065", "rollNum": "002-BCS-2024-065"},
+      {"sno": 65, "name": "SHREYA PAL", "dept": "B.Tech. in Computer Science & Engineering", "regNum": "002-103-2024-066", "rollNum": "002-BCS-2024-066"},
+      {"sno": 66, "name": "SAWAN KUMAR PANDIT", "dept": "B.Tech. in Computer Science & Engineering", "regNum": "002-103-2024-067", "rollNum": "002-BCS-2024-067"},
+      {"sno": 67, "name": "SOUMILI ROY", "dept": "B.Tech. in Computer Science & Engineering", "regNum": "002-103-2024-068", "rollNum": "002-BCS-2024-068"},
+      {"sno": 68, "name": "ATIKUR RAHAMAN", "dept": "B.Tech. in Computer Science & Engineering", "regNum": "002-103-2024-069", "rollNum": "002-BCS-2024-069"},
+      {"sno": 69, "name": "PIJUS DAS", "dept": "B.Tech. in Computer Science & Engineering", "regNum": "002-103-2024-070", "rollNum": "002-BCS-2024-070"},
+      {"sno": 70, "name": "TUHIN DAS", "dept": "B.Tech. in Computer Science & Engineering", "regNum": "002-103-2024-071", "rollNum": "002-BCS-2024-071"},
+      {"sno": 71, "name": "MD ZEESHAN ALI", "dept": "B.Tech. in Computer Science & Engineering", "regNum": "002-103-2024-072", "rollNum": "002-BCS-2024-072"},
+      {"sno": 72, "name": "SOUMYAJIT SARKAR", "dept": "B.Tech. in Computer Science & Engineering", "regNum": "002-103-2024-073", "rollNum": "002-BCS-2024-073"},
+      {"sno": 73, "name": "DHRUBO DEY", "dept": "B.Tech. in Computer Science & Engineering", "regNum": "002-103-2024-074", "rollNum": "002-BCS-2024-074"},
+      {"sno": 74, "name": "SAYAN BHATTACHARYA", "dept": "B.Tech. in Computer Science & Engineering", "regNum": "002-103-2024-075", "rollNum": "002-BCS-2024-075"},
+      {"sno": 75, "name": "AKASH MONDAL", "dept": "B.Tech. in Computer Science & Engineering", "regNum": "002-103-2024-076", "rollNum": "002-BCS-2024-076"},
+      {"sno": 76, "name": "DIPANKAR DAS ADHIKARI", "dept": "B.Tech. in Computer Science & Engineering", "regNum": "002-103-2024-077", "rollNum": "002-BCS-2024-077"},
+      {"sno": 77, "name": "MD REHAN ALAM", "dept": "B.Tech. in Computer Science & Engineering", "regNum": "002-103-2024-079", "rollNum": "002-BCS-2024-079"},
+      {"sno": 78, "name": "SOUNOK GHOSH", "dept": "B.Tech. in Computer Science & Engineering", "regNum": "002-103-2024-080", "rollNum": "002-BCS-2024-080"},
+      {"sno": 79, "name": "SK IMRANUL HAQUE", "dept": "B.Tech. in Computer Science & Engineering", "regNum": "002-103-2024-081", "rollNum": "002-BCS-2024-081"},
+      {"sno": 80, "name": "ANKIT KUMAR GIRI", "dept": "B.Tech. in Computer Science & Engineering", "regNum": "002-103-2024-082", "rollNum": "002-BCS-2024-082"},
+      {"sno": 81, "name": "SAMARPITA DAS", "dept": "B.Tech. in Computer Science & Engineering", "regNum": "002-103-2024-083", "rollNum": "002-BCS-2024-083"},
+      {"sno": 82, "name": "SUBHADIP TRIPATHY", "dept": "B.Tech. in Computer Science & Engineering", "regNum": "002-103-2024-084", "rollNum": "002-BCS-2024-084"},
+      {"sno": 83, "name": "DIPYAMAN GHOSH", "dept": "B.Tech. in Computer Science & Engineering", "regNum": "002-103-2024-085", "rollNum": "002-BCS-2024-085"},
+      {"sno": 84, "name": "ABHISEKH NEOGI", "dept": "B.Tech. in Computer Science & Engineering", "regNum": "002-103-2024-086", "rollNum": "002-BCS-2024-086"},
+      {"sno": 85, "name": "SUBHAM GIRI", "dept": "B.Tech. in Computer Science & Engineering", "regNum": "002-103-2024-087", "rollNum": "002-BCS-2024-087"},
+      {"sno": 86, "name": "SOUMODIP JANA", "dept": "B.Tech. in Computer Science & Engineering", "regNum": "002-103-2024-088", "rollNum": "002-BCS-2024-088"},
+      {"sno": 87, "name": "JAMIL AKTAR ANSARY", "dept": "B.Tech. in Computer Science & Engineering", "regNum": "002-103-2024-089", "rollNum": "002-BCS-2024-089"},
+      {"sno": 88, "name": "DEBANJAN MISHRA", "dept": "B.Tech. in Computer Science & Engineering", "regNum": "002-103-2024-090", "rollNum": "002-BCS-2024-090"},
+      {"sno": 89, "name": "SOUMYAJIT SASMAL", "dept": "B.Tech. in Computer Science & Engineering", "regNum": "002-103-2024-092", "rollNum": "002-BCS-2024-092"},
+      {"sno": 90, "name": "ANIMESH MAHATA", "dept": "B.Tech. in Computer Science & Engineering", "regNum": "002-103-2024-093", "rollNum": "002-BCS-2024-093"},
+      {"sno": 91, "name": "AYAN CHANDRA DEY", "dept": "B.Tech. in Computer Science & Engineering", "regNum": "002-103-2024-094", "rollNum": "002-BCS-2024-094"},
+      {"sno": 92, "name": "RITAM SAHA", "dept": "B.Tech. in Computer Science & Engineering", "regNum": "002-103-2024-095", "rollNum": "002-BCS-2024-095"},
+      {"sno": 93, "name": "SOUMYADEEP ROY", "dept": "B.Tech. in Computer Science & Engineering", "regNum": "002-103-2024-097", "rollNum": "002-BCS-2024-097"},
+      {"sno": 94, "name": "ATANU PRAMANIK", "dept": "B.Tech. in Computer Science & Engineering", "regNum": "002-103-2024-099", "rollNum": "002-BCS-2024-099"},
+      {"sno": 95, "name": "SNEHA MONDAL", "dept": "B.Tech. in Computer Science & Engineering", "regNum": "002-103-2024-100", "rollNum": "002-BCS-2024-100"},
+      {"sno": 96, "name": "MD LABBAIK SHAMIM", "dept": "B.Tech. in Computer Science & Engineering", "regNum": "002-103-2024-101", "rollNum": "002-BCS-2024-101"},
+      {"sno": 97, "name": "SWATI KESHRI", "dept": "B.Tech. in Computer Science & Engineering", "regNum": "002-103-2024-102", "rollNum": "002-BCS-2024-102"}
+    ];
+
+    // PASSWORD VALIDATION REQUIREMENTS
+    function validatePassword(password) {
+      const hasLowercase = /[a-z]/.test(password);
+      const hasNumber = /[0-9]/.test(password);
+      const hasSpecial = /[!@#$%^&*]/.test(password);
+      const hasNoCapital = !/[A-Z]/.test(password); // Must NOT contain capital letters
+
+      // Update visual feedback
+      updateRequirement("reqLowercase", hasLowercase);
+      updateRequirement("reqNumber", hasNumber);
+      updateRequirement("reqSpecial", hasSpecial);
+      updateRequirement("reqNoCapital", hasNoCapital);
+
+      return hasLowercase && hasNumber && hasSpecial && hasNoCapital;
+    }
+
+    function updateRequirement(id, isMet) {
+      const element = document.getElementById(id);
+      if (isMet) {
+        element.classList.add("met");
+        element.textContent = element.textContent.replace("✗", "✓");
+      } else {
+        element.classList.remove("met");
+        element.textContent = element.textContent.replace("✓", "✗");
+      }
+    }
+
+    // PASSWORD VISIBILITY TOGGLES
+    const passwordInput = document.getElementById("password");
+    const confirmPasswordInput = document.getElementById("confirmPassword");
+    const passwordToggle = document.getElementById("passwordToggle");
+    const confirmPasswordToggle = document.getElementById("confirmPasswordToggle");
+
+    // Toggle password visibility
+    function togglePasswordVisibility(toggle, input) {
+      toggle.addEventListener("click", (e) => {
+        e.preventDefault();
+        const eyeIcon = toggle.querySelector(".eye-icon");
+        const eyeOffIcon = toggle.querySelector(".eye-off-icon");
+
+        if (input.type === "password") {
+          input.type = "text";
+          eyeIcon.style.display = "none";
+          eyeOffIcon.style.display = "block";
+        } else {
+          input.type = "password";
+          eyeIcon.style.display = "block";
+          eyeOffIcon.style.display = "none";
+        }
+      });
+    }
+
+    togglePasswordVisibility(passwordToggle, passwordInput);
+    togglePasswordVisibility(confirmPasswordToggle, confirmPasswordInput);
+
+    // Validate password on input
+    passwordInput.addEventListener("input", (e) => {
+      validatePassword(e.target.value);
+    });
+
+    // AUTO-FILL FUNCTION - Client-side first, then server fallback
+    const regInput = document.getElementById("regNumber");
+    const admitInput = document.getElementById("admitNumber");
+    const nameInput = document.getElementById("studentName");
+
+    function fillFromReg() {
+      const regNumber = regInput.value.trim();
+      
+      if (!regNumber) {
+        admitInput.value = "";
+        nameInput.value = "";
+        return;
+      }
+
+      // First, try client-side data
+      const student = studentDatabase.find(s => s.regNum === regNumber);
+      
+      if (student) {
+        admitInput.value = student.rollNum || "";
+        nameInput.value = student.name || "";
+        console.log("✓ Found student data (client-side):", student.name);
+        return;
+      }
+
+      // If not found, try server endpoint
+      tryServerFallback(regNumber);
+    }
+
+    function tryServerFallback(regNumber) {
+      fetch("/student-info?regNumber=" + encodeURIComponent(regNumber))
+        .then(res => {
+          if (res.ok) return res.json();
+          throw new Error("Server: Not found");
+        })
+        .then(info => {
+          admitInput.value = info.admitNumber || "";
+          nameInput.value = info.studentName || "";
+          console.log("✓ Found student data (from server):", info.studentName);
+        })
+        .catch(err => {
+          admitInput.value = "";
+          nameInput.value = "";
+          console.warn("Student not found in database or server is offline");
+        });
+    }
+
+    regInput.addEventListener("blur", fillFromReg);
+    regInput.addEventListener("change", fillFromReg);
+    
+    // Also auto-fill on input after slight delay for better UX
+    let inputTimeout;
+    regInput.addEventListener("input", () => {
+      clearTimeout(inputTimeout);
+      inputTimeout = setTimeout(fillFromReg, 500);
+    });
+
+    const API_BASE = window.location.origin;
+
+    const apiHostLabel = document.getElementById("apiHost");
+    if (apiHostLabel) apiHostLabel.textContent = API_BASE;
+
+    // SIGNUP HANDLER
+    signupForm.addEventListener("submit", async (e) => {
+      e.preventDefault();
+
+      const password = document.getElementById("password").value;
+      const confirmPassword = document.getElementById("confirmPassword").value;
+
+      // Validate password meets all requirements
+      if (!validatePassword(password)) {
+        alert("Password must contain: lowercase letter, number, special character (!@#$%^&*) and NO capital letters.");
+        return;
+      }
+
+      const data = {
+        regNumber: document.getElementById("regNumber").value.trim(),
+        admitNumber: document.getElementById("admitNumber").value.trim(),
+        studentName: document.getElementById("studentName").value.trim(),
+        email: document.getElementById("email").value.trim(),
+        course: document.getElementById("course").value.trim(),
+        year: document.getElementById("year").value,
+        semester: document.getElementById("semester").value.trim(),
+        password: password,
+        confirmPassword: confirmPassword,
+        createdAt: new Date().toISOString(),
+      };
+
+      if (data.password !== data.confirmPassword) {
+        alert("Passwords do not match. Please check again.");
+        return;
+      }
+
+      if (!data.admitNumber || !data.studentName) {
+        alert("Please enter a valid Registration Number (name/admit number must auto-fill).");
+        return;
+      }
+
+      try {
+        const res = await fetch(`${API_BASE}/signup`, {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(data),
+        });
+
+        const result = await res.json().catch(() => ({}));
+
+        if (res.ok) {
+          alert("Signup successful and data stored. You can now sign in.");
+          signupForm.reset();
+          window.location.href = "SVUsignin.html";
+        } else {
+          const message = result.message || "Could not save data. Please try again.";
+          alert(message);
+          console.error("Signup failed:", res.status, message);
+        }
+      } catch (err) {
+        alert("Server not running. Please start the backend server first.");
+        console.error(err);
+      }
+    });
+  </script>
+</body>
+</html>
