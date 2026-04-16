@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>SVU Faculty Assessment Panel</title>
+  <link rel="stylesheet" href="lms-assessment-system.css" />
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script crossorigin src="https://unpkg.com/react@18/umd/react.development.js"></script>
+  <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+  <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+</head>
+<body class="lms-assessment-body">
+  <div class="assessment-grid-bg"></div>
+  <div class="assessment-shell">
+    <div id="assessmentApp"></div>
+  </div>
+  <script src="svu-common.js"></script>
+  <script>window.SVUCommon.setupThemeToggle();</script>
+  <script type="text/babel" src="lms-assessment-faculty.jsx"></script>
+</body>
+</html>

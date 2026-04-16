@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>SVU LMS Assessment Dashboard</title>
+  <link rel="stylesheet" href="lms-assessment-system.css" />
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="lms-assessment-config.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script crossorigin src="https://unpkg.com/react@18/umd/react.development.js"></script>
+  <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+  <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+  <script>
+    (function redirectToAppPort() {
+      const isLocalHost = window.location.hostname === "127.0.0.1" || window.location.hostname === "localhost";
+      if (isLocalHost && window.location.port && window.location.port !== "3010") {
+        const target = `${window.location.protocol}//${window.location.hostname}:3010${window.location.pathname}${window.location.search}${window.location.hash}`;
+        window.location.replace(target);
+      }
+    })();
+  </script>
+  <script>
+    (function initThemeBootstrap() {
+      let savedTheme = null;
+      try {
+        savedTheme = localStorage.getItem("svuTheme");
+      } catch (_) {
+        savedTheme = null;
+      }
+
+      const prefersDark = window.matchMedia && window.matchMedia("(prefers-color-scheme: dark)").matches;
+      const useDark = savedTheme ? savedTheme === "dark" : prefersDark;
+      document.documentElement.classList.toggle("theme-dark", useDark);
+    })();
+  </script>
+</head>
+<body class="assessment-body">
+  <div class="assessment-grid-bg"></div>
+  <div class="assessment-shell">
+    <div id="assessmentApp"></div>
+  </div>
+  <script src="svu-common.js"></script>
+  <script>window.SVUCommon.setupThemeToggle();</script>
+  <script type="text/babel" src="lms-assessment-app.jsx"></script>
+</body>
+</html>

@@ -1,0 +1,997 @@
+Course,Year,Semester,Subject
+BCA,1st,2,Data Structure and Algorithm
+BCA,1st,2,Data Structure and Algorithm Lab
+BCA,1st,2,Mathematics II
+BCA,1st,2,Digital and Analog Communications
+BCA,1st,2,Digital and Analog Communications Lab
+BCA,1st,2,Modern Indian Language (Bengali/ Hindi)
+BCA,1st,2,Interpersonal and soft skill
+BCA,1st,2,Environmental Science-II
+BCA,1st,2,Digital Transformations
+BCA,1st,2,Competitive Coding
+BCA,1st,2,MIL BENGALI
+BCA,2nd,4,Database Management System
+BCA,2nd,4,Database Management System Lab
+BCA,2nd,4,Artificial Intelligence
+BCA,2nd,4,Artificial Intelligence Lab
+BCA,2nd,4,Machine Learning
+BCA,2nd,4,Machine Learning Lab
+BCA,2nd,4,MIL- Bengali /Hindi II
+BCA,2nd,4,Python Programming
+BCA,2nd,4,Python Programming Lab
+BCA,2nd,4,Communicative English
+BCA,2nd,4,Competitive Coding
+BCA,3rd,6,THEORY OF COMPUTATION
+BCA,3rd,6,MICROPROCESSOR & MICROCONTROLLER
+BCA,3rd,6,WEB DESIGN AND DEVELOPMENT
+BCA,3rd,6,CRYPTOGRAPHY
+BCA,3rd,6,LINUX SYSTEM ADMINISTRATION
+BCA,3rd,6,CRYPTOGRAPHY LAB
+BCA,3rd,6,WEB DESIGN AND DEVELOPMENT LAB
+BCA,3rd,6,LINUX SYSTEM ADMINISTRATION LAB
+B.Sc ANCS,1st,2,Data Structure and Algorithm
+B.Sc ANCS,1st,2,Data Structure and Algorithm Lab
+B.Sc ANCS,1st,2,Networking Fundamentals
+B.Sc ANCS,1st,2,Networking Fundamentals Lab
+B.Sc ANCS,1st,2,Digital and Analog Communications
+B.Sc ANCS,1st,2,Digital and Analog Communications Lab
+B.Sc ANCS,1st,2,Modern Indian Language (Bengali/ Hindi)
+B.Sc ANCS,1st,2,Interpersonal and soft skill
+B.Sc ANCS,1st,2,Environmental Science-II
+B.Sc ANCS,1st,2,Digital Transformations
+B.Sc ANCS,1st,2,MIL BENGALI
+B.Sc ANCS,2nd,4,Cryptography
+B.Sc ANCS,2nd,4,Cryptography Lab
+B.Sc ANCS,2nd,4,Operating System
+B.Sc ANCS,2nd,4,Operating System Lab
+B.Sc ANCS,2nd,4,Machine Learning
+B.Sc ANCS,2nd,4,Machine Learning Lab
+B.Sc ANCS,2nd,4,Mil-Bengali/Hindi II
+B.Sc ANCS,2nd,4,Programming in Python Programming
+B.Sc ANCS,2nd,4,Programming in Python Lab
+B.Sc ANCS,3rd,6,WINDOWS SERVER ADMINISTRATION
+B.Sc ANCS,3rd,6,AUDITING IT INFRASTRUCTURE FOR COMPLIANCE
+B.Sc ANCS,3rd,6,INTRUSION DETECTION AND PREVENTION SYSTEM
+B.Sc ANCS,3rd,6,DIGITAL FORENSIC
+B.Sc ANCS,3rd,6,PENETRATION TESTING
+B.Sc ANCS,3rd,6,WINDOWS SERVER ADMINISTRATION LAB
+B.Sc ANCS,3rd,6,DIGITAL FORENSIC LAB
+B.Sc ANCS,3rd,6,PENETRATION TESTING LAB
+B.Tech CSE,2nd,4,Computer Architecture
+B.Tech CSE,2nd,4,Design & Analysis of Algorithms
+B.Tech CSE,2nd,4,Discrete Mathematics
+B.Tech CSE,2nd,4,Formal Language & Automata Theory
+B.Tech CSE,2nd,4,Biology
+B.Tech CSE,2nd,4,Environmental Science
+B.Tech CSE,2nd,4,Competitive Coding
+B.Tech CSE,3rd,6,Database Management System
+B.Tech CSE,3rd,6,Computer Networks
+B.Tech CSE,3rd,6,VLSI and Microelectronics
+B.Tech CSE,3rd,6,Data Warehousing & Data Mining
+B.Tech CSE,3rd,6,Numerical Methods
+B.Tech CSE,3rd,6,Research Methodology
+B.Tech CSE,3rd,6,Competitive Coding
+B.Tech CSE,4th,8,Big Data Analysis
+B.Tech CSE,4th,8,NLP
+B.Tech CSE,4th,8,Economic Policy In India
+B.Tech CSE,4th,8,Deep Learning
+B.Tech CSE,4th,8,"AI Ethics, Explainable AI and Responsible"
+B.Tech CSE,4th,8,INTERNET OF THINGS
+B.Tech CSE,4th,8,WEB AND INTERNET TECHNOLOGY
+B.Tech CSE,4th,8,CRYPTOGRAPHY AND NETWORK SECURITY
+B.Tech CSE,4th,8,SIGNAL AND NETWORK
+B.Tech CSE,4th,8,Cyber Forensics and Incident Response
+B.Tech CSE,4th,8,Advanced Network and Web Security
+B.Tech CSE,4th,8,Cyber Law Ethics and Digital Rights
+B.Tech CSE,1st,2,Chemistry - I
+B.Tech CSE,1st,2,Mathematics IIA
+B.Tech CSE,1st,2,Programming for Problem Solving
+B.Tech CSE,1st,2,English
+B.Tech CSE,1st,2,Engineering Graphics & Design
+B.Tech CSE,1st,2,Physics-I
+B.Tech DS,3rd,6,Big Data Analysis
+B.Tech DS,3rd,6,Artificial Intelligence
+B.Tech DS,3rd,6,Data Communication and Computer Networks
+B.Tech DS,3rd,6,Big Data Technology
+B.Tech DS,3rd,6,Vlsi and Microelectronics
+B.Tech DS,3rd,6,Data Warehousing
+B.Tech DS,3rd,6,Numerical Methods
+B.Tech DS,3rd,6,Artificial Intelligence Lab
+B.Tech DS,3rd,6,Data Communication and Computer Networks Lab
+B.Tech DS,3rd,6,Big Data Technology and OLAP Lab
+B.Tech DS,3rd,6,Research Methodology
+B.Tech DS,2nd,4,Discrete Mathematics
+B.Tech DS,2nd,4,Database Management System
+B.Tech DS,2nd,4,Formal Language & Automata Theory
+B.Tech DS,2nd,4,Design & Analysis of Algorithms
+B.Tech DS,2nd,4,Data Mining
+B.Tech DS,2nd,4,Biology
+B.Tech DS,2nd,4,Environmental Science
+B.Tech DS,2nd,4,Database Management System Lab
+B.Tech DS,2nd,4,Design & Analysis of Algorithms Lab
+B.Tech DS,2nd,4,Data Mining Lab
+B.Tech DS,2nd,4,Educational Technology
+B.Tech DS,4th,8,Big Data Analysis
+B.Tech DS,4th,8,Quantum Cryptography and Network Security
+B.Tech DS,4th,8,Business Analytics
+M.A in Education,1st,2,Philosophical Foundations of Education II
+M.A in Education,1st,2,Sociological Foundations of Education II
+M.A in Education,1st,2,Psychological Foundations of Education II
+M.A in Education,1st,2,Research Methods in Education II
+M.A in Education,1st,2,Methods of Data Analysis in Education II
+M.A in Education,1st,2,Skill Development
+M.A in Education,2nd,4,Curriculum Studies
+M.A in Education,2nd,4,Development of Indian Education II
+M.A in Education,2nd,4,Special Education II
+M.A in Education,2nd,4,Mental Hygiene and Education
+M.A in Education,2nd,4,Skill Development
+M.A in Education,2nd,4,Educational Technology
+Diploma CST,3rd,6,Software Testing
+Diploma CST,3rd,6,Indian constitution
+Diploma CST,3rd,6,Cloud Computing
+Diploma CST,3rd,6,Advanced Java
+Diploma CST,1st,2,MATHEMATICS(DEMA 202)
+Diploma CST,1st,2,Introduction to IT system
+Diploma CST,1st,2,Fundamentals of Electrical and Electronics
+Diploma CST,1st,2,Applied physics II
+Diploma CST,1st,2,Engineering Mechanics
+Diploma CST,2nd,4,Essence Of Indian Knowledge And Tradition
+Diploma CST,2nd,4,Web Technologies
+Diploma CST,2nd,4,Principal Of Virtual Reality
+Diploma CST,2nd,4,Database Management System
+Diploma CST,2nd,4,Operating System
+Diploma CST,2nd,4,Computer Networks
+B.Sc Agriculture,1st,2,Skill Enhancement course-III
+B.Sc Agriculture,1st,2,Skill Enhancement course-IV
+B.Sc Agriculture,1st,2,Personality Development
+B.Sc Agriculture,1st,2,Environmental Studies and Disaster Management
+B.Sc Agriculture,1st,2,Soil Fertility Management
+B.Sc Agriculture,1st,2,Fundamentals of Entomology
+B.Sc Agriculture,1st,2,Livestock and Poultry Management
+B.Sc Agriculture,1st,2,Fundamentals of Plant Pathology
+B.Sc Agriculture,2nd,4,Crop Production Technology-II (Rabi Crops)
+B.Sc Agriculture,2nd,4,"Production Technology for Ornamental Crops, Map and Landscaping"
+B.Sc Agriculture,2nd,4,Principles of Seed Technology
+B.Sc Agriculture,2nd,4,Renewable Energy and Green Technology
+B.Sc Agriculture,2nd,4,Problematic Soils and their Management
+B.Sc Agriculture,2nd,4,Production Technology for Fruit and Plantation Crops
+B.Sc Agriculture,2nd,4,Agricultural Marketing Trade & Prices
+B.Sc Agriculture,2nd,4,Farming System & Sustainable Agriculture
+B.Sc Agriculture,2nd,4,Introductory Agro Meteorology & Climate Change
+B.Sc Agriculture,2nd,4,Biopesticides & Biofertilizers
+B.Sc Agriculture,2nd,4,AgriBusiness Management
+B.Sc Agriculture,2nd,4,Commercial Plant Breeding
+B.Sc Agriculture,2nd,4,Weed Management
+B.Sc Agriculture,3rd,6,Rainfed Agriculture and Watershed Management
+B.Sc Agriculture,3rd,6,Protected Cultivation and Secondary Agriculture
+B.Sc Agriculture,3rd,6,Diseases of Field and Horticultural Crops and their Management II
+B.Sc Agriculture,3rd,6,Post harvest Management and Value Addition of Fruits and Vegetables
+B.Sc Agriculture,3rd,6,Management of Beneficial Insects
+B.Sc Agriculture,3rd,6,Crop Improvement II
+B.Sc Agriculture,3rd,6,Practical Crop Production II
+B.Sc Agriculture,3rd,6,Principles of Organic Farming
+B.Sc Agriculture,3rd,6,Farm Management Production and Resource Economics
+B.Sc Agriculture,3rd,6,Principles of Food Science and Nutrition
+B.Sc Agriculture,3rd,6,Micro propagation Technologies
+B.Sc Agriculture,3rd,6,Hi tech Horticulture
+B.Sc Agriculture,3rd,6,System Simulation and Agro advisory
+B.Sc Agriculture,3rd,6,Agricultural Journalism
+Diploma Civil Engineering,1st,2,Introduction to IT system
+Diploma Civil Engineering,1st,2,Fundamentals of Electrical and Electronics
+Diploma Civil Engineering,1st,2,Applied physics II
+Diploma Civil Engineering,1st,2,Engineering Mechanics
+Diploma Civil Engineering,1st,2,Mathematics II
+Diploma Civil Engineering,2nd,4,Hydraulics
+Diploma Civil Engineering,2nd,4,Advanced Surveying
+Diploma Civil Engineering,2nd,4,Theory of Structure
+Diploma Civil Engineering,2nd,4,Building Planning &Drawing
+Diploma Civil Engineering,2nd,4,Water Resource Engineering
+Diploma Civil Engineering,2nd,4,Transportation Engineering
+Diploma Civil Engineering,2nd,4,Elective - I (Construction Management)
+Diploma Civil Engineering,3rd,6,Design of Steel Structure
+Diploma Civil Engineering,3rd,6,Public Health Engineering
+Diploma Civil Engineering,3rd,6,Elective IV (Repair and maintenance of structure)
+Diploma Civil Engineering,3rd,6,Indian Constitution
+Diploma Electrical Engineering,1st,2,Applied Physics II
+Diploma Electrical Engineering,1st,2,Engineering Mechanics
+Diploma Electrical Engineering,1st,2,Mathematics II
+Diploma Electrical Engineering,1st,2,Fundamentals of Electrical & Electronics Engineering
+Diploma Electrical Engineering,1st,2,Introduction to IT Systems
+Diploma Electrical Engineering,1st,2,Environmental Science
+Diploma Electrical Engineering,1st,2,Introduction to IT Systems Lab
+Diploma Electrical Engineering,1st,2,Applied Physics II Lab
+Diploma Electrical Engineering,1st,2,Engineering Mechanics Lab
+Diploma Electrical Engineering,1st,2,Fundamentals of Electrical & Electronics Engineering Lab
+Diploma Electrical Engineering,1st,2,Fundamental of Electrical & Electronics Engineering
+Diploma Electrical Engineering,1st,2,Introduction to IT system
+Diploma Electrical Engineering,2nd,4,"Induction, Synchronous and Special Electrical Machines"
+Diploma Electrical Engineering,2nd,4,Fundamentals of Power Electronics
+Diploma Electrical Engineering,2nd,4,Electric Power Transmission and Distribution
+Diploma Electrical Engineering,2nd,4,Industrial Instrumentation and Condition Monitoring
+Diploma Electrical Engineering,2nd,4,Industrial Drives
+Diploma Electrical Engineering,2nd,4,Essence of Indian Knowledge and Tradition
+Diploma Electrical Engineering,2nd,4,Fundamentals of Power Electronics Laboratory
+Diploma Electrical Engineering,2nd,4,Electric Power Transmission and Distribution Laboratory
+Diploma Electrical Engineering,2nd,4,"Induction, Synchronous and Special Electrical Machines Laboratory"
+Diploma Electrical Engineering,2nd,4,Industrial Instrumentation and Condition Monitoring Laboratory
+Diploma Electrical Engineering,2nd,4,Industrial Drives Laboratory
+Diploma Electrical Engineering,2nd,4,Fundamentals of Power Electronics
+Diploma Electrical Engineering,2nd,4,Fundamentals of Power Electronics Laboratory
+Diploma Electrical Engineering,2nd,4,Electric Power Transmission and Distribution
+Diploma Electrical Engineering,2nd,4,Electric Power Transmission and Distribution Laboratory
+Diploma Electrical Engineering,2nd,4,"Induction, Synchronous and Special Electrical Machines"
+Diploma Electrical Engineering,2nd,4,"Induction, Synchronous and Special Electrical Machines Laboratory"
+Diploma Electrical Engineering,2nd,4,Industrial Instrumentation and Condition Monitoring
+Diploma Electrical Engineering,2nd,4,Industrial Instrumentation and Condition Monitoring Laboratory
+Diploma Electrical Engineering,2nd,4,Electrical Testing and Commissioning
+Diploma Electrical Engineering,2nd,4,Electrical Testing and Commissioning Lab
+Diploma Electrical Engineering,2nd,4,Minor Project
+Diploma Electrical Engineering,2nd,4,Essence of Indian Knowledge and Tradition
+Diploma Electrical Engineering,3rd,6,Building Electrification
+Diploma Electrical Engineering,3rd,6,Switchgear & Protection
+Diploma Electrical Engineering,3rd,6,Electric Vehicles
+Diploma Electrical Engineering,3rd,6,Indian Constitution
+Diploma Electrical Engineering,3rd,6,Entrepreneurship and Start -UPS
+Diploma Electrical Engineering,3rd,6,Building Electrification Laboratory
+Diploma Electrical Engineering,3rd,6,Major Project
+Diploma Electrical Engineering,3rd,6,Building Electrification
+Diploma Electrical Engineering,3rd,6,Building Electrification Laboratory
+Diploma Electrical Engineering,3rd,6,Entrepreneurship and Start-ups
+Diploma Electrical Engineering,3rd,6,Solar Power Technologies
+Diploma Electrical Engineering,3rd,6,Electric Vehicles
+Diploma Electrical Engineering,3rd,6,Indian Constitution
+Diploma Electrical Engineering,3rd,6,Major Project
+Diploma Electrical Engineering,3rd,6,Seminar
+Diploma Mechanical Engineering,1st,2,Applied Physics II
+Diploma Mechanical Engineering,1st,2,Engineering Mechanics
+Diploma Mechanical Engineering,1st,2,Mathematics II
+Diploma Mechanical Engineering,1st,2,Fundamentals of Electrical & Electronics Engineering
+Diploma Mechanical Engineering,1st,2,Introduction to IT Systems
+Diploma Mechanical Engineering,1st,2,Environmental Science
+Diploma Mechanical Engineering,1st,2,Introduction to IT Systems Lab
+Diploma Mechanical Engineering,1st,2,Applied Physics II Lab
+Diploma Mechanical Engineering,1st,2,Engineering Mechanics Lab
+Diploma Mechanical Engineering,1st,2,Fundamentals of Electrical & Electronics Engineering Lab
+Diploma Mechanical Engineering,1st,2,Object Oriented Programming with JAVA
+Diploma Mechanical Engineering,1st,2,Introduction to IT system
+Diploma Mechanical Engineering,1st,2,Mathematics II
+Diploma Mechanical Engineering,2nd,4,Measurements & Metrology
+Diploma Mechanical Engineering,2nd,4,Strength of Materials
+Diploma Mechanical Engineering,2nd,4,Thermal Engineering - II
+Diploma Mechanical Engineering,2nd,4,Elective I Tool Engineering
+Diploma Mechanical Engineering,2nd,4,Elective II Heat Transfer
+Diploma Mechanical Engineering,2nd,4,Essence of Indian Knowledge and Tradition
+Diploma Mechanical Engineering,2nd,4,Material Testing Lab
+Diploma Mechanical Engineering,2nd,4,Measurements & Metrology Lab
+Diploma Mechanical Engineering,2nd,4,Thermal Engineering Lab-II
+Diploma Mechanical Engineering,3rd,6,Design of Machine Elements
+Diploma Mechanical Engineering,3rd,6,Production & Operations Management
+Diploma Mechanical Engineering,3rd,6,Entrepreneurship and Start-UPS
+Diploma Mechanical Engineering,3rd,6,Generic Elective II Material Handling Systems
+Diploma Mechanical Engineering,3rd,6,Generic Elective III Farm Equipment & Farm Machinery
+Diploma Mechanical Engineering,3rd,6,Indian Constitution
+MCA,1st,2,Computer Networks
+MCA,1st,2,Data Structure with Python
+MCA,1st,2,Operating System
+MCA,1st,2,Computer Graphics
+MCA,1st,2,OOPS with Java
+MCA,1st,2,Competitive Coding
+MCA,2nd,4,Evolutionary Algorithm
+MCA,2nd,4,Compressive Viva-voce
+MCA,2nd,4,Major Project and Viva-voce
+Bachelor of Physiotherapy,1st,2,Applied Human Anatomy
+Bachelor of Physiotherapy,1st,2,Physiotherapy Law and ethics
+Bachelor of Physiotherapy,1st,2,Biochemistry
+Bachelor of Physiotherapy,1st,2,Environmental Sciences
+Bachelor of Physiotherapy,1st,2,Applied Human Anatomy
+Bachelor of Physiotherapy,1st,2,Applied Human Physiology
+Bachelor of Physiotherapy,2nd,4,Introduction To Healthcare Delivery System in India
+Bachelor of Physiotherapy,2nd,4,Fundamental Of Exercise Therapy
+Bachelor of Physiotherapy,2nd,4,Fundamentals of Electrotherapy
+Bachelor of Physiotherapy,2nd,4,Applied Biomechanics and Kinesiology
+Bachelor of Physiotherapy,2nd,4,Sociology
+Bachelor of Physiotherapy,3rd,6,Orthopedics & Traumatology Practical
+Bachelor of Physiotherapy,3rd,6,General Medicine and Cardio Thoracic Condition and Pediatrics
+Bachelor of Physiotherapy,3rd,6,"General Surgery including Cardio Thoracic Surgery, Plastic Surgery, Obstetrics and Gynecology"
+Bachelor of Physiotherapy,3rd,6,"General Surgery including Cardio Thoracic Surgery, Plastic Surgery, Obstetrics and Gynecology Pract"
+Bachelor of Physiotherapy,3rd,6,General Medicine and Cardio Thoracic Condition and Pediatrics- Practical
+Bachelor of Physiotherapy,4th,8,Physiotherapy in Orthopedics
+Bachelor of Physiotherapy,4th,8,Community Based Rehabilitation
+Bachelor of Physiotherapy,4th,8,Physiotherapy in Neurology and Neurosurgery
+Bachelor of Physiotherapy,4th,8,Research Methodology & Biostatistics
+Bachelor of Physiotherapy,4th,8,Clinical Education II
+B.Sc Optometry,1st,2,Ocular Anatomy
+B.Sc Optometry,1st,2,Ocular Physiology
+B.Sc Optometry,1st,2,Ocular Biochemistry
+B.Sc Optometry,1st,2,Optics II
+B.Sc Optometry,1st,2,Ocular Anatomy Lab
+B.Sc Optometry,1st,2,Ocular Physiology Lab
+B.Sc Optometry,1st,2,Ocular Biochemistry Lab
+B.Sc Optometry,1st,2,Optics II Lab
+B.Sc Optometry,1st,2,Visual Optics-I Lab
+B.Sc Optometry,1st,2,Clinical Optometry-I
+B.Sc Optometry,1st,2,Environmental Science
+B.Sc Optometry,1st,2,Applied Fundamentals Of Computer
+B.Sc Optometry,1st,2,Applied Fundamentals Of Computer Lab
+B.Sc Optometry,1st,2,Visual Optics I
+B.Sc Optometry,2nd,4,Dispensing Optics II
+B.Sc Optometry,2nd,4,Visual Optics III
+B.Sc Optometry,2nd,4,Ocular Disease II
+B.Sc Optometry,2nd,4,Ocular Microbiology and Pathology
+B.Sc Optometry,2nd,4,Basic and Ocular Pharmacology
+B.Sc Optometry,2nd,4,Clinical optometry III
+B.Sc Optometry,2nd,4,Introduction to Quality & Patient safety
+B.Sc Optometry,2nd,4,Digital Marketing
+B.Sc Optometry,2nd,4,Digital Marketing Lab
+B.Sc Optometry,3rd,6,Public Health & Community Optometry
+B.Sc Optometry,3rd,6,Professional Practice Management
+B.Sc Optometry,3rd,6,Occupational Optometry
+B.Sc Optometry,3rd,6,Medical Law and Ethics
+B.Sc Optometry,3rd,6,Medical Psychology and Patient Counselling
+B.Sc Optometry,3rd,6,Contact Lens II
+B.Sc Optometry,3rd,6,Binocular Vision II
+B.Sc Optometry,3rd,6,Project Work
+B.Sc Optometry,3rd,6,Clinical Optometry
+LLB Hons.,1st,2,Special Contract
+LLB Hons.,1st,2,Constitutional Law 1
+LLB Hons.,1st,2,Family Law-I
+LLB Hons.,1st,2,Administrative Law
+LLB Hons.,1st,2,Law Of Crimes-II
+LLB Hons.,1st,2,Code Of Civil procedure & Limitation Law
+B.A LL.B.(Hons.),1st,2,Special Contract
+B.A LL.B.(Hons.),1st,2,English-II
+B.A LL.B.(Hons.),1st,2,Family Law-I
+B.A LL.B.(Hons.),1st,2,Economics -I
+B.A LL.B.(Hons.),1st,2,Sociology-II
+B.A LL.B.(Hons.),1st,2,Political SCience-II
+BBA LL.B.(Hons.),1st,2,Family Law-I
+BBA LL.B.(Hons.),1st,2,Special Contract
+BBA LL.B.(Hons.),1st,2,Quantative Analysis
+BBA LL.B.(Hons.),1st,2,English-II
+BBA LL.B.(Hons.),1st,2,Business Statistics
+BBA LL.B.(Hons.),1st,2,Business Environment
+BSc Biotechnology,1st,2,Mammalian Physiology
+BSc Biotechnology,1st,2,Cell Biology
+BSc Biotechnology,1st,2,Basics of Life Skill Education
+BSc Biotechnology,1st,2,Modern Indian Language (Bengali/ Hindi)
+BSc Biotechnology,1st,2,Environmental Science II
+BSc Biotechnology,1st,2,General Microbiology
+BSc Biotechnology,1st,2,Mammalian Physiology Lab
+BSc Biotechnology,1st,2,Cell Biology Lab
+BSc Biotechnology,1st,2,Digital Transformation
+BSc Biotechnology,1st,2,Recombinant DNA Technology
+BSc Biotechnology,1st,2,Recombinant DNA Technology Lab
+BSc Biotechnology,1st,2,Immunology
+BSc Biotechnology,1st,2,Biostatistics
+BSc Biotechnology,1st,2,Clinical Data Management (CDM)
+BSc Biotechnology,1st,2,MIL Hindi
+BSc Biotechnology,1st,2,Modern Indian Language Bengali
+BSc Biotechnology,2nd,4,Recombinant DNA Technology
+BSc Biotechnology,2nd,4,Modern Indian Language
+BSc Biotechnology,2nd,4,Drug Designing & Development
+BSc Biotechnology,2nd,4,Immunology
+BSc Biotechnology,2nd,4,Immunology Lab
+BSc Biotechnology,2nd,4,Recombinant DNA Technology Lab
+BSc Biotechnology,2nd,4,Bioinformatics
+BSc Biotechnology,2nd,4,Modern Indian Language
+BSc Biotechnology,2nd,4,Bioinformatics Lab
+BSc Biotechnology,3rd,6,Biosafety and Bioethics
+BSc Biotechnology,3rd,6,Animal Biotechnology
+BSc Biotechnology,3rd,6,Plant Biotechnology
+BSc Biotechnology,3rd,6,Plant Biotechnology Lab
+BSc Biotechnology,3rd,6,Animal Biotechnology Lab
+BSc Biotechnology,3rd,6,Microbial Biotechnology
+BSc Biotechnology,3rd,6,Microbial Biotechnology Lab
+BSc Biotechnology,3rd,6,Bioethics & Biosafety
+BSc Biotechnology,3rd,6,Active Pharmaceutical Ingredient API Production
+Msc Biotechnology,1st,2,Metabolism
+Msc Biotechnology,1st,2,Immunology
+Msc Biotechnology,1st,2,Genetics
+Msc Biotechnology,1st,2,Recombinant DNA Technology
+Msc Biotechnology,1st,2,Biostatistics
+Msc Biotechnology,1st,2,Diversity of life forms and environmental application
+Msc Biotechnology,1st,2,Metabolism Lab
+Msc Biotechnology,1st,2,Immunology Lab
+Msc Biotechnology,1st,2,Ecology and Environmental Studies
+Msc Biotechnology,1st,2,Active Pharmaceutical Ingredient (API) Production
+Msc Biotechnology,1st,2,Clinical Data Management
+Msc Biotechnology,2nd,4,"Medical Biotechnology, IPR, Biosafety & Bioethics"
+Msc Biotechnology,2nd,4,Bioprocess Engineering & Microbial Technology
+Msc Biotechnology,2nd,4,Plant Biotechnology
+Msc Biotechnology,2nd,4,Bioinformatics
+Msc Biotechnology,2nd,4,Plant Biotechnology Lab
+Msc Biotechnology,2nd,4,Medical Scribing and Medical Coding
+Msc Biotechnology,2nd,4,Computational Aptitude & Bioinformatics
+Msc Biotechnology,2nd,4,Computational Aptitude & Bioinformatics Lab
+B.Tech in Agricultural Engineering,3rd,6,Computer Programming and Data Structures
+B.Tech in Agricultural Engineering,3rd,6,Farm Machinery and Equipment II
+B.Tech in Agricultural Engineering,3rd,6,Post Harvest Engineering of Horticultural Crops
+B.Tech in Agricultural Engineering,3rd,6,Water Harvesting and Soil Conservation Structures
+B.Tech in Agricultural Engineering,3rd,6,"Groundwater, Wells and Pumps"
+B.Tech in Agricultural Engineering,3rd,6,Dairy and Food Engineering
+B.Tech in Agricultural Engineering,3rd,6,Bio-energy Systems Design and application
+B.Tech in Agricultural Engineering,4TH,8,Remote Sensing and GIS Applications
+B.Tech in Agricultural Engineering,4TH,8,Precision Farming Techniques for Protected Cultivation
+B.Tech in Agricultural Engineering,4TH,8,Water Quality and Management Measures
+M.Sc. in Agriculture,1st,2,Conservation Agriculture
+M.Sc. in Agriculture,1st,2,Agronomy of major Cereals and Pulses
+M.Sc. in Agriculture,1st,2,"Agronomy of oilseed, fibre and sugar crops"
+M.Sc. in Agriculture,1st,2,"Agronomy of medicinal, aromatic & underutilized crops"
+M.Sc. in Agriculture,1st,2,Agronomy of fodder and forage crops
+M.Sc. in Agriculture,1st,2,Agrostology and Agro- Forestry
+M.Sc. in Agriculture,1st,2,Intellectual property and its management in agriculture
+M.Sc. in Agriculture,1st,2,Basic concepts in laboratory techniques
+M.Sc. in Agriculture,1st,2,"Agricultural research, research ethics and rural development programmes"
+M.Sc. in Agriculture,1st,2,Statistical Methods for Applied Sciences/ Basic Biochemistry (Supporting Course)
+M.Sc. in Agriculture,1st,2,Soil erosion and conservation (Minor Course)
+B.Tech Mechanical Engineering,1st,2,Chemistry - I
+B.Tech Mechanical Engineering,1st,2,Mathematics IIB
+B.Tech Mechanical Engineering,1st,2,Programming for Problem Solving
+B.Tech Mechanical Engineering,1st,2,English
+B.Tech Mechanical Engineering,1st,2,Chemistry I Laboratory
+B.Tech Mechanical Engineering,1st,2,Programming for Problem Solving Laboratory
+B.Tech Mechanical Engineering,1st,2,Engineering Graphics & Design
+B.Tech Mechanical Engineering,1st,2,Language Laboratory
+B.Tech Mechanical Engineering,2nd,4,Materials Engineering
+B.Tech Mechanical Engineering,2nd,4,Applied Thermodynamics
+B.Tech Mechanical Engineering,2nd,4,Fluid Mechanics & Fluid Machines
+B.Tech Mechanical Engineering,2nd,4,Strength of Materials
+B.Tech Mechanical Engineering,2nd,4,Metrology and Instrumentation
+B.Tech Mechanical Engineering,2nd,4,Environmental Science
+B.Tech Mechanical Engineering,2nd,4,Manufacturing Processes - I Laboratory
+B.Tech Mechanical Engineering,2nd,4,Machine Drawing- I
+B.Tech Mechanical Engineering,3rd,6,Manufacturing Technology
+B.Tech Mechanical Engineering,3rd,6,Design of Machine Elements
+B.Tech Mechanical Engineering,3rd,6,Elective-I Refrigeration and Air Conditioning
+B.Tech Mechanical Engineering,3rd,6,Elective-II Principles and Practices of Management
+B.Tech Mechanical Engineering,3rd,6,Operations Research
+B.Tech Mechanical Engineering,3rd,6,Constitution of India
+B.Tech Mechanical Engineering,4th,8,Elective VI Analysis and Performance of Fluid Mechines
+B.Tech Mechanical Engineering,4th,8,Elective V 3D Printing and Design
+B.Tech Mechanical Engineering,4th,8,Generic Elective II Automation & Control
+B.Tech Mechanical Engineering,4th,8,Generic Elective III Energy Conservation and Management
+MSc in Multimedia and Animation,1st,2,Digital Animation Film Production
+MSc in Multimedia and Animation,1st,2,Responsive UX UI Design II
+MSc in Multimedia and Animation,1st,2,Audio and Video Designing for Film
+MSc in Multimedia and Animation,1st,2,Script Writing and Story Boarding
+MSc in Multimedia and Animation,1st,2,Responsive and Ux Ui Design II
+MSc in Multimedia and Animation,1st,2,Digital Animation Film Production
+MSc in Multimedia and Animation,1st,2,Digital Animation Film Production Lab
+MSc in Multimedia and Animation,1st,2,Audio and Video Designing for Film
+MSc in Multimedia and Animation,1st,2,Audio and Video Designing for Film Lab
+MSc in Multimedia and Animation,1st,2,Script Writing and StoryBoarding
+MSc in Multimedia and Animation,1st,2,Script Writing and StoryBoarding Lab
+MSc in Multimedia and Animation,1st,2,Responsive UX UI Design II
+MSc in Multimedia and Animation,1st,2,Responsive UX UI Design Lab II
+MSc in Multimedia and Animation,1st,2,Minor Project I
+MSc in Multimedia and Animation,2nd,4,Advanced Game Design MSMA 403
+MSc in Multimedia and Animation,2nd,4,Advanced VFX and Motion Graphics
+MSc in Multimedia and Animation,2nd,4,Advanced VFX and Motion Graphics Lab
+MSc in Multimedia and Animation,2nd,4,Digital Film Production for 2D II
+MSc in Multimedia and Animation,2nd,4,Digital Film Production for 2D II Lab
+MSc in Multimedia and Animation,2nd,4,Advanced Game Design
+MSc in Multimedia and Animation,2nd,4,Advanced Game Design Lab
+MSc in Multimedia and Animation,2nd,4,Major Project
+MSc in Multimedia and Animation,2nd,4,Grand Viva
+M.Tech in CSE,2nd,4,N/A
+M.Tech in CSE,1st,2,Cloud Computing
+M.Tech in CSE,1st,2,Personality Development Through Life Enlightenment Skills
+M.Tech in CSE,1st,2,Computer Vision
+M.Tech in CSE,1st,2,Advanced Algorithm
+M.Tech in CSE,1st,2,Soft Computing
+B.Sc Microbiology,2nd,4,Recombinant DNA Technology
+B.Sc Microbiology,2nd,4,Bioinformatics
+B.Sc Microbiology,2nd,4,Biosafety and Bioethics
+B.Sc Microbiology,2nd,4,Microbial Genetics
+B.Sc Microbiology,2nd,4,Microbial Genetics Lab
+B.Sc Microbiology,2nd,4,Recombinant DNA Technology Lab
+B.Sc Microbiology,2nd,4,Bioinformatics
+B.Sc Microbiology,2nd,4,Bioinformatics Lab
+B.Sc Microbiology,2nd,4,Bioethics & Bio Safety
+B.Sc Microbiology,3rd,6,Plant Pathology
+B.Sc Microbiology,3rd,6,Plant Pathology Lab
+B.Sc Microbiology,3rd,6,Animal Pathology
+B.Sc Microbiology,3rd,6,Animal Pathology Lab
+B.Sc Microbiology,3rd,6,Genetic Engineering & Biotechnology
+B.Sc Microbiology,3rd,6,Genetic Engineering & Biotechnology Lab
+B.Sc Microbiology,3rd,6,Drug Designing
+B.Sc Microbiology,3rd,6,Active Pharmaceutical Ingredient API Production
+B.Sc in Multimedia and Animation,1st,2,Digital Transformations
+B.Sc in Multimedia and Animation,1st,2,Digital Design Mastery BSMA2012
+B.Sc in Multimedia and Animation,1st,2,Digital Design Mastery
+B.Sc in Multimedia and Animation,1st,2,Digital Design Mastery Lab
+B.Sc in Multimedia and Animation,1st,2,Advanced Photography and Photo compositing
+B.Sc in Multimedia and Animation,1st,2,Advanced Photography and Photo compositing Lab
+B.Sc in Multimedia and Animation,1st,2,Advanced Digital Illustrations
+B.Sc in Multimedia and Animation,1st,2,Advanced Digital Illustrations Lab
+B.Sc in Multimedia and Animation,1st,2,Communicative English II
+B.Sc in Multimedia and Animation,1st,2,MIL HINDI OR BENGALI
+B.Sc in Multimedia and Animation,1st,2,Environmental Science II AND DIGITAL TRANSFORMATIONS
+B.Sc in Multimedia and Animation,1st,2,Project
+B.Sc in Multimedia and Animation,1st,2,MIL BENGALI
+B.Sc in Multimedia and Animation,2nd,4,Advanced 2D Animation Techniques
+B.Sc in Multimedia and Animation,2nd,4,Advanced 2D Animation Techniques Lab
+B.Sc in Multimedia and Animation,2nd,4,Mastering Video Editing
+B.Sc in Multimedia and Animation,2nd,4,Mastering Video Editing Lab
+B.Sc in Multimedia and Animation,2nd,4,Mastering the Art of Videography
+B.Sc in Multimedia and Animation,2nd,4,A. Mastering the Art of Videography Lab
+B.Sc in Multimedia and Animation,2nd,4,Responsive Design with UI/UX-I
+B.Sc in Multimedia and Animation,2nd,4,Responsive Design with UI/UX Lab -I
+B.Sc in Multimedia and Animation,2nd,4,Introduction to 3D Animation
+B.Sc in Multimedia and Animation,2nd,4,Introduction to 3D Animation Lab
+B.Sc in Multimedia and Animation,2nd,4,Project
+B.Sc in Multimedia and Animation,3rd,6,Advanced Mastering 3D Animation
+B.Sc in Multimedia and Animation,3rd,6,Advanced Mastering 3D Animation Lab
+B.Sc in Multimedia and Animation,3rd,6,Advanced Visual Effects(VFX)
+B.Sc in Multimedia and Animation,3rd,6,Advanced Visual Effects(VFX) Lab
+B.Sc in Multimedia and Animation,3rd,6,Motion Graphics and Animation Techniques II
+B.Sc in Multimedia and Animation,3rd,6,Motion Graphics and Animation Techniques II Lab
+B.Sc in Multimedia and Animation,3rd,6,Interactive Design for Media
+B.Sc in Multimedia and Animation,3rd,6,Interactive Design for Media Lab
+B.Sc in Multimedia and Animation,3rd,6,Internship/Project-II
+Master of Physiotherapy,1st,2,APPLIED BIOMECHANICS & KINESIOLOGY
+Master of Physiotherapy,1st,2,Principles and Fundamentals of Cardiorespiratory Rehabilitation
+Master of Physiotherapy,1st,2,PRINCIPLES & FUNDAMENTALS OF ORTHOPEDICS REHABILITATION
+Master of Physiotherapy,1st,2,ENTREPRENEURSHIP & MANAGEMENT FOR PHYSIOTHERAPISTS
+Master of Physiotherapy,1st,2,"Exercise Physiology, Tesing & prescription"
+Master of Physiotherapy,1st,2,Principles_Fundamentals_of_Neurology_Rehabilitation
+Master of Physiotherapy,1st,2,Medical_and_Surgical_Condition
+Master of Physiotherapy,1st,2,Sports_Rehabilitation
+Master of Physiotherapy,2nd,4,WOMEN HEALTH & THERAPEUTIC
+Master of Physiotherapy,2nd,4,Applied Cardiopulmonary Rehabilitation II
+Master of Physiotherapy,2nd,4,Geriatrics_Physiotherapy
+Master of Physiotherapy,2nd,4,Applied Orthopedics Rehabilitation II
+Master of Physiotherapy,2nd,4,APPLIED NEUROLOGY REHABILITATION II
+Master of Physiotherapy,2nd,4,Applied Sports Rehabilitation II
+Master of Physiotherapy,2nd,4,Advanced Graphic Design and Animation
+Master of Physiotherapy,2nd,4,Communicative English
+B.A.(H) in Journalism & Mass Communication,1st,2,Introduction to Radio
+B.A.(H) in Journalism & Mass Communication,1st,2,Introduction to Television
+B.A.(H) in Journalism & Mass Communication,1st,2,Basics of Graphic Design and Animation
+B.A.(H) in Journalism & Mass Communication,1st,2,MIL(Bengali)
+B.A.(H) in Journalism & Mass Communication,1st,2,MIL(Hindi)
+B.A.(H) in Journalism & Mass Communication,1st,2,Basics of Photography
+B.A.(H) in Journalism & Mass Communication,1st,2,EVS
+B.A.(H) in Journalism & Mass Communication,1st,2,Digital Transformation
+B.A.(H) in Journalism & Mass Communication,2nd,4,Media Ethics and the Law
+B.A.(H) in Journalism & Mass Communication,2nd,4,Electronic Media Production
+B.A.(H) in Journalism & Mass Communication,2nd,4,Globalization and Media Industry
+B.A.(H) in Journalism & Mass Communication,2nd,4,Media Management And Entrepreneurship
+B.A.(H) in Journalism & Mass Communication,2nd,4,Advanced Graphic Design and Animation
+B.A.(H) in Journalism & Mass Communication,2nd,4,Communicative English
+B.A.(H) in Journalism & Mass Communication,3rd,6,Advertising and Public Relations
+B.A.(H) in Journalism & Mass Communication,3rd,6,Communication Research and Methods
+B.A.(H) in Journalism & Mass Communication,3rd,6,Digital Marketing
+B.A.(H) in Journalism & Mass Communication,3rd,6,Basics of Event Management
+M.A in Journalism & Mass Communication,1st,2,Advertising
+M.A in Journalism & Mass Communication,1st,2,Ad Film Making
+M.A in Journalism & Mass Communication,1st,2,Public Relations and Corporate Communication
+M.A in Journalism & Mass Communication,1st,2,Advertising and Public Relations - Practical
+M.A in Journalism & Mass Communication,1st,2,Communication Research
+M.A in Journalism & Mass Communication,1st,2,International Communication and Globalization
+M.A in Journalism & Mass Communication,2nd,4,Media Management
+M.A in Journalism & Mass Communication,2nd,4,Film Studies
+M.A in Journalism & Mass Communication,2nd,4,Development Communication
+M.A in Journalism & Mass Communication,2nd,4,Photo Journalism
+M.A in Journalism & Mass Communication,2nd,4,Health Communication
+B.Sc Medical Laboratory Technology,1st,2,Environmental Science
+B.Sc Medical Laboratory Technology,1st,2,National Healthcare Delivery System and Medical Laboratory Science
+B.Sc Medical Laboratory Technology,1st,2,Medical Ethics and Patient Safety Management
+B.Sc Medical Laboratory Technology,1st,2,General Biochemistry
+B.Sc Medical Laboratory Technology,1st,2,Developmental Biology & Community Health
+B.Sc Medical Laboratory Technology,1st,2,National Healthcare Delivery System and Medical Laboratory Science
+B.Sc Medical Laboratory Technology,1st,2,Medical Ethics and Patient Safety Management Lab
+B.Sc Medical Laboratory Technology,1st,2,General Biochemistry Lab
+B.Sc Medical Laboratory Technology,1st,2,Developmental Biology & Community Health Lab
+B.Sc Medical Laboratory Technology,2nd,4,Immunology and Bacterial Serology
+B.Sc Medical Laboratory Technology,2nd,4,Applied Histology
+B.Sc Medical Laboratory Technology,2nd,4,Basic Nutrition and Public Health
+B.Sc Medical Laboratory Technology,2nd,4,Fundamentals Histology and Histopathology
+B.Sc Medical Laboratory Technology,2nd,4,Basic Hematological Technques
+B.Sc Medical Laboratory Technology,2nd,4,Applied Histology Lab
+B.Sc Medical Laboratory Technology,2nd,4,Basic Nutrition & Public Health Lab
+B.Sc Medical Laboratory Technology,2nd,4,Basic Hematological Technique Lab
+B.Sc Medical Laboratory Technology,3rd,6,1) Blood banking and blood transfusion
+B.Sc Medical Laboratory Technology,3rd,6,Blood banking and blood transfusion lab
+B.Sc Medical Laboratory Technology,3rd,6,Cytopathology
+B.Sc Medical Laboratory Technology,3rd,6,Cytopathology lab
+B.Sc Medical Laboratory Technology,3rd,6,Special techniques in Laboratory Science
+B.Sc Medical Laboratory Technology,3rd,6,Special techniques in Laboratory Science lab
+B.Sc Medical Laboratory Technology,3rd,6,Research methodology and biostatistics
+B.Sc Medical Laboratory Technology,3rd,6,Applied Clinical Biochemistry
+B.Sc Medical Laboratory Technology,3rd,6,Applied Clinical Biochemistry Lab
+M.A. in English,1st,2,20th Century British Poetry
+M.A. in English,1st,2,20th Century British Novels
+M.A. in English,1st,2,20th Century British Drama
+M.A. in English,1st,2,Indian English Literature
+M.A. in English,1st,2,American Literature
+M.A. in English,2nd,4,Australian and Canadian Literature
+M.A. in English,2nd,4,Non British European Literature
+M.A. in English,2nd,4,African and Caribbean Literature
+M.A. in English,2nd,4,Film Studies
+M.A. in English,2nd,4,Scottish Literature
+B.Tech in Civil Engineering,3rd,6,Construction Engineering & Management
+B.Tech in Civil Engineering,3rd,6,"Engineering Economics, Estimation & Costing"
+B.Tech in Civil Engineering,3rd,6,Water Resources Engineering
+B.Tech in Civil Engineering,3rd,6,Design of Steel Structures
+B.Tech in Civil Engineering,3rd,6,Elective-I (Ground Improvement Technique)
+B.Tech in Civil Engineering,3rd,6,Elective-II (Structural Analysis-II)
+B.Tech in Civil Engineering,3rd,6,Open Elective-I (Soft Skills and Interpersonal Communication I)
+B.Tech in Civil Engineering,4th,8,"Professional Practice, law & Ethics"
+B.Tech in Civil Engineering,4th,8,Elective VIII (GIS & Remote Sensing)
+B.Tech in Civil Engineering,4th,8,Open Elective-III (Deep Foundation)
+B.Tech in Civil Engineering,4th,8,Open Elective-IV (Environmental Impact Assessment andLife cycle Analysis)
+B.Tech in Civil Engineering,1st,2,Chemistry - I
+B.Tech in Civil Engineering,1st,2,Mathematics IIB
+B.Tech in Civil Engineering,1st,2,Programming for Problem Solving
+B.Tech in Civil Engineering,1st,2,English
+B.Tech in Civil Engineering,1st,2,Chemistry I Laboratory
+B.Tech in Civil Engineering,1st,2,Programming for Problem Solving Laboratory
+B.Tech in Civil Engineering,1st,2,Engineering Graphics & Design
+B.Tech in Civil Engineering,1st,2,Language Laboratory
+B.Tech in Civil Engineering,2nd,4,Introduction to Fluid Mechanics
+B.Tech in Civil Engineering,2nd,4,Introduction to Solid Mechanics
+B.Tech in Civil Engineering,2nd,4,Soil Mechanics - I
+B.Tech in Civil Engineering,2nd,4,Environmental Engineering -I
+B.Tech in Civil Engineering,2nd,4,Surveying & Geomatics
+B.Tech in Civil Engineering,2nd,4,Concrete Technology
+B.Tech in Civil Engineering,2nd,4,Civil Engineering - Societal & Global Impact
+B.Tech in Civil Engineering,2nd,4,Management - I (Organizational Behavior)
+M.Tech in Civil Engineering ( Structural Engineering Specialisation ),1st,2,Advanced Structural Design
+M.Tech in Civil Engineering ( Structural Engineering Specialisation ),1st,2,Structural Dynamics and Earthquake Engineering
+M.Tech in Civil Engineering ( Structural Engineering Specialisation ),1st,2,Theory of Elasticity and Plasticity
+M.Tech in Civil Engineering ( Structural Engineering Specialisation ),1st,2,Advanced Concrete Technology
+M.Tech in Civil Engineering ( Structural Engineering Specialisation ),1st,2,Advanced Foundation Engineering
+M.Tech in Civil Engineering ( Geotechnical Engineering Specialisation ),1st,2,Stability Analysis of Slopes Dams and Embankments
+M.Tech in Civil Engineering ( Geotechnical Engineering Specialisation ),1st,2,Advanced Foundation Engineering
+M.Tech in Civil Engineering ( Geotechnical Engineering Specialisation ),1st,2,Advanced Concrete Technology
+M.Tech in Civil Engineering ( Geotechnical Engineering Specialisation ),1st,2,Ground Improvement Techniques
+M.Tech in Civil Engineering ( Geotechnical Engineering Specialisation ),1st,2,Finite Element Method
+B.Sc. Medical Radiology & Imaging Technology (BMRIT),1st,2,Environmental Science
+B.Sc. Medical Radiology & Imaging Technology (BMRIT),1st,2,Human Anatomy & Physiology Including Pathology II
+B.Sc. Medical Radiology & Imaging Technology (BMRIT),1st,2,Human Anatomy & Physiology Including Pathology II Lab
+B.Sc. Medical Radiology & Imaging Technology (BMRIT),1st,2,Fundamental Physics & Radiological Physics
+B.Sc. Medical Radiology & Imaging Technology (BMRIT),1st,2,Fundamental Physics & Radiological Physics Lab
+B.Sc. Medical Radiology & Imaging Technology (BMRIT),1st,2,Clinical Radiography Positioning I
+B.Sc. Medical Radiology & Imaging Technology (BMRIT),1st,2,Clinical Radiography Positioning I Lab
+B.Sc. Medical Radiology & Imaging Technology (BMRIT),1st,2,Developmental Biology & Community Health / Interdisciplinary Theory Course from Agriculture or All
+B.Sc. Medical Radiology & Imaging Technology (BMRIT),1st,2,Developmental Biology & Community Health Lab / Interdisciplinary Lab Course from Agriculture or Al
+B.Sc. Medical Radiology & Imaging Technology (BMRIT),2nd,4,Radiographic & Image Processing Techniques
+B.Sc. Medical Radiology & Imaging Technology (BMRIT),2nd,4,Radiographic & Image Processing Techniques Lab
+B.Sc. Medical Radiology & Imaging Technology (BMRIT),2nd,4,National Health Care Delivery System
+B.Sc. Medical Radiology & Imaging Technology (BMRIT),2nd,4,National Health Care Delivery System Lab
+B.Sc. Medical Radiology & Imaging Technology (BMRIT),2nd,4,Clinical Radiography Positioning II
+B.Sc. Medical Radiology & Imaging Technology (BMRIT),2nd,4,Clinical Radiography Positioning II Lab
+B.Sc. Medical Radiology & Imaging Technology (BMRIT),2nd,4,"Basic Pharmacology, Adulterants & Xenobiotics"
+B.Sc. Medical Radiology & Imaging Technology (BMRIT),2nd,4,Basic Haematological Techniques / Interdisciplinary Theory Course from Agriculture or Allied Healt
+B.Sc. Medical Radiology & Imaging Technology (BMRIT),2nd,4,Basic Haematological Techniques Lab/ Interdisciplinary Lab Course from Agriculture or Allied Healt
+B.Sc. Medical Radiology & Imaging Technology (BMRIT),3rd,6,Applied clinical biochemistry lab
+B.Sc. Medical Radiology & Imaging Technology (BMRIT),3rd,6,Research methodology and biostatistics
+B.Sc. Medical Radiology & Imaging Technology (BMRIT),3rd,6,Introduction to Quality & Patient Safety Including BLS
+B.Sc. Medical Radiology & Imaging Technology (BMRIT),3rd,6,Introduction to Quality & Patient Safety Including BLS Lab
+B.Sc. Medical Radiology & Imaging Technology (BMRIT),3rd,6,"Regulatory Requirements in Diagnostic Radiology & Imaging Act & Rules, Regulations For JCI, NABH,"
+B.Sc. Medical Radiology & Imaging Technology (BMRIT),3rd,6,Physics of Advance Imaging Technology
+B.Sc. Medical Radiology & Imaging Technology (BMRIT),3rd,6,Research Methodology & Biostatistics
+B.Sc (H) in Anaesthesia & Operation Theatre Technology,1st,2,Biochemistry
+B.Sc (H) in Anaesthesia & Operation Theatre Technology,1st,2,Clinical Pharmacology
+B.Sc (H) in Anaesthesia & Operation Theatre Technology,1st,2,Medical Law and Ethics
+B.Sc (H) in Anaesthesia & Operation Theatre Technology,1st,2,English Communication
+B.Sc (H) in Anaesthesia & Operation Theatre Technology,1st,2,English Communication Lab
+B.Sc (H) in Anaesthesia & Operation Theatre Technology,1st,2,Generic Elective-2 (Developmental Biology & Community Health)
+B.Sc (H) in Anaesthesia & Operation Theatre Technology,1st,2,Generic Elective -2 (Developmental Biology & Community Health Practical)
+B.Sc (H) in Anaesthesia & Operation Theatre Technology,1st,2,Clinical Microbiology
+B.Sc (H) in Anaesthesia & Operation Theatre Technology,1st,2,Biochemistry
+B.Sc (H) in Anaesthesia & Operation Theatre Technology,1st,2,Pathology
+B.Sc (H) in Anaesthesia & Operation Theatre Technology,1st,2,Clinical Pharmacology
+B.Sc (H) in Anaesthesia & Operation Theatre Technology,1st,2,Medical Law and Ethics
+B.Sc (H) in Anaesthesia & Operation Theatre Technology,1st,2,English Communication
+B.Sc (H) in Anaesthesia & Operation Theatre Technology,1st,2,Generic Elective-2 (Developmental Biology & Community Health)
+B.Sc (H) in Anaesthesia & Operation Theatre Technology,1st,2,Generic Elective -2 (Developmental Biology & Community Health Practical)
+B.Sc (H) in Anaesthesia & Operation Theatre Technology,1st,2,English Communication Lab
+B.Tech in Electrical Engineering,1st,2,Chemistry I
+B.Tech in Electrical Engineering,1st,2,Physics-I
+B.Tech in Electrical Engineering,1st,2,Mathematics-IIB
+B.Tech in Electrical Engineering,1st,2,Programming for Problem Solving
+B.Tech in Electrical Engineering,1st,2,Communicative English
+B.Tech in Electrical Engineering,2nd,4,Electric machine-I
+B.Tech in Electrical Engineering,2nd,4,Digital Electronic
+B.Tech in Electrical Engineering,2nd,4,Electrical and Electronics Measurement
+B.Tech in Electrical Engineering,2nd,4,Thermal Power Engineering
+B.Tech in Electrical Engineering,2nd,4,Values and Ethics in profession
+B.Tech in Electrical Engineering,2nd,4,Environmental Science
+B.Tech in Electrical Engineering,2nd,4,Electric Machine-I laboratory
+B.Tech in Electrical Engineering,2nd,4,Digital Electronics laboratory
+B.Tech in Electrical Engineering,2nd,4,Electrical and electronic measurement laboratory
+B.Tech in Electrical Engineering,2nd,4,Thermal Power Engineering laboratory
+B.Tech in Electrical Engineering,4th,8,Electric Drives
+B.Tech in Electrical Engineering,4th,8,Sensors and Transducers/ Fuzzy Control System
+B.Tech in Electrical Engineering,4th,8,E-Commerce and ERP/ Economic Policies in India
+B.Tech in Electrical Engineering,4th,8,Sensors and Transducers
+B.Tech in Electrical Engineering,4th,8,E-Commerce and ERP
+B.Tech in Electrical Engineering,4th,8,Electric Drives Lab
+B.Tech in Electrical Engineering,4th,8,Project stage-II
+B.Tech in Electrical Engineering,3rd,6,Power System-II
+B.Tech in Electrical Engineering,3rd,6,Micro processor & micro controller
+B.Tech in Electrical Engineering,3rd,6,Digital Control System/HVDC Transmission Systems/ Electrical Machine Design
+B.Tech in Electrical Engineering,3rd,6,Electrical And Hybrid Vehicle/ Power Quality And Facts/ Industrial Electrical Systems
+B.Tech in Electrical Engineering,3rd,6,Digital Signal Processing /VLSI and MICRO Electronics
+B.Tech in Electrical Engineering,3rd,6,Economics For Engineers
+B.Tech in Electrical Engineering,3rd,6,HVDC Transmission Systems
+B.Tech in Electrical Engineering,3rd,6,Industrial Electrical Systems
+B.Tech in Electrical Engineering,3rd,6,VLSI and MICRO Electronics
+B.Tech in Electrical Engineering,3rd,6,Power system-II laboratory
+B.Tech in Electrical Engineering,3rd,6,Micro processor & microcontroller laboratory
+B.Tech in Electrical Engineering,3rd,6,Electrical & Electronic design laboratory
+M.Tech in Electrical Engineering,2nd,4,Dissertation (Completion)
+B.Tech in Electronics and Communication Engineering,1st,2,Physics-I
+B.Tech in Electronics and Communication Engineering,1st,2,Mathematics IIA
+B.Tech in Electronics and Communication Engineering,1st,2,Programming for Problem Solving
+B.Tech in Electronics and Communication Engineering,1st,2,English
+B.Tech in Electronics and Communication Engineering,1st,2,Physics I Laboratory
+B.Tech in Electronics and Communication Engineering,1st,2,Programming for Problem Solving Laboratory
+B.Tech in Electronics and Communication Engineering,1st,2,Workshop/Manufacturing Practices
+B.Tech in Electronics and Communication Engineering,1st,2,Language Laboratory
+B.Tech in Electronics and Communication Engineering,2nd,4,Numerical Method
+B.Tech in Electronics and Communication Engineering,2nd,4,Analog Communication
+B.Tech in Electronics and Communication Engineering,2nd,4,Analog Electronic Circuits
+B.Tech in Electronics and Communication Engineering,2nd,4,Microprocessor & Microcontrollers
+B.Tech in Electronics and Communication Engineering,2nd,4,Design and Analysis of Algorithm (ES)
+B.Tech in Electronics and Communication Engineering,2nd,4,Numerical Methods (BS)
+B.Tech in Electronics and Communication Engineering,2nd,4,Biology for Engineers
+B.Tech in Electronics and Communication Engineering,2nd,4,Analog Communication Lab
+B.Tech in Electronics and Communication Engineering,2nd,4,Analog Electronic Circuits Lab
+B.Tech in Electronics and Communication Engineering,2nd,4,Microprocessor & Microcontrollers Lab
+B.Tech in Electronics and Communication Engineering,2nd,4,Numerical Methods Lab
+B.Tech in Electronics and Communication Engineering,2nd,4,Soft Skill Development Lab
+B.Tech in Electronics and Communication Engineering,3rd,6,Control System & Instrumentation
+B.Tech in Electronics and Communication Engineering,3rd,6,Computer Network
+B.Tech in Electronics and Communication Engineering,3rd,6,CMOS VLSI Design
+B.Tech in Electronics and Communication Engineering,3rd,6,Electronic Measurements and Measuring Instruments
+B.Tech in Electronics and Communication Engineering,3rd,6,Economics for Engineers
+B.Tech in Electronics and Communication Engineering,3rd,6,Values and Ethics
+B.Tech in Electronics and Communication Engineering,3rd,6,Control System & Instrumentation Lab
+B.Tech in Electronics and Communication Engineering,3rd,6,Computer Network Lab
+B.Tech in Electronics and Communication Engineering,3rd,6,Mini Project/ Electronic Design Workshop
+B.Tech in Electronics and Communication Engineering,4th,8,Antennas and Propagation
+B.Tech in Electronics and Communication Engineering,4th,8,Internet of Things (IoT)
+B.Tech in Electronics and Communication Engineering,4th,8,Artificial Intelligence
+B.Tech in Electronics and Communication Engineering,4th,8,Industrial Automation and Control
+BBA in Hospital Management,1st,2,Basic Medical Terminology
+BBA in Hospital Management,1st,2,Organization Behaviour
+BBA in Hospital Management,1st,2,Health Psychology
+BBA in Hospital Management,1st,2,Modern Indian Language Bengali
+BBA in Hospital Management,1st,2,Advance Microsoft Office with Artificial Intelligence
+BBA in Hospital Management,1st,2,Environmental Science - II
+BBA in Hospital Management,1st,2,Digital Transformation in Business
+BBA in Hospital Management,1st,2,Modern Indian Language Hindi
+BBA in Hospital Management,2nd,4,Hospital Equipment Management
+BBA in Hospital Management,2nd,4,Hospital Operation Management - II
+BBA in Hospital Management,2nd,4,Medical Record Science - II
+BBA in Hospital Management,2nd,4,Support & Utility Services - I
+BBA in Hospital Management,2nd,4,Entrepreneurship Development
+BBA in Hospital Management,2nd,4,Foreign Language (French)
+BBA in Hospital Management,3rd,6,Basic Human Physiology & Anatomy
+BBA in Hospital Management,3rd,6,Occupational Health
+BBA in Hospital Management,3rd,6,Clinical Nutrition
+BBA in Hospital Management,3rd,6,Hospital Marketing Management
+BBA in Hospital Management,3rd,6,Business Ethics & Corporate Governance
+BBA in Hotel & Hospitality Administration,1st,2,Housekeeping Management
+BBA in Hotel & Hospitality Administration,1st,2,Organization Behaviour
+BBA in Hotel & Hospitality Administration,1st,2,Diet Counseling & Patient Care
+BBA in Hotel & Hospitality Administration,1st,2,Modern Indian Language Bengali
+BBA in Hotel & Hospitality Administration,1st,2,Advance Microsoft Office with Artificial Intelligence
+BBA in Hotel & Hospitality Administration,1st,2,Environmental Science - II
+BBA in Hotel & Hospitality Administration,1st,2,Digital Transformation in Business
+BBA in Hotel & Hospitality Administration,1st,2,Modern Indian Language Hindi
+BBA in Hotel & Hospitality Administration,2nd,4,Human Resource Management
+BBA in Hotel & Hospitality Administration,2nd,4,Accommodation Operation
+BBA in Hotel & Hospitality Administration,2nd,4,Food and Nutrition
+BBA in Hotel & Hospitality Administration,2nd,4,Cost & Management Accounting
+BBA in Hotel & Hospitality Administration,2nd,4,Entrepreneurship Development
+BBA in Hotel & Hospitality Administration,2nd,4,Foreign Language (French)
+BBA in Hotel & Hospitality Administration,3rd,6,Advertisement & Sales Promotion
+BBA in Hotel & Hospitality Administration,3rd,6,Financial Management
+BBA in Hotel & Hospitality Administration,3rd,6,Tourism and Travel Management
+BBA in Hotel & Hospitality Administration,3rd,6,Food and Beverage Management
+BBA in Hotel & Hospitality Administration,3rd,6,Business Ethics & Corporate Governance
+BBA,1st,2,Financial Accounting
+BBA,1st,2,Organizational Behaviour
+BBA,1st,2,Brand Management
+BBA,1st,2,Modern Indian Language Bengali
+BBA,1st,2,Advance Microsoft Office with Artificial Intelligence
+BBA,1st,2,Environmental Science - II
+BBA,1st,2,Digital Transformation in Business
+BBA,1st,2,Modern Indian Language Hindi
+BBA,2nd,4,Financial Management
+BBA,2nd,4,Production & Operation Management
+BBA,2nd,4,Introduction to Business Analytics
+BBA,2nd,4,Human Resource Management
+BBA,2nd,4,Entrepreneurship Development
+BBA,2nd,4,Foreign Language (French)
+BBA,3rd,6,Advertisement & Sales Promotion
+BBA,3rd,6,Manpower Planning
+BBA,3rd,6,Investment Analysis and Portfolio Management
+BBA,3rd,6,International Business
+BBA,3rd,6,Business Ethics & Corporate Governance
+BBA in Digital Marketing,1st,2,Financial Accounting
+BBA in Digital Marketing,1st,2,Organizational Behaviour
+BBA in Digital Marketing,1st,2,Brand Management
+BBA in Digital Marketing,1st,2,Modern Indian Language Bengali
+BBA in Digital Marketing,1st,2,Advance Microsoft Office with Artificial Intelligence
+BBA in Digital Marketing,1st,2,Environmental Science - II
+BBA in Digital Marketing,1st,2,Digital Transformation in Business
+BBA in Digital Marketing,1st,2,Modern Indian Language Hindi
+BBA in Digital Marketing,2nd,4,Human Resource Management
+BBA in Digital Marketing,2nd,4,Digital Marketing Ethics and Compliance
+BBA in Digital Marketing,2nd,4,Introduction to Business Analytics
+BBA in Digital Marketing,2nd,4,Cost & Management Accounting
+BBA in Digital Marketing,2nd,4,Entrepreneurship Development
+BBA in Digital Marketing,2nd,4,Foreign Language (French)
+BBA in Digital Marketing,3rd,6,Advertisement & Sales Promotion
+BBA in Digital Marketing,3rd,6,Compensation Management
+BBA in Digital Marketing,3rd,6,Social Media Marketing
+BBA in Digital Marketing,3rd,6,International Business
+BBA in Digital Marketing,3rd,6,Business Ethics & Corporate Governance
+MBA,1st,2,Human Resource Management
+MBA,1st,2,Financial Reporting Statements and Analysis
+MBA,1st,2,Marketing Management
+MBA,1st,2,Operations Management
+MBA,1st,2,AI for Managers
+MBA,1st,2,Indian Economy and Policy
+MBA,2nd,4,Consumer Behaviour
+MBA,2nd,4,Sales & Distribution Management
+MBA,2nd,4,Service Marketing
+MBA,2nd,4,Financial Derivatives & Risk Management
+MBA,2nd,4,Corporate Accounting
+MBA,2nd,4,Financial Markets and Services
+MBA,2nd,4,Employee Relations & Labour Laws
+MBA,2nd,4,Strategic HRM
+MBA,2nd,4,Data Visualization For Manager
+MBA,2nd,4,Sales & Operations Planning
+MBA,2nd,4,Behavioral Operations Management
+MBA,2nd,4,Supply Chain Analytics
+MBA,2nd,4,Agri-Supply Chain Management
+MBA,2nd,4,Management of Agricultural Input Marketing
+MBA,2nd,4,Agri-Business Financial Management
+MBA,2nd,4,Manpower planning Recruitment And Selection
+MBA AGRIBUSINESS,1st,2,Human Resource Management
+MBA AGRIBUSINESS,1st,2,Financial Reporting Statements and Analysis
+MBA AGRIBUSINESS,1st,2,Marketing Management
+MBA AGRIBUSINESS,1st,2,Operations Management
+MBA AGRIBUSINESS,1st,2,AI for Managers
+MBA AGRIBUSINESS,1st,2,Indian Economy and Policy
+MBA AGRIBUSINESS,2nd,4,Consumer Behaviour
+MBA AGRIBUSINESS,2nd,4,Sales and Distribution Management
+MBA AGRIBUSINESS,2nd,4,Service Marketing
+MBA AGRIBUSINESS,2nd,4,Financial Derivatives and Risk Management
+MBA AGRIBUSINESS,2nd,4,Corporate Accounting
+MBA AGRIBUSINESS,2nd,4,Financial Markets and Services
+MBA AGRIBUSINESS,2nd,4,Manpower Planning Recruitment and Selection
+MBA AGRIBUSINESS,2nd,4,Employee Relations and Labour Laws
+MBA AGRIBUSINESS,2nd,4,Strategic HRM
+MBA AGRIBUSINESS,2nd,4,Data Visualization For Manager
+MBA AGRIBUSINESS,2nd,4,Sales & Operations Planning
+MBA AGRIBUSINESS,2nd,4,Behavioral Operations Management
+MBA AGRIBUSINESS,2nd,4,Supply Chain Analytics
+MBA AGRIBUSINESS,2nd,4,Agri Supply Chain Management
+MBA AGRIBUSINESS,2nd,4,Management of Agricultural Input Marketing
+MBA AGRIBUSINESS,2nd,4,Agri Business Financial Management
+MBA in Hospital Management,1st,2,Health Economics
+MBA in Hospital Management,1st,2,Hospital Financial Management
+MBA in Hospital Management,1st,2,Strategic Management in Healthcare
+MBA in Hospital Management,1st,2,Inventory Control & Purchase Management in Healthcare
+MBA in Hospital Management,1st,2,Operations Research & Research Methodology in Hospitals
+MBA in Hospital Management,1st,2,Management of Hospital Services
+MBA in Hospital Management,2nd,4,Biomedical Waste Management & Environmental Health
+MBA in Hospital Management,2nd,4,Entrepreneurship & Consultancy Management
+MBA in Hospital Management,2nd,4,Health Insurance & Medical Tourism
+B.Sc (H) in Clinical Nutrition & Dietetics,1st,2,Basic Human Physiology
+B.Sc (H) in Clinical Nutrition & Dietetics,1st,2,Basic Human Physiology Lab
+B.Sc (H) in Clinical Nutrition & Dietetics,1st,2,Medical Microbiology & Immunology
+B.Sc (H) in Clinical Nutrition & Dietetics,1st,2,Basics of Life Skill Education
+B.Sc (H) in Clinical Nutrition & Dietetics,1st,2,Modern Indian Language Begali
+B.Sc (H) in Clinical Nutrition & Dietetics,1st,2,Food Preservation
+B.Sc (H) in Clinical Nutrition & Dietetics,1st,2,Environmental Science II
+B.Sc (H) in Clinical Nutrition & Dietetics,1st,2,Digital Transformation
+B.Sc (H) in Clinical Nutrition & Dietetics,1st,2,Internship at Hospital
+B.Sc (H) in Clinical Nutrition & Dietetics,1st,2,Modern Indian Language Hindi
+B.Sc (H) in Clinical Nutrition & Dietetics,2nd,4,Nutritional Biochemistry II
+B.Sc (H) in Clinical Nutrition & Dietetics,2nd,4,Nutritional Biochemistry II Lab.
+B.Sc (H) in Clinical Nutrition & Dietetics,2nd,4,Advanced Nutrition
+B.Sc (H) in Clinical Nutrition & Dietetics,2nd,4,Advanced Nutrition Lab.
+B.Sc (H) in Clinical Nutrition & Dietetics,2nd,4,Food Commodities
+B.Sc (H) in Clinical Nutrition & Dietetics,2nd,4,Food Commodities Lab
+B.Sc (H) in Clinical Nutrition & Dietetics,2nd,4,Bioethics and Biosafety
+B.Sc (H) in Clinical Nutrition & Dietetics,2nd,4,Modern Indian Language (English)
+B.Sc (H) in Clinical Nutrition & Dietetics,3rd,6,Diet Councelling and Pateint Care
+B.Sc (H) in Clinical Nutrition & Dietetics,3rd,6,Diet Councelling and Pateint Care Lab.
+B.Sc (H) in Clinical Nutrition & Dietetics,3rd,6,Geriatric Nutrition
+B.Sc (H) in Clinical Nutrition & Dietetics,3rd,6,Geriatric Nutrition lab.
+B.Sc (H) in Clinical Nutrition & Dietetics,3rd,6,Community Nutrition
+B.Sc (H) in Clinical Nutrition & Dietetics,3rd,6,Community Nutrition lab.
+B.Sc (H) in Clinical Nutrition & Dietetics,3rd,6,FOOD PROCESSING AND NUTRITION SCIENCE
+B.Sc (H) in Clinical Nutrition & Dietetics,3rd,6,Health Psychology
+B.Sc (H) in Clinical Nutrition & Dietetics,3rd,6,Health Psychology Lab.
+M.Sc in Food & Nutrition,1st,2,Principles of Human Health II
+M.Sc in Food & Nutrition,1st,2,Community Nutrition
+M.Sc in Food & Nutrition,1st,2,Food Microbiology
+M.Sc in Food & Nutrition,1st,2,Public Health and Epidemiology
+M.Sc in Food & Nutrition,1st,2,"Human Biology, Microbiology and Clinical Nutrition Lab."
+M.Sc in Food & Nutrition,1st,2,"Principles of Communication, and Management for Self Entrepreneurship in Food and Nutrition"
+M.Sc in Food & Nutrition,1st,2,Problems of Development and Pathologies Across Life Span
+M.Sc in Food & Nutrition,2nd,4,Emerging Areas in Food and Nutrition
+M.Sc in Food & Nutrition,2nd,4,Food and Nutrition in relation to other Sciences
+M.Sc in Food & Nutrition,2nd,4,Policies and Standards in Food and Nutrition
+M.Sc in Food & Nutrition,2nd,4,Visit to a food industry and market survey
+M.Sc in Food & Nutrition,2nd,4,New Food Product Development Lab.
+M.Sc in Food & Nutrition,2nd,4,Project Work and Grand Viva
+M.A. & M.Sc. in Applied Psychology,1st,2,Research Methodology
+M.A. & M.Sc. in Applied Psychology,1st,2,Psychometrics And Statistics
+M.A. & M.Sc. in Applied Psychology,1st,2,Problems of Development and Pathologies Across Life Span
+M.A. & M.Sc. in Applied Psychology,1st,2,"Research Methodology, Statistical Techniques & Computer Application Lab"
+M.A. & M.Sc. in Applied Psychology,1st,2,Assessment at Various Levels of Development Lab
+M.A. & M.Sc. in Applied Psychology,1st,2,Science of Happiness
+M.A. & M.Sc. in Applied Psychology,2nd,4,Forensic and Correctional Psychology
+M.A. & M.Sc. in Applied Psychology,2nd,4,Testing & Therapy in Clinical and Forensic Psychology Lab - I
+M.A. & M.Sc. in Applied Psychology,2nd,4,Psychotherapy
+M.A. & M.Sc. in Applied Psychology,2nd,4,Testing & Therapy in Clinical and Forensic Psychology Lab - II
+M.A. & M.Sc. in Applied Psychology,2nd,4,Summer Project and Grand Viva
+B.Sc Psychology,3rd,6,Health Psychology
+B.Sc Psychology,3rd,6,Health Psychology Lab
+B.Sc Psychology,3rd,6,Understanding and Dealing with Psychological Disorders
+B.Sc Psychology,3rd,6,Understanding and Dealing with Psychological Disorders Lab
+B.Sc Psychology,3rd,6,Positive Psychology
+B.Sc Psychology,3rd,6,Positive Psychology Lab
+B.Sc Psychology,3rd,6,Organizational Behaviour
+B.Sc Psychology,3rd,6,Organizational Behaviour Lab
+B.Sc Psychology,3rd,6,Geriatric Nutrition
+M.Sc Microbiology,1st,2,Recombinant DNA Technology
+M.Sc Microbiology,1st,2,Recombinant DNA Technology Lab
+M.Sc Microbiology,1st,2,Ecology and Environmental Studies
+M.Sc Microbiology,1st,2,Ecology and Environmental Studies Lab
+M.Sc Microbiology,1st,2,Genetics (Prokaryotes & Eukaryotes)
+M.Sc Microbiology,1st,2,Genetics (Prokaryotes & Eukaryotes) Lab
+M.Sc Microbiology,1st,2,Biostatistics
+M.Sc Microbiology,1st,2,Biostatistics Lab
+M.Sc Microbiology,1st,2,Clinical Data Management (CDM)
+M.Sc Microbiology,1st,2,Active Pharmaceutical Ingredient (API) Production
+M.Sc Microbiology,2nd,4,Virology
+M.Sc Microbiology,2nd,4,Immunology
+M.Sc Microbiology,2nd,4,Immunology Lab
+M.Sc Microbiology,2nd,4,Medical Biotechnology and Gene Therapy
+M.Sc Microbiology,2nd,4,Computer Aptitude and Bioinformatics
+M.Sc Microbiology,2nd,4,Computer Aptitude and Bioinformatics Lab
+M.Sc Microbiology,2nd,4,Medical Scribing & Medical Coding
+M.TECH Electrical Engineering (POWER SYSTEM),1st,2,Power System Operation and Control
+M.TECH Electrical Engineering (POWER SYSTEM),1st,2,Power System Instrumentation
+M.TECH Electrical Engineering (POWER SYSTEM),1st,2,Advanced Power System Protection
+M.TECH Electrical Engineering (POWER SYSTEM),1st,2,Flexible A.C. Transmission System
+M.TECH Electrical Engineering (POWER SYSTEM),1st,2,Advanced Control System
+M.TECH Electrical Engineering (POWER SYSTEM),1st,2,Modeling and Simulation of dynamic systems
+M.TECH Electrical Engineering (POWER SYSTEM),1st,2,Power System Operation and Control Lab
+M.TECH Electrical Engineering (POWER SYSTEM),1st,2,Power System Instrumentation Lab
+M.TECH Electrical Engineering (POWER SYSTEM),1st,2,Seminar II
+M.TECH Electrical Engineering (POWER ELECTRONICS),1st,2,Power System Operation and Control
+M.TECH Electrical Engineering (POWER ELECTRONICS),1st,2,Power System Instrumentation
+M.TECH Electrical Engineering (POWER ELECTRONICS),1st,2,Advanced Power System Protection
+M.TECH Electrical Engineering (POWER ELECTRONICS),1st,2,Advanced Control System
+M.TECH Electrical Engineering (POWER ELECTRONICS),1st,2,Advanced Electrical Drives
+M.TECH Electrical Engineering (POWER ELECTRONICS),1st,2,Power Electronics Application
+M.TECH Electrical Engineering (POWER ELECTRONICS),1st,2,Power System Operation and Control Lab
+M.TECH Electrical Engineering (POWER ELECTRONICS),1st,2,Power System Instrumentation Lab
+M.TECH Electrical Engineering (POWER ELECTRONICS),1st,2,Seminar II
+B.A. in English,3rd,6,N/A
+M.Sc ANCS,1st,2,Advanced Cybersecurity Practices
+M.Sc ANCS,1st,2,Advanced Cybersecurity
+M.Sc ANCS,1st,2,Network Monitoring and Management
+M.Sc ANCS,1st,2,Cybersecurity Law and Ethics
+M.Sc ANCS,2nd,4,Comprehensive Viva voce
+M.Tech Mechanical Engineering,1st,2,Industrial Automation
+M.Tech Mechanical Engineering,1st,2,Mechanics of Machining and Machine Tools
+M.Tech Mechanical Engineering,1st,2,Work System Design
+M.Tech Mechanical Engineering,1st,2,Elective III Industrial Engineering and Management
+M.Tech Mechanical Engineering,1st,2,Elective IV Operations Research
+M.Tech Mechanical Engineering,1st,2,3D Printing Lab
+M.Tech Mechanical Engineering,1st,2,Thematic Design Lab
+M.Tech Mechanical Engineering,1st,2,Research Seminar II
+M.Tech Mechanical Engineering,2nd,4,Thesis Part II

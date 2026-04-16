@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>SVU Internal Examination Section</title>
+  <link rel="stylesheet" href="SVUdashboard.css" />
+  <script>
+    (function redirectToAppPort() {
+      const isLocalHost = window.location.hostname === "127.0.0.1" || window.location.hostname === "localhost";
+      if (isLocalHost && window.location.port && window.location.port !== "3010") {
+        const target = `${window.location.protocol}//${window.location.hostname}:3010${window.location.pathname}${window.location.search}${window.location.hash}`;
+        window.location.replace(target);
+      }
+    })();
+  </script>
+  <script>
+    (function initThemeBootstrap() {
+      let savedTheme = null;
+      try {
+        savedTheme = localStorage.getItem("svuTheme");
+      } catch (_) {
+        savedTheme = null;
+      }
+
+      const prefersDark = window.matchMedia && window.matchMedia("(prefers-color-scheme: dark)").matches;
+      const useDark = savedTheme ? savedTheme === "dark" : prefersDark;
+      document.documentElement.classList.toggle("theme-dark", useDark);
+    })();
+  </script>
+</head>
+<body>
+  <div class="page-wrapper">
+    <header class="header">
+      <div class="logo-wrapper">
+        <img src="SVU-LOGO.webp" alt="SVU College Logo" class="logo" />
+      </div>
+      <div class="title-wrapper">
+        <h1>SVU Internal Examination Section</h1>
+        <p>Keep hall details, schedules, and internal exam updates in the familiar SVU dashboard layout.</p>
+      </div>
+      <nav class="top-nav" aria-label="Section navigation">
+        <a href="/SVUdashboard.html">Dashboard</a>
+        <a href="/SVU-assignment-section.html">Assignments</a>
+        <a href="/SVU-assessment-section.html">Assessments</a>
+        <a class="primary-link" href="/SVU-internal-examination.html">Internal Exams</a>
+      </nav>
+    </header>
+
+    <main class="dashboard-shell">
+      <section class="hero-banner">
+        <div class="hero-copy">
+          <div class="section-pill">Internal Exam Section</div>
+          <h2>Internal exam overview for the current semester</h2>
+          <p>
+            This page is reserved for exam dates, venue information, and result summaries once your backend
+            data is connected.
+          </p>
+        </div>
+        <div class="dashboard-actions">
+          <a class="action-btn" href="/SVUdashboard.html">Back to Dashboard</a>
+          <a class="action-btn primary" href="/SVU-assignment-section.html">Open Assignments</a>
+        </div>
+      </section>
+
+      <section class="stat-grid" aria-label="Internal exam summary">
+        <article class="stat-card">
+          <div class="label">Scheduled</div>
+          <div class="value">0</div>
+        </article>
+        <article class="stat-card">
+          <div class="label">Hall Details</div>
+          <div class="value">0</div>
+        </article>
+        <article class="stat-card">
+          <div class="label">Results</div>
+          <div class="value">0</div>
+        </article>
+      </section>
+
+      <section class="section-grid" aria-label="Internal exam subject selection">
+        <article class="section-card">
+          <div class="section-pill">Subject Selection</div>
+          <h3>Choose subjects for internal exam focus</h3>
+          <p>Select subjects from your current semester so your internal exam preparation matches your registered course.</p>
+          <div id="internalSubjectStatus" class="section-list" style="margin-bottom: 12px; color:#64748b;">Sign in and return to this page to load your semester subjects.</div>
+          <div id="internalSubjectList"></div>
+        </article>
+      </section>
+
+      <section class="section-grid">
+        <article class="section-card">
+          <div class="section-pill">Schedule</div>
+          <h3>Exam time table</h3>
+          <p>Place all internal exam schedules here so students can check them from the dashboard quickly.</p>
+          <div class="section-list">
+            <div class="section-item"><span>Status</span><strong>Prepared</strong></div>
+            <div class="section-item"><span>Access</span><strong>Student view</strong></div>
+          </div>
+        </article>
+
+        <article class="section-card">
+          <div class="section-pill">Hall Ticket</div>
+          <h3>Venue and room notes</h3>
+          <p>Use this space for room numbers, hall information, and any exam-day instructions from faculty.</p>
+          <div class="section-list">
+            <div class="section-item"><span>Venue</span><strong>Ready</strong></div>
+            <div class="section-item"><span>Instructions</span><strong>Available</strong></div>
+          </div>
+        </article>
+
+        <article class="section-card">
+          <div class="section-pill">Result Summary</div>
+          <h3>Internal result record</h3>
+          <p>When exam data is available, this card can show scores and summaries without changing the layout.</p>
+          <div class="section-list">
+            <div class="section-item"><span>Marks</span><strong>Reserved</strong></div>
+            <div class="section-item"><span>Status</span><strong>Pending</strong></div>
+          </div>
+        </article>
+      </section>
+    </main>
+
+  <footer class="footer">
+      <p>&copy; 2026 SVU College. All rights reserved.</p>
+    </footer>
+  </div>
+  <script>
+    const AUTH_KEY = "svuAuthSession";
+    const API_BASE = window.SVUCommon.getApiBase();
+    const SELECTED_SUBJECTS_KEY = "svuSelectedSubjects";
+
+    function readAuth() {
+      try {
+        return JSON.parse(sessionStorage.getItem(AUTH_KEY) || "null");
+      } catch (_) {
+        return null;
+      }
+    }
+
+    function getSelectedSubjects() {
+      try {
+        const stored = JSON.parse(sessionStorage.getItem(SELECTED_SUBJECTS_KEY) || "[]");
+        return Array.isArray(stored) ? stored : [];
+      } catch (_) {
+        return [];
+      }
+    }
+
+    function setSelectedSubjects(subjects) {
+      try {
+        const normalized = Array.isArray(subjects) ? subjects.map((subj) => String(subj)) : [];
+        sessionStorage.setItem(SELECTED_SUBJECTS_KEY, JSON.stringify(normalized));
+      } catch (_) {
+        // ignore
+      }
+    }
+
+    function updateInternalSubjectStatus(message) {
+      const statusEl = document.getElementById("internalSubjectStatus");
+      if (statusEl) {
+        statusEl.textContent = message;
+      }
+    }
+
+    function createSubjectCheckbox(subject) {
+      const selected = getSelectedSubjects();
+      const checkbox = document.createElement("input");
+      checkbox.type = "checkbox";
+      checkbox.value = subject;
+      checkbox.checked = selected.includes(subject);
+      checkbox.style.marginRight = "10px";
+
+      const label = document.createElement("label");
+      label.style.display = "flex";
+      label.style.alignItems = "center";
+      label.style.gap = "10px";
+      label.style.width = "100%";
+      label.appendChild(checkbox);
+      label.appendChild(document.createTextNode(subject));
+
+      checkbox.addEventListener("change", () => {
+        const current = getSelectedSubjects();
+        if (checkbox.checked) {
+          if (!current.includes(subject)) current.push(subject);
+        } else {
+          const index = current.indexOf(subject);
+          if (index >= 0) current.splice(index, 1);
+        }
+        setSelectedSubjects(current);
+        updateInternalSubjectStatus(`${current.length} subject(s) selected.`);
+      });
+
+      const item = document.createElement("div");
+      item.className = "section-item";
+      item.style.display = "flex";
+      item.style.alignItems = "center";
+      item.style.justifyContent = "space-between";
+      item.style.padding = "10px 0";
+      item.style.borderBottom = "1px solid rgba(148,163,184,.12)";
+      item.appendChild(label);
+      return item;
+    }
+
+    async function loadInternalSubjects() {
+      const auth = readAuth();
+      const listEl = document.getElementById("internalSubjectList");
+      if (!listEl) return;
+
+      if (!auth || !auth.course || !auth.semester) {
+        updateInternalSubjectStatus("Sign in first to load your course subjects.");
+        listEl.innerHTML = "";
+        return;
+      }
+
+      const semesterValue = String(auth.semester).match(/\d+/)?.[0] || auth.semester;
+      updateInternalSubjectStatus("Loading subjects...");
+      listEl.innerHTML = "";
+
+      try {
+        const res = await fetch(`${API_BASE}/courses?course=${encodeURIComponent(auth.course)}&semester=${encodeURIComponent(semesterValue)}`);
+        if (!res.ok) {
+          throw new Error("Failed to load subjects");
+        }
+        const data = await res.json();
+        const subjects = Array.isArray(data.subjects)
+          ? data.subjects.map((s) => (typeof s === "string" ? s : s.subject || s.name || "")).filter(Boolean)
+          : [];
+
+        if (!subjects.length) {
+          updateInternalSubjectStatus("No subjects found for your current course and semester.");
+          return;
+        }
+
+        subjects.forEach((subject) => listEl.appendChild(createSubjectCheckbox(subject)));
+        updateInternalSubjectStatus(`${getSelectedSubjects().length} subject(s) selected.`);
+      } catch (err) {
+        console.error(err);
+        updateInternalSubjectStatus("Could not load subjects right now. Please try again later.");
+      }
+    }
+
+    loadInternalSubjects();
+  </script>
+  <script src="svu-common.js"></script>
+  <script>window.SVUCommon.setupThemeToggle();</script>
+</body>
+</html>
