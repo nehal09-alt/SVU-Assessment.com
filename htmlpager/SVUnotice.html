@@ -5,6 +5,29 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>SVU Notices – Examination Updates</title>
   <link rel="stylesheet" href="SVUdashboard.css" />
+  <script>
+    (function redirectToAppPort() {
+      const isLocalHost = window.location.hostname === "127.0.0.1" || window.location.hostname === "localhost";
+      if (isLocalHost && window.location.port && window.location.port !== "3010") {
+        const target = `${window.location.protocol}//${window.location.hostname}:3010${window.location.pathname}${window.location.search}${window.location.hash}`;
+        window.location.replace(target);
+      }
+    })();
+  </script>
+  <script>
+    (function initThemeBootstrap() {
+      let savedTheme = null;
+      try {
+        savedTheme = localStorage.getItem("svuTheme");
+      } catch (_) {
+        savedTheme = null;
+      }
+
+      const prefersDark = window.matchMedia && window.matchMedia("(prefers-color-scheme: dark)").matches;
+      const useDark = savedTheme ? savedTheme === "dark" : prefersDark;
+      document.documentElement.classList.toggle("theme-dark", useDark);
+    })();
+  </script>
 </head>
 <body>
   <div class="page-wrapper">
@@ -24,21 +47,19 @@
 
     <main>
       <section class="card">
-        <h2 class="card-title">Latest Examination Information</h2>
+        <h2 class="card-title">Latest Official Notice Board</h2>
         <p style="font-size: 0.9rem; color: #e5e7eb; margin-bottom: 10px;">
-          Swami Vivekananda University publishes official notices for examinations, viva-voce, and academic
-          activities on its main website. This page summarises that this portal is for examination workflows only.
+          This page synchronises with the official Swami Vivekananda University notice board and displays the same notices.
         </p>
 
-        <ul style="font-size: 0.85rem; color: #cbd5f5; padding-left: 18px; line-height: 1.5;">
-          <li>Ph.D. Viva-Voce Examinations and other research notifications are announced under the university notice section.</li>
-          <li>Journal and research-related calls for papers are listed in the official News & Notice sections.</li>
-          <li>Students should always verify dates, schedules and venues from the official university notice board.</li>
-        </ul>
+        <div id="noticeList" style="display:grid; gap:16px;">
+          <div class="notice-loading" style="padding:18px; border:1px solid rgba(148,163,184,.3); border-radius:14px; background:rgba(15,23,42,.45);">
+            Loading the latest official notices...
+          </div>
+        </div>
 
-        <p style="font-size: 0.8rem; color: #9ca3af; margin-top: 10px;">
-          For full and up-to-date examination notices, please check the official Swami Vivekananda University
-          website’s Notice and News sections.
+        <p style="font-size: 0.8rem; color: #9ca3af; margin-top: 12px;">
+          Notices are fetched live from the official university site, so updates appear here automatically when the official board changes.
         </p>
       </section>
     </main>
@@ -47,6 +68,47 @@
       <p>&copy; 2026 Swami Vivekananda University – Examination Portal. All rights reserved.</p>
     </footer>
   </div>
+  <script src="svu-common.js"></script>
+  <script>
+    async function loadExternalNotices() {
+      const noticeList = document.getElementById("noticeList");
+      if (!noticeList) return;
+
+      try {
+        const response = await fetch("/external-notices");
+        if (!response.ok) {
+          throw new Error(`Status ${response.status}`);
+        }
+        const data = await response.json();
+        const notices = Array.isArray(data.notices) ? data.notices : [];
+
+        if (notices.length === 0) {
+          noticeList.innerHTML = '<div style="padding:18px; border:1px solid rgba(148,163,184,.3); border-radius:14px; background:rgba(15,23,42,.45);">No official notices could be loaded right now. Please refresh or try again later.</div>';
+          return;
+        }
+
+        noticeList.innerHTML = notices.map((notice) => {
+          const title = notice.title || "Untitled Notice";
+          const publishedAt = notice.publishedAt ? `<span style=\"color:#94a3b8;font-size:0.88rem;\">${notice.publishedAt}</span>` : "";
+          const url = notice.detailsUrl || notice.url || "#";
+          return `
+            <article style="padding:18px; border:1px solid rgba(148,163,184,.18); border-radius:14px; background:rgba(15,23,42,.45);">
+              <h3 style="margin:0 0 10px; font-size:1.05rem; color:#f8fafc; line-height:1.3;">${title}</h3>
+              <div style="display:flex; justify-content:space-between; align-items:center; gap:12px; flex-wrap:wrap;">
+                <span style="color:#94a3b8; font-size:0.9rem;">${publishedAt}</span>
+                <a href="${url}" target="_blank" rel="noopener noreferrer" style="color:#7dd3fc; text-decoration:underline; font-weight:600;">Open Notice</a>
+              </div>
+            </article>
+          `;
+        }).join("");
+      } catch (error) {
+        console.error("Could not load official notices:", error);
+        noticeList.innerHTML = '<div style="padding:18px; border:1px solid rgba(248,113,113,.3); border-radius:14px; background:rgba(124,58,237,.08); color:#f8fafc;">Could not load the official notice board. Please try again later.</div>';
+      }
+    }
+
+    loadExternalNotices();
+  </script>
+  <script>window.SVUCommon.setupThemeToggle();</script>
 </body>
 </html>
-

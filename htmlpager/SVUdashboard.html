@@ -1,38 +1,613 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>SVU Student Dashboard</title>
   <link rel="stylesheet" href="SVUdashboard.css" />
+  <link rel="stylesheet" href="svu-modal.css" />
+  <link rel="stylesheet" href="svu-profile-camera.css" />
+  <script>
+    (function redirectToAppPort() {
+      const isLocalHost = window.location.hostname === "127.0.0.1" || window.location.hostname === "localhost";
+      if (isLocalHost && window.location.port && window.location.port !== "3010") {
+        const target = `${window.location.protocol}//${window.location.hostname}:3010${window.location.pathname}${window.location.search}${window.location.hash}`;
+        window.location.replace(target);
+      }
+    })();
+  </script>
+  <script>
+    (function initThemeBootstrap() {
+      let savedTheme = null;
+      try {
+        savedTheme = localStorage.getItem("svuTheme");
+      } catch (_) {
+        savedTheme = null;
+      }
+
+      const prefersDark = window.matchMedia && window.matchMedia("(prefers-color-scheme: dark)").matches;
+      const useDark = savedTheme ? savedTheme === "dark" : prefersDark;
+      document.documentElement.classList.toggle("theme-dark", useDark);
+    })();
+  </script>
+  <style>
+    body {
+      --panel: var(--surface);
+      --panel-2: var(--surface-soft);
+      --line: var(--border);
+      --accent: var(--green);
+      --accent-2: var(--green-2);
+      --good: #22c55e;
+      --warn: #f59e0b;
+    }
+
+    .dashboard-shell {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr);
+      gap: 18px;
+    }
+
+    .dashboard-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 14px;
+      flex-wrap: wrap;
+      margin-bottom: 2px;
+    }
+
+    .dashboard-actions {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+
+    .action-btn {
+      border: 1px solid var(--line);
+      border-radius: 999px;
+      padding: 10px 16px;
+      background: var(--surface-strong);
+      color: var(--text-strong);
+      font-weight: 700;
+      cursor: pointer;
+      transition: transform 0.2s ease, border-color 0.2s ease, background 0.2s ease;
+    }
+
+    .action-btn:hover {
+      transform: translateY(-1px);
+      border-color: rgba(23, 134, 76, 0.34);
+      background: var(--green-soft);
+    }
+
+    .action-btn.primary {
+      background: linear-gradient(135deg, var(--accent), var(--accent-2));
+      border-color: rgba(23, 134, 76, 0.24);
+      color: white;
+    }
+
+    .hero-banner {
+      display: grid;
+      grid-template-columns: minmax(0, 1.35fr) minmax(260px, 0.65fr);
+      gap: 16px;
+      padding: 22px;
+      border-radius: 22px;
+      background:
+        radial-gradient(circle at top left, rgba(23, 134, 76, 0.18), transparent 45%),
+        linear-gradient(180deg, var(--surface-strong), var(--surface-soft));
+      border: 1px solid var(--line);
+      box-shadow: var(--shadow);
+    }
+
+    .hero-copy h2 {
+      margin-bottom: 8px;
+      font-size: 1.7rem;
+      color: var(--text-strong);
+    }
+
+    .hero-copy p {
+      color: var(--muted);
+      line-height: 1.6;
+      font-size: 0.92rem;
+    }
+
+    .stat-grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 12px;
+    }
+
+    .stat-card,
+    .section-card,
+    .profile-card {
+      border-radius: 18px;
+      border: 1px solid var(--line);
+      background: var(--panel);
+      box-shadow: 0 12px 30px rgba(2, 6, 23, 0.35);
+    }
+
+    .stat-card {
+      padding: 14px;
+      min-height: 102px;
+    }
+
+    .stat-card .label {
+      font-size: 0.8rem;
+      color: var(--muted);
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+    }
+
+    .stat-card .value {
+      font-size: 1.7rem;
+      font-weight: 800;
+      color: var(--text-strong);
+      margin-top: 10px;
+    }
+
+    .section-grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 14px;
+    }
+
+    .section-card {
+      padding: 18px;
+      min-height: 190px;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .section-card-link {
+      text-decoration: none;
+      color: inherit;
+      transition: transform 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease;
+    }
+
+    .section-card-link:hover {
+      transform: translateY(-2px);
+    }
+
+    .section-pill {
+      display: inline-flex;
+      align-self: flex-start;
+      padding: 6px 10px;
+      border-radius: 999px;
+      font-size: 0.75rem;
+      font-weight: 700;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      color: var(--green-3);
+      background: var(--green-soft);
+      border: 1px solid rgba(23, 134, 76, 0.2);
+    }
+
+    .section-card h3,
+    .profile-card h3 {
+      color: var(--text-strong);
+      font-size: 1.05rem;
+      margin-bottom: 2px;
+    }
+
+    .section-card p,
+    .profile-card p,
+    .profile-meta,
+    .assignment-item {
+      color: var(--muted);
+      font-size: 0.9rem;
+      line-height: 1.55;
+    }
+
+    .section-list {
+      display: grid;
+      gap: 8px;
+      margin-top: auto;
+    }
+
+    .section-item {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 10px;
+      padding: 10px 12px;
+      border-radius: 12px;
+      background: var(--surface-strong);
+      border: 1px solid var(--line);
+      color: var(--text-strong);
+      font-size: 0.82rem;
+    }
+
+    .profile-panel {
+      display: none;
+      gap: 14px;
+    }
+
+    .profile-panel.active {
+      display: grid;
+    }
+
+    .profile-grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 14px;
+    }
+
+    .profile-card {
+      padding: 18px;
+      min-height: 220px;
+    }
+
+    .detail-grid {
+      display: grid;
+      gap: 10px;
+      margin-top: 12px;
+    }
+
+    .detail-row {
+      display: flex;
+      justify-content: space-between;
+      gap: 12px;
+      padding: 10px 12px;
+      border-radius: 12px;
+      background: var(--surface-strong);
+      border: 1px solid var(--line);
+    }
+
+    .detail-row span:first-child {
+      color: var(--muted);
+      font-size: 0.8rem;
+      min-width: 120px;
+    }
+
+    .detail-row span:last-child {
+      color: var(--text-strong);
+      font-weight: 600;
+      text-align: right;
+      word-break: break-word;
+    }
+
+    .assignment-summary {
+      display: grid;
+      gap: 10px;
+      margin-top: 12px;
+    }
+
+    .assignment-chip {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 12px 14px;
+      border-radius: 14px;
+      background: var(--surface-strong);
+      border: 1px solid var(--line);
+      color: var(--text-strong);
+    }
+
+    .assignment-chip strong {
+      font-size: 1.05rem;
+    }
+
+    .camera-capture-panel {
+      display: grid;
+      gap: 14px;
+      padding: 16px;
+      border-radius: 18px;
+      border: 1px solid var(--line);
+      background:
+        radial-gradient(circle at top left, rgba(23, 134, 76, 0.12), transparent 42%),
+        linear-gradient(180deg, var(--surface-strong), var(--surface-soft));
+    }
+
+    .camera-capture-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      flex-wrap: wrap;
+    }
+
+    .camera-capture-header h4 {
+      color: var(--text-strong);
+      font-size: 1rem;
+    }
+
+    .camera-capture-header p {
+      color: var(--muted);
+      font-size: 0.84rem;
+      line-height: 1.5;
+    }
+
+    .camera-status {
+      min-height: 1.2rem;
+      color: var(--muted);
+      font-size: 0.82rem;
+      line-height: 1.5;
+    }
+
+    .camera-status.error {
+      color: #b45309;
+    }
+
+    .camera-status.success {
+      color: var(--green-3);
+    }
+
+    .camera-preview-shell {
+      position: relative;
+      display: grid;
+      place-items: center;
+      width: min(100%, 360px);
+      margin: 0 auto;
+      aspect-ratio: 1 / 1;
+      overflow: hidden;
+      border-radius: 24px;
+      border: 1px solid var(--line);
+      background:
+        radial-gradient(circle at top, rgba(23, 134, 76, 0.16), transparent 38%),
+        linear-gradient(180deg, rgba(255, 255, 255, 0.98), rgba(232, 247, 237, 0.96));
+      box-shadow: var(--shadow);
+    }
+
+    .camera-preview-shell::after {
+      content: "";
+      position: absolute;
+      inset: 12%;
+      border-radius: 50%;
+      border: 2px dashed rgba(255, 255, 255, 0.72);
+      box-shadow: 0 0 0 999px rgba(16, 37, 23, 0.22);
+      pointer-events: none;
+    }
+
+    .camera-preview,
+    .camera-canvas {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transform: scaleX(-1);
+      background: rgba(0, 0, 0, 0.18);
+    }
+
+    .camera-placeholder {
+      position: absolute;
+      inset: 0;
+      display: grid;
+      place-items: center;
+      padding: 18px;
+      text-align: center;
+      color: var(--muted);
+      font-size: 0.88rem;
+      line-height: 1.6;
+      background: linear-gradient(180deg, rgba(247, 251, 245, 0.96), rgba(226, 237, 226, 0.96));
+    }
+
+    .camera-capture-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      justify-content: center;
+    }
+
+    .camera-capture-actions .action-btn,
+    .camera-capture-actions .upload-button,
+    .camera-capture-actions .camera-button {
+      min-width: 132px;
+      justify-content: center;
+    }
+
+    /* Dark mode fixes for camera section */
+    body.theme-dark .camera-preview-shell {
+      background:
+        radial-gradient(circle at top, rgba(99, 226, 156, 0.12), transparent 38%),
+        linear-gradient(180deg, rgba(20, 35, 25, 0.96), rgba(15, 28, 20, 0.96));
+      border-color: rgba(110, 197, 132, 0.24);
+    }
+
+    body.theme-dark .camera-preview-shell::after {
+      border-color: rgba(99, 226, 156, 0.42);
+      box-shadow: 0 0 0 999px rgba(0, 0, 0, 0.32);
+    }
+
+    body.theme-dark .camera-placeholder {
+      background: linear-gradient(180deg, rgba(16, 28, 20, 0.96), rgba(11, 20, 15, 0.96));
+      color: #a6c1b1;
+    }
+
+    body.theme-dark .camera-status {
+      color: #b7cab9;
+    }
+
+    body.theme-dark .camera-status.error {
+      color: #ef4444;
+    }
+
+    body.theme-dark .camera-status.success {
+      color: #22c55e;
+    }
+
+    .hidden {
+      display: none !important;
+    }
+
+    @media (max-width: 920px) {
+
+      .hero-banner,
+      .profile-grid,
+      .section-grid,
+      .stat-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    @media (max-width: 640px) {
+
+      .hero-banner,
+      .section-card,
+      .profile-card {
+        padding: 16px;
+      }
+
+      .dashboard-header {
+        align-items: flex-start;
+      }
+
+      .action-btn {
+        width: 100%;
+        justify-content: center;
+      }
+
+      .camera-preview-shell {
+        width: 100%;
+      }
+    }
+  </style>
 </head>
+
 <body>
   <div class="page-wrapper">
     <header class="header">
       <div class="logo-wrapper">
-        <img
-          src="SVU-LOGO.webp"
-          alt="SVU College Logo"
-          class="logo"
-        />
+        <img src="SVU-LOGO.webp" alt="SVU College Logo" class="logo" />
       </div>
       <div class="title-wrapper">
         <h1>SVU Student Dashboard</h1>
-        <p>You have successfully signed in.</p>
+        <p>Track your assignments, assessments, and internal exam work in one place.</p>
       </div>
     </header>
 
-    <main>
-      <section class="card">
-        <h2 class="card-title">Welcome</h2>
-        <p style="font-size: 0.95rem; color: #d1d5db;">
-          This is a simple dashboard page shown only after successful sign in.
-          You can add more options and links here for tests, assessments, and other features.
-        </p>
+    <main class="dashboard-shell">
+      <section class="hero-banner">
+        <div class="hero-copy">
+          <div class="section-pill">Authenticated Session</div>
+          <h2 id="welcomeTitle">Welcome back</h2>
+          <p id="welcomeText">Loading your student profile and activity summary.</p>
+        </div>
+        <div class="dashboard-actions">
+          <button class="action-btn" id="profileBtn" type="button">Profile</button>
+          <button class="action-btn primary btn-futuristic" id="logoutBtn" type="button">Logout</button>
+        </div>
+      </section>
 
-        <p style="margin-top: 14px; font-size: 0.85rem; color: #9ca3af;">
-          To sign out, simply close the browser tab or navigate away from this page.
-        </p>
+      <section class="stat-grid" aria-label="Dashboard summary">
+        <article class="stat-card">
+          <div class="label">Assignments</div>
+          <div class="value" id="assignmentCount">0</div>
+        </article>
+        <article class="stat-card">
+          <div class="label">Assessments</div>
+          <div class="value" id="assessmentCount">0</div>
+        </article>
+        <article class="stat-card">
+          <div class="label">Internal Exams</div>
+          <div class="value" id="internalExamCount">0</div>
+        </article>
+      </section>
+
+      <section id="overviewPanel" class="dashboard-content">
+        <div class="section-grid">
+          <a class="section-card section-card-link" href="/SVU-assignment-system.html">
+            <div class="section-pill">Assignment Section</div>
+            <h3>Assignment Section</h3>
+            <p>View submitted work, pending uploads, and assignment milestones for your current semester.</p>
+            <div class="section-list">
+              <div class="section-item"><span>Submitted</span><strong id="submittedAssignments">0</strong></div>
+              <div class="section-item"><span>Pending</span><strong id="pendingAssignments">0</strong></div>
+            </div>
+          </a>
+
+          <a class="section-card section-card-link" href="/SVU-assessment-section.html">
+            <div class="section-pill">Assessment Section</div>
+            <h3>Assessment Section</h3>
+            <p>Use this area for quizzes, class tests, and assessment reminders. Scores and dates can be added later.
+            </p>
+            <div class="section-list">
+              <div class="section-item"><span>Upcoming</span><strong>0</strong></div>
+              <div class="section-item"><span>Completed</span><strong>0</strong></div>
+            </div>
+          </a>
+
+          <a class="section-card section-card-link" href="/SVU-internal-examination.html">
+            <div class="section-pill">Internal Exam Section</div>
+            <h3>Internal Exam Section</h3>
+            <p>Internal exam schedules and hall details will appear here once you connect the exam data.</p>
+            <div class="section-list">
+              <div class="section-item"><span>Scheduled</span><strong>0</strong></div>
+              <div class="section-item"><span>Results</span><strong>0</strong></div>
+            </div>
+          </a>
+        </div>
+      </section>
+
+      <section id="profilePanel" class="profile-panel glass-card card-futuristic" aria-label="Student profile">
+        <article class="avatar-panel">
+          <div class="section-pill">Profile Picture</div>
+          <div class="profile-avatar-wrap">
+            <div class="profile-avatar" id="profileAvatar">
+              <img id="profileAvatarImage" alt="Student profile picture" class="hidden" />
+              <div class="profile-avatar-fallback" id="profileAvatarFallback">SV</div>
+            </div>
+            <div class="profile-avatar-meta">
+              <h3>Profile Picture</h3>
+              <p>Add your own photo or click a picture using your camera.</p>
+            </div>
+          </div>
+          <div class="avatar-actions">
+            <label class="upload-button primary" for="profilePhotoUpload">Upload Photo</label>
+            <button class="camera-button secondary" id="openCameraBtn" type="button">Use Camera</button>
+            <input class="avatar-input" id="profilePhotoUpload" type="file" accept="image/*" />
+          </div>
+          <p class="avatar-help">Accepted formats: PNG, JPG, JPEG, WEBP. Max size: 2 MB. Camera access will be requested
+            before taking a photo.</p>
+          <section class="camera-capture-panel hidden" id="cameraCapturePanel" aria-live="polite">
+            <div class="camera-capture-header">
+              <div>
+                <h4>Take a profile photo</h4>
+                <p>Allow camera access, center your face inside the guide, then capture and save.</p>
+              </div>
+            </div>
+            <div class="camera-status" id="cameraStatus">Camera preview is ready when you choose "Use Camera".</div>
+            <div class="camera-preview-shell">
+              <video id="cameraPreview" class="camera-preview hidden" autoplay muted playsinline></video>
+              <canvas id="cameraCanvas" class="camera-canvas hidden"></canvas>
+              <div class="camera-placeholder" id="cameraPlaceholder">Your selfie preview will appear here after camera
+                access is granted.</div>
+            </div>
+            <div class="camera-capture-actions">
+              <button class="action-btn" id="startCameraBtn" type="button">Allow Camera</button>
+              <button class="upload-button primary" id="capturePhotoBtn" type="button" disabled>Capture Photo</button>
+              <button class="camera-button secondary hidden" id="retakePhotoBtn" type="button">Retake</button>
+              <button class="upload-button primary hidden" id="saveCameraPhotoBtn" type="button">Save Photo</button>
+              <button class="camera-button secondary" id="closeCameraBtn" type="button">Close</button>
+            </div>
+          </section>
+        </article>
+
+        <div class="profile-grid">
+          <article class="profile-card">
+            <div class="section-pill">Student Details</div>
+            <h3>Student Details</h3>
+            <p>All core login and registration information for this session.</p>
+            <div class="detail-grid" id="studentDetails"></div>
+          </article>
+
+          <article class="profile-card">
+            <div class="section-pill">Subject Details</div>
+            <h3>Subject Details</h3>
+            <p id="subjectSummaryText">Loading subjects for your current year of study...</p>
+            <div id="subjectDetails"></div>
+            <div class="detail-row" style="margin-top: 14px;">
+              <span>Selected subjects</span>
+              <span id="selectedSubjectsSummary">Use the Assignment or Internal section to choose subjects.</span>
+            </div>
+          </article>
+
+          <article class="profile-card">
+            <div class="section-pill">Assignment Detail</div>
+            <h3>Assignment Detail</h3>
+            <p>Quick summary of how many assignments are complete versus pending.</p>
+            <div class="assignment-summary" id="assignmentDetail"></div>
+          </article>
+        </div>
       </section>
     </main>
 
@@ -40,6 +615,772 @@
       <p>&copy; 2026 SVU College. All rights reserved.</p>
     </footer>
   </div>
-</body>
-</html>
 
+  <script src="svu-common.js"></script>
+  <script>
+    const AUTH_KEY = "svuAuthSession";
+    const API_BASE = window.SVUCommon.getApiBase();
+    const signInUrl = "/SVUsignin.html";
+    const profileBtn = document.getElementById("profileBtn");
+    const logoutBtn = document.getElementById("logoutBtn");
+    const profilePanel = document.getElementById("profilePanel");
+    const overviewPanel = document.getElementById("overviewPanel");
+    const studentDetailsEl = document.getElementById("studentDetails");
+    const subjectDetailsEl = document.getElementById("subjectDetails");
+    const subjectSummaryText = document.getElementById("subjectSummaryText");
+    const selectedSubjectsSummaryEl = document.getElementById("selectedSubjectsSummary");
+    const assignmentDetailEl = document.getElementById("assignmentDetail");
+    const profileAvatarImage = document.getElementById("profileAvatarImage");
+    const profileAvatarFallback = document.getElementById("profileAvatarFallback");
+    const profilePhotoUpload = document.getElementById("profilePhotoUpload");
+    const openCameraBtn = document.getElementById("openCameraBtn");
+    const cameraCapturePanel = document.getElementById("cameraCapturePanel");
+    const cameraStatus = document.getElementById("cameraStatus");
+    const cameraPreview = document.getElementById("cameraPreview");
+    const cameraCanvas = document.getElementById("cameraCanvas");
+    const cameraPlaceholder = document.getElementById("cameraPlaceholder");
+    const startCameraBtn = document.getElementById("startCameraBtn");
+    const capturePhotoBtn = document.getElementById("capturePhotoBtn");
+    const retakePhotoBtn = document.getElementById("retakePhotoBtn");
+    const saveCameraPhotoBtn = document.getElementById("saveCameraPhotoBtn");
+    const closeCameraBtn = document.getElementById("closeCameraBtn");
+    const MAX_PROFILE_PHOTO_BYTES = 1600 * 1024;
+    const PROFILE_PHOTO_OUTPUT_SIZE = 960;
+    let cameraStream = null;
+    let cameraCaptureReady = false;
+
+    function readAuth() {
+      try {
+        return JSON.parse(sessionStorage.getItem(AUTH_KEY) || "null");
+      } catch (_) {
+        return null;
+      }
+    }
+
+    function clearAuth() {
+      sessionStorage.removeItem(AUTH_KEY);
+    }
+
+    function redirectToSignin() {
+      window.location.replace(signInUrl);
+    }
+
+    function requireAuth() {
+      const auth = readAuth();
+      if (!auth || !auth.regNumber || !auth.email) {
+        redirectToSignin();
+        return null;
+      }
+      return auth;
+    }
+
+    async function getFriendlyError(res) {
+      const raw = await res.text().catch(() => "");
+      try {
+        const parsed = raw ? JSON.parse(raw) : {};
+        return parsed.message || "Something went wrong. Please try again.";
+      } catch (_) {
+        return raw || "Something went wrong. Please try again.";
+      }
+    }
+
+    async function tryReadJson(res) {
+      try {
+        return await res.json();
+      } catch (_) {
+        return {};
+      }
+    }
+
+    function writeAuth(auth) {
+      sessionStorage.setItem(AUTH_KEY, JSON.stringify(auth));
+    }
+
+    function extractEnrollmentYear(regNumber) {
+      const parts = String(regNumber || "").split("-");
+      if (parts.length >= 3) {
+        const year = parseInt(parts[2], 10);
+        return isNaN(year) ? null : year;
+      }
+      return null;
+    }
+
+    function calculateStudyYear(enrollmentYear) {
+      if (!enrollmentYear) return null;
+      const currentYear = new Date().getFullYear();
+      const studyYear = currentYear - enrollmentYear;
+      if (studyYear < 1 || studyYear > 3) return null;
+      return studyYear;
+    }
+
+    function getSemestersForStudyYear(studyYear) {
+      switch (studyYear) {
+        case 1: return [1, 2];
+        case 2: return [3, 4];
+        case 3: return [5, 6];
+        default: return [];
+      }
+    }
+
+    function normalizeSemesterValue(value) {
+      const match = String(value || "").match(/\d+/);
+      return match ? match[0] : "";
+    }
+
+    function getPreferredSemesters(auth) {
+      const savedSemester = normalizeSemesterValue(auth?.semester);
+      if (savedSemester) {
+        return [savedSemester];
+      }
+
+      const enrollmentYear = extractEnrollmentYear(auth?.regNumber);
+      const studyYear = calculateStudyYear(enrollmentYear);
+      return getSemestersForStudyYear(studyYear);
+    }
+
+    function renderStudentDetails(auth) {
+      const rows = [
+        ["Name", auth.studentName || "Not available"],
+        ["Registration No.", auth.regNumber || "Not available"],
+        ["Admit No.", auth.admitNumber || "Not available"],
+        ["Course", auth.course || "Not available"],
+        ["Semester", auth.semester || "Not available"],
+        ["Gmail ID", auth.email || "Not available"]
+      ];
+
+      studentDetailsEl.innerHTML = rows.map(([label, value]) => (
+        `<div class="detail-row"><span>${label}</span><span>${value}</span></div>`
+      )).join("");
+    }
+
+    function renderProfilePhoto(auth) {
+      const studentName = (auth.studentName || "SVU").trim();
+      const initials = studentName
+        .split(/\s+/)
+        .filter(Boolean)
+        .slice(0, 2)
+        .map((part) => part.charAt(0).toUpperCase())
+        .join("") || "SV";
+
+      profileAvatarFallback.textContent = initials;
+
+      // Check localStorage for stored photo first
+      let photoData = auth.profilePhoto;
+      if (!photoData && auth.regNumber) {
+        photoData = cameraPhotoStorage.getPhotoData(auth.regNumber);
+      }
+
+      if (photoData) {
+        profileAvatarImage.src = photoData;
+        profileAvatarImage.classList.remove("hidden");
+        profileAvatarFallback.classList.add("hidden");
+      } else {
+        profileAvatarImage.removeAttribute("src");
+        profileAvatarImage.classList.add("hidden");
+        profileAvatarFallback.classList.remove("hidden");
+      }
+    }
+
+    const SELECTED_SUBJECTS_KEY = "svuSelectedSubjects";
+
+    function loadSelectedSubjects() {
+      try {
+        const stored = JSON.parse(sessionStorage.getItem(SELECTED_SUBJECTS_KEY) || "[]");
+        return Array.isArray(stored) ? stored : [];
+      } catch (_) {
+        return [];
+      }
+    }
+
+    function saveSelectedSubjects(subjects) {
+      try {
+        const normalized = Array.isArray(subjects) ? subjects.map((subj) => String(subj)) : [];
+        sessionStorage.setItem(SELECTED_SUBJECTS_KEY, JSON.stringify(normalized));
+      } catch (_) {
+        // ignore storage failure
+      }
+    }
+
+    function renderSelectedSubjectsSummary() {
+      if (!selectedSubjectsSummaryEl) return;
+      const selected = loadSelectedSubjects();
+      if (!selected.length) {
+        selectedSubjectsSummaryEl.textContent = "No subjects selected. Use the Assignment or Internal section to choose subjects.";
+        return;
+      }
+
+      selectedSubjectsSummaryEl.textContent = selected.length > 4
+        ? `${selected.length} selected subjects: ${selected.slice(0, 4).join(", ")}${selected.length > 4 ? "…" : ""}`
+        : selected.join(", ");
+    }
+
+    function renderAssignmentDetail(summary) {
+      const totalAssignments = Number(summary?.total || 0);
+      const submitted = Number(summary?.given || 0);
+      const pending = Number(summary?.notGiven || 0);
+
+      document.getElementById("assignmentCount").textContent = String(totalAssignments);
+      document.getElementById("assessmentCount").textContent = "0";
+      document.getElementById("internalExamCount").textContent = "0";
+      document.getElementById("submittedAssignments").textContent = String(submitted);
+      document.getElementById("pendingAssignments").textContent = String(pending);
+
+      assignmentDetailEl.innerHTML = [
+        `<div class="assignment-chip"><span>Total assignments</span><strong>${totalAssignments}</strong></div>`,
+        `<div class="assignment-chip"><span>Given</span><strong>${submitted}</strong></div>`,
+        `<div class="assignment-chip"><span>Not given</span><strong>${pending}</strong></div>`
+      ].join("");
+    }
+
+    function renderProvidedSubjectDetails(subjects, fallbackSemesterLabel = "") {
+      if (!subjectDetailsEl) return;
+
+      const normalizedSubjects = Array.isArray(subjects) ? subjects.filter(Boolean) : [];
+      if (!normalizedSubjects.length) {
+        subjectDetailsEl.innerHTML = "<p style='color:#94a3b8;'>No subjects found for your current course and semester.</p>";
+        return;
+      }
+
+      subjectDetailsEl.innerHTML = normalizedSubjects.map((subject) => {
+        const label = subject.year && subject.semester
+          ? `${subject.year} / Sem ${subject.semester}`
+          : (fallbackSemesterLabel || "");
+        const name = subject.subject || subject.name || "Unnamed Subject";
+        return `<div class="detail-row" style="display:flex; justify-content:space-between; padding:10px 0; border-bottom:1px solid rgba(148,163,184,.12);"><span>${name}</span><span style="color:#86efac;">${label}</span></div>`;
+      }).join("");
+    }
+
+    async function renderSubjectDetails(auth, semesters) {
+      if (!subjectDetailsEl) return;
+      if (!auth.course) {
+        subjectSummaryText.textContent = "Course information is required to load subject details.";
+        subjectDetailsEl.innerHTML = "";
+        return;
+      }
+
+      if (!semesters || semesters.length === 0) {
+        subjectSummaryText.textContent = "Unable to determine current study year and semesters.";
+        subjectDetailsEl.innerHTML = "";
+        return;
+      }
+
+      const savedSemesterLabel = auth.semester || "";
+      if (Array.isArray(auth.subjectDetails) && auth.subjectDetails.length > 0) {
+        subjectSummaryText.textContent = `Subjects for ${auth.course}${savedSemesterLabel ? ` (${savedSemesterLabel})` : ""}.`;
+        renderProvidedSubjectDetails(auth.subjectDetails, savedSemesterLabel);
+        return;
+      }
+
+      subjectSummaryText.textContent = `Subjects for ${auth.course}${savedSemesterLabel ? ` (${savedSemesterLabel})` : " (Current Year of Study)"}.`;
+      subjectDetailsEl.innerHTML = "<p style='color:#94a3b8;'>Loading subject list...</p>";
+
+      try {
+        const allSubjects = [];
+        for (const sem of semesters) {
+          const res = await fetch(`${API_BASE}/courses?course=${encodeURIComponent(auth.course)}&semester=${encodeURIComponent(sem)}`);
+          if (!res.ok) {
+            throw new Error(`Course fetch failed ${res.status}`);
+          }
+          const data = await res.json();
+          const subjects = Array.isArray(data.subjects) ? data.subjects : [];
+          allSubjects.push({ semester: sem, subjects });
+        }
+
+        if (allSubjects.every(s => s.subjects.length === 0)) {
+          subjectDetailsEl.innerHTML = "<p style='color:#94a3b8;'>No subjects found for your current course and semester.</p>";
+          return;
+        }
+
+        subjectDetailsEl.innerHTML = allSubjects.map(({ semester, subjects }) => {
+          if (subjects.length === 0) return "";
+          const subjectList = subjects.map((subject) => {
+            return `<div class="detail-row" style="display:flex; justify-content:space-between; padding:10px 0; border-bottom:1px solid rgba(148,163,184,.12);"><span>${subject.subject}</span><span style="color:#86efac;">${subject.year} / Sem ${subject.semester}</span></div>`;
+          }).join("");
+          return `<div style="margin-bottom: 20px;"><h4 style="color:#374151; margin-bottom: 10px;">Semester ${semester}</h4>${subjectList}</div>`;
+        }).join("");
+      } catch (err) {
+        console.error("Error loading subjects:", err);
+        subjectDetailsEl.innerHTML = "<p style='color:#fca5a5;'>Could not load subject details right now.</p>";
+      }
+    }
+
+    function renderDashboardFromAuth(auth) {
+      document.getElementById("welcomeTitle").textContent = `Welcome, ${auth.studentName || "Student"}`;
+      document.getElementById("welcomeText").textContent = `Registration number ${auth.regNumber || ""} is signed in for this session.`;
+      renderStudentDetails(auth);
+      renderProfilePhoto(auth);
+      renderAssignmentDetail(auth.assignmentSummary || { total: 0, given: 0, notGiven: 0 });
+      renderSelectedSubjectsSummary();
+
+      const semesters = getPreferredSemesters(auth);
+      renderSubjectDetails(auth, semesters);
+
+      showOverview();
+    }
+
+    function readFileAsDataUrl(file) {
+      return new Promise((resolve, reject) => {
+        const reader = new FileReader();
+        reader.onload = () => resolve(String(reader.result || ""));
+        reader.onerror = () => reject(new Error("Unable to read image file"));
+        reader.readAsDataURL(file);
+      });
+    }
+
+    function dataUrlByteLength(value) {
+      return new TextEncoder().encode(String(value || "")).length;
+    }
+
+    function loadImageElement(source) {
+      return new Promise((resolve, reject) => {
+        const image = new Image();
+        image.onload = () => resolve(image);
+        image.onerror = () => reject(new Error("Unable to load the selected image."));
+        image.src = source;
+      });
+    }
+
+    function drawSquareImage(source, canvas, size, mirror = false) {
+      const width = Number(source.videoWidth || source.naturalWidth || source.width || 0);
+      const height = Number(source.videoHeight || source.naturalHeight || source.height || 0);
+
+      if (!width || !height) {
+        throw new Error("The selected image could not be processed.");
+      }
+
+      const cropSize = Math.min(width, height);
+      const offsetX = Math.max(0, (width - cropSize) / 2);
+      const offsetY = Math.max(0, (height - cropSize) / 2);
+      const ctx = canvas.getContext("2d");
+
+      canvas.width = size;
+      canvas.height = size;
+      ctx.clearRect(0, 0, size, size);
+
+      if (mirror) {
+        ctx.save();
+        ctx.translate(size, 0);
+        ctx.scale(-1, 1);
+      }
+
+      ctx.drawImage(source, offsetX, offsetY, cropSize, cropSize, 0, 0, size, size);
+
+      if (mirror) {
+        ctx.restore();
+      }
+    }
+
+    function compressCanvasToDataUrl(canvas) {
+      let quality = 0.92;
+      let workingCanvas = canvas;
+      let output = workingCanvas.toDataURL("image/jpeg", quality);
+
+      while (dataUrlByteLength(output) > MAX_PROFILE_PHOTO_BYTES && (quality > 0.5 || workingCanvas.width > 480)) {
+        if (quality > 0.5) {
+          quality -= 0.08;
+        } else {
+          const resizedCanvas = document.createElement("canvas");
+          const nextSize = Math.max(480, Math.round(workingCanvas.width * 0.85));
+          const ctx = resizedCanvas.getContext("2d");
+          resizedCanvas.width = nextSize;
+          resizedCanvas.height = nextSize;
+          ctx.drawImage(workingCanvas, 0, 0, nextSize, nextSize);
+          workingCanvas = resizedCanvas;
+          quality = 0.88;
+        }
+
+        output = workingCanvas.toDataURL("image/jpeg", quality);
+      }
+
+      if (dataUrlByteLength(output) > MAX_PROFILE_PHOTO_BYTES) {
+        throw new Error("Please choose a smaller photo or retake it with a clearer, closer frame.");
+      }
+
+      return output;
+    }
+
+    async function normalizeImageForUpload(source) {
+      const image = await loadImageElement(source);
+      const workingCanvas = document.createElement("canvas");
+      drawSquareImage(image, workingCanvas, PROFILE_PHOTO_OUTPUT_SIZE);
+      return compressCanvasToDataUrl(workingCanvas);
+    }
+
+    function setCameraStatus(message, tone = "") {
+      cameraStatus.textContent = message;
+      cameraStatus.classList.remove("error", "success");
+      if (tone) {
+        cameraStatus.classList.add(tone);
+      }
+    }
+
+    function stopCameraStream() {
+      if (!cameraStream) {
+        cameraPreview.srcObject = null;
+        return;
+      }
+
+      for (const track of cameraStream.getTracks()) {
+        track.stop();
+      }
+
+      cameraStream = null;
+      cameraPreview.srcObject = null;
+    }
+
+    function resetCameraCaptureState() {
+      cameraCaptureReady = false;
+      cameraCanvas.width = 0;
+      cameraCanvas.height = 0;
+      cameraCanvas.classList.add("hidden");
+      cameraPreview.classList.add("hidden");
+      cameraPlaceholder.classList.remove("hidden");
+      cameraPlaceholder.textContent = "Your selfie preview will appear here after camera access is granted.";
+      capturePhotoBtn.disabled = true;
+      retakePhotoBtn.classList.add("hidden");
+      saveCameraPhotoBtn.classList.add("hidden");
+      startCameraBtn.disabled = false;
+      startCameraBtn.textContent = "Allow Camera";
+    }
+
+    function closeCameraCapture() {
+      stopCameraStream();
+      resetCameraCaptureState();
+      cameraCapturePanel.classList.add("hidden");
+      setCameraStatus("Camera preview is ready when you choose \"Use Camera\".");
+    }
+
+    async function openCameraCapture() {
+      cameraCapturePanel.classList.remove("hidden");
+      setCameraStatus("Requesting camera permission so you can take a profile photo.");
+
+      try {
+        await startCameraCapture();
+      } catch (err) {
+        // Status is handled inside startCameraCapture.
+      }
+    }
+
+    async function startCameraCapture() {
+      if (!navigator.mediaDevices || typeof navigator.mediaDevices.getUserMedia !== "function") {
+        setCameraStatus("This browser does not support direct camera capture. Please use Upload Photo instead.", "error");
+        cameraPhotoStorage.saveCameraStatus(readAuth()?.regNumber, "unsupported");
+        return;
+      }
+
+      const auth = readAuth();
+      stopCameraStream();
+      resetCameraCaptureState();
+      cameraCapturePanel.classList.remove("hidden");
+      cameraPlaceholder.textContent = "Waiting for camera access...";
+      setCameraStatus("Allow access in your browser so we can open your front camera.");
+
+      try {
+        cameraStream = await navigator.mediaDevices.getUserMedia({
+          video: {
+            facingMode: "user",
+            width: { ideal: 1280 },
+            height: { ideal: 1280 }
+          },
+          audio: false,
+        });
+
+        if (auth) {
+          cameraPhotoStorage.saveCameraStatus(auth.regNumber, "granted");
+          cameraPhotoStorage.saveCameraPermission("granted");
+        }
+      } catch (err) {
+        if (auth) {
+          cameraPhotoStorage.saveCameraStatus(auth.regNumber, "denied");
+          cameraPhotoStorage.saveCameraPermission("denied");
+        }
+
+        const message = err && (err.name === "NotAllowedError" || err.name === "SecurityError")
+          ? "Camera permission was denied. Allow access and try again."
+          : err && err.name === "NotFoundError"
+            ? "No camera was found on this device."
+            : "The camera could not be started right now. Please try again or use Upload Photo.";
+        setCameraStatus(message, "error");
+        cameraPlaceholder.textContent = "Camera access is still needed before you can capture a photo.";
+        return;
+      }
+
+      try {
+        cameraPreview.srcObject = cameraStream;
+        await cameraPreview.play();
+        cameraPreview.classList.remove("hidden");
+        cameraPlaceholder.classList.add("hidden");
+        capturePhotoBtn.disabled = false;
+        startCameraBtn.textContent = "Restart Camera";
+        setCameraStatus("Camera access granted. Center your face in the guide and click Capture Photo.", "success");
+      } catch (err) {
+        stopCameraStream();
+        setCameraStatus("The camera preview could not be started. Please try again.", "error");
+      }
+    }
+
+    function captureCameraPhoto() {
+      if (!cameraStream || !cameraPreview.videoWidth || !cameraPreview.videoHeight) {
+        setCameraStatus("Wait for the live preview before capturing your photo.", "error");
+        return;
+      }
+
+      try {
+        drawSquareImage(cameraPreview, cameraCanvas, PROFILE_PHOTO_OUTPUT_SIZE, true);
+        cameraCaptureReady = true;
+        cameraCanvas.classList.remove("hidden");
+        cameraPreview.classList.add("hidden");
+        capturePhotoBtn.disabled = true;
+        retakePhotoBtn.classList.remove("hidden");
+        saveCameraPhotoBtn.classList.remove("hidden");
+        setCameraStatus("Photo captured. Save it if the framing looks good, or retake it.", "success");
+      } catch (err) {
+        setCameraStatus("The photo could not be captured. Please try again.", "error");
+      }
+    }
+
+    function retakeCameraPhoto() {
+      if (!cameraStream) {
+        startCameraCapture();
+        return;
+      }
+
+      cameraCaptureReady = false;
+      cameraCanvas.classList.add("hidden");
+      cameraPreview.classList.remove("hidden");
+      capturePhotoBtn.disabled = false;
+      retakePhotoBtn.classList.add("hidden");
+      saveCameraPhotoBtn.classList.add("hidden");
+      setCameraStatus("Live preview restored. Capture another photo when you are ready.");
+    }
+
+    async function uploadProfilePhoto(imageData) {
+      const auth = requireAuth();
+      if (!auth) {
+        return false;
+      }
+
+      if (!auth.profileToken) {
+        console.warn("No profile token available; using local session-only photo fallback.");
+      }
+
+      let nextAuth = {
+        ...auth,
+        profilePhoto: imageData,
+      };
+
+      // Save to localStorage for persistence
+      cameraPhotoStorage.savePhotoData(auth.regNumber, imageData);
+      cameraPhotoStorage.savePhotoUploadTimestamp(auth.regNumber);
+
+      try {
+        const res = await fetch(`${API_BASE}/profile/photo`, {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            token: auth.profileToken || "",
+            email: auth.email || "",
+            regNumber: auth.regNumber || "",
+            imageData,
+          }),
+        });
+
+        const result = await tryReadJson(res);
+        if (!res.ok) {
+          console.warn("Profile photo upload returned non-OK response", result);
+          nextAuth = {
+            ...nextAuth,
+            profilePhoto: imageData,
+          };
+          writeAuth(nextAuth);
+          renderProfilePhoto(nextAuth);
+          svuModal.alert("Profile photo saved locally, but server upload may not be available right now.", "warning");
+          return true;
+        }
+
+        nextAuth = {
+          ...nextAuth,
+          profilePhoto: result.profilePhoto || imageData,
+          profileToken: result.profileToken || auth.profileToken || "",
+        };
+
+        writeAuth(nextAuth);
+        renderProfilePhoto(nextAuth);
+        return true;
+      } catch (err) {
+        console.warn("Profile photo upload failed", err);
+        writeAuth(nextAuth);
+        renderProfilePhoto(nextAuth);
+        svuModal.alert("Could not reach server. Photo is saved locally for this session.", "info");
+        return true;
+      }
+    }
+
+    async function handlePhotoSelection(event) {
+      const input = event.target;
+      const file = input.files && input.files[0];
+      if (!file) {
+        return;
+      }
+
+      if (!/^image\//i.test(file.type)) {
+        svuModal.alert("Please choose an image file.", "error");
+        input.value = "";
+        return;
+      }
+
+      try {
+        const rawImageData = await readFileAsDataUrl(file);
+        const imageData = await normalizeImageForUpload(rawImageData);
+        await uploadProfilePhoto(imageData);
+      } catch (err) {
+        svuModal.alert(err && err.message ? err.message : "Could not prepare the selected photo for upload.", "error");
+      } finally {
+        input.value = "";
+      }
+    }
+
+    async function saveCapturedCameraPhoto() {
+      if (!cameraCaptureReady || !cameraCanvas.width || !cameraCanvas.height) {
+        setCameraStatus("Capture a photo first before saving it.", "error");
+        return;
+      }
+
+      try {
+        const imageData = compressCanvasToDataUrl(cameraCanvas);
+        const saved = await uploadProfilePhoto(imageData);
+        if (saved) {
+          closeCameraCapture();
+        }
+      } catch (err) {
+        setCameraStatus(err && err.message ? err.message : "The captured photo could not be saved.", "error");
+      }
+    }
+
+    function showProfile() {
+      profilePanel.classList.add("active");
+      overviewPanel.classList.add("hidden");
+      profileBtn.textContent = "Back to Dashboard";
+      profileBtn.dataset.state = "profile";
+    }
+
+    function showOverview() {
+      closeCameraCapture();
+      profilePanel.classList.remove("active");
+      overviewPanel.classList.remove("hidden");
+      profileBtn.textContent = "Profile";
+      profileBtn.dataset.state = "overview";
+    }
+
+    async function loadProfile() {
+      const auth = requireAuth();
+      if (!auth) {
+        return;
+      }
+
+      const requestBody = auth.profileToken
+        ? { token: auth.profileToken }
+        : {
+          regNumber: auth.regNumber,
+          email: auth.email,
+          password: auth.password || "",
+        };
+
+      try {
+        const res = await fetch(`${API_BASE}/profile`, {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(requestBody),
+        });
+
+        const result = await tryReadJson(res);
+        if (!res.ok) {
+          const message = result.message || await getFriendlyError(res);
+          const canUseSessionFallback =
+            res.status === 404 ||
+            /route not found/i.test(message) ||
+            /invalid or expired profile token/i.test(message);
+
+          if (canUseSessionFallback) {
+            renderDashboardFromAuth(auth);
+            return;
+          }
+
+          clearAuth();
+          svuModal.alert(message, "error");
+          redirectToSignin();
+          return;
+        }
+
+        const nextAuth = {
+          ...auth,
+          studentName: result.profile?.studentName || auth.studentName || "",
+          regNumber: result.profile?.regNumber || auth.regNumber,
+          admitNumber: result.profile?.admitNumber || auth.admitNumber || "",
+          admitCardNumber: result.profile?.admitCardNumber || auth.admitCardNumber || auth.admitNumber || "",
+          email: result.profile?.email || auth.email,
+          course: result.profile?.course || auth.course || "",
+          year: result.profile?.year || auth.year || "",
+          semester: result.profile?.semester || auth.semester || "",
+          passwordStatus: result.profile?.passwordStatus || auth.passwordStatus || "hidden",
+          profilePhoto: result.profilePhoto || auth.profilePhoto || "",
+          profileToken: result.profileToken || auth.profileToken || "",
+          assignmentSummary: result.assignmentSummary || auth.assignmentSummary || { total: 0, given: 0, notGiven: 0 },
+          subjectDetails: Array.isArray(result.subjectDetails) ? result.subjectDetails : (auth.subjectDetails || []),
+        };
+
+        writeAuth(nextAuth);
+        renderDashboardFromAuth(nextAuth);
+      } catch (err) {
+        renderDashboardFromAuth(auth);
+      }
+    }
+
+    loadProfile();
+
+    profileBtn.addEventListener("click", () => {
+      if (profilePanel.classList.contains("active")) {
+        showOverview();
+      } else {
+        showProfile();
+      }
+    });
+
+    profilePhotoUpload.addEventListener("change", handlePhotoSelection);
+    openCameraBtn.addEventListener("click", openCameraCapture);
+    startCameraBtn.addEventListener("click", startCameraCapture);
+    capturePhotoBtn.addEventListener("click", captureCameraPhoto);
+    retakePhotoBtn.addEventListener("click", retakeCameraPhoto);
+    saveCameraPhotoBtn.addEventListener("click", saveCapturedCameraPhoto);
+    closeCameraBtn.addEventListener("click", closeCameraCapture);
+    window.addEventListener("beforeunload", stopCameraStream);
+
+    logoutBtn.addEventListener("click", async () => {
+      const auth = readAuth();
+      stopCameraStream();
+      try {
+        await fetch(`${API_BASE}/logout`, {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ token: auth?.profileToken || "" }),
+        });
+      } catch (_) {
+        // Clear local session even if the logout endpoint is unavailable.
+      }
+
+      clearAuth();
+      redirectToSignin();
+    });
+  </script>
+  <script>window.SVUCommon.setupThemeToggle();</script>
+  <script src="svu-modal.js"></script>
+  <script src="camera-photo-storage.js"></script>
+</body>
+
+</html>

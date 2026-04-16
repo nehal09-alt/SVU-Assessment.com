@@ -3,56 +3,20 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>SVU Faculty – Swami Vivekananda University</title>
-  <link rel="stylesheet" href="SVUdashboard.css" />
+  <title>SVU Faculty Assignment Panel</title>
+  <link rel="stylesheet" href="lms-assignment-system.css" />
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script crossorigin src="https://unpkg.com/react@18/umd/react.development.js"></script>
+  <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+  <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
 </head>
-<body>
-  <div class="page-wrapper">
-    <header class="header">
-      <div class="logo-wrapper">
-        <img
-          src="SVU-LOGO.webp"
-          alt="Swami Vivekananda University Logo"
-          class="logo"
-        />
-      </div>
-      <div class="title-wrapper">
-        <h1>SVU Faculty Overview</h1>
-        <p>Experienced and qualified professionals across schools and departments.</p>
-      </div>
-    </header>
-
-    <main>
-      <section class="card">
-        <h2 class="card-title">Schools & Departments</h2>
-        <p style="font-size: 0.9rem; color: #e5e7eb; margin-bottom: 10px;">
-          Swami Vivekananda University has faculty members across the following schools and departments
-          (as listed on the official website).
-        </p>
-
-        <ul style="font-size: 0.85rem; color: #cbd5f5; padding-left: 18px; line-height: 1.5;">
-          <li><strong>School of Engineering</strong> – Computer Science & Engineering, Civil, Electrical, Electronics & Communication, Mechanical.</li>
-          <li><strong>School of Humanities & Social Science</strong> – English, Journalism & Mass Communication, Education.</li>
-          <li><strong>School of Agriculture</strong> – Agriculture.</li>
-          <li><strong>School of Management</strong> – Management Studies.</li>
-          <li><strong>School of Allied Health Science</strong> – Physiotherapy, Optometry, Food & Nutrition, Psychology, Medical Laboratory Technology, Medical Radiology & Imaging Technology.</li>
-          <li><strong>School of Legal Studies</strong> – Legal Studies.</li>
-          <li><strong>School of Computer Science</strong> – Computer Application, Data Science, Advanced Networking & Cyber Security, Multimedia & Animation.</li>
-          <li><strong>School of Life Science</strong> – Biotechnology, Microbiology.</li>
-          <li><strong>School of Basic Science</strong> – Mathematics, Chemistry, Physics.</li>
-        </ul>
-
-        <p style="font-size: 0.8rem; color: #9ca3af; margin-top: 10px;">
-          This examination portal does not store faculty data itself; please refer to the official university
-          website for detailed faculty profiles and contact information.
-        </p>
-      </section>
-    </main>
-
-    <footer class="footer">
-      <p>&copy; 2026 Swami Vivekananda University – Examination Portal. All rights reserved.</p>
-    </footer>
+<body class="lms-assignments-body">
+  <div class="lms-grid-bg"></div>
+  <div class="lms-shell">
+    <div id="assignmentApp" data-view="faculty"></div>
   </div>
+  <script src="svu-common.js"></script>
+  <script type="text/babel" src="lms-assignment-app.jsx"></script>
 </body>
 </html>
-

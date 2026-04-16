@@ -21,6 +21,9 @@ function getEmailConfig() {
   };
 }
 
+let cachedTransporter = null;
+let cachedTransportKey = "";
+
 function isEmailConfigured() {
   const cfg = getEmailConfig();
   const hasBasics = Boolean(cfg.host && cfg.port && cfg.user && cfg.pass && cfg.from);
@@ -42,6 +45,9 @@ function createTransporter() {
     host: cfg.host,
     port: cfg.port,
     secure: cfg.secure,
+    pool: true,
+    maxConnections: 5,
+    maxMessages: 100,
     connectionTimeout: 15000,
     greetingTimeout: 15000,
     socketTimeout: 20000,
@@ -52,32 +58,71 @@ function createTransporter() {
   });
 }
 
-async function sendOtpEmail(to, otp) {
+function getTransporter() {
   const cfg = getEmailConfig();
-  const transporter = createTransporter();
-
-  const subject = "SVU Password Reset OTP";
-  const text = `Your SVU password reset OTP is ${otp}. It will expire in 5 minutes. If you did not request this, please ignore this email.`;
-  const html = `
-    <div style="font-family: Arial, sans-serif; line-height: 1.5; color: #111;">
-      <h2 style="margin-bottom: 8px;">SVU Password Reset</h2>
-      <p>Your OTP is:</p>
-      <p style="font-size: 24px; font-weight: bold; letter-spacing: 3px;">${otp}</p>
-      <p>This OTP will expire in <strong>5 minutes</strong>.</p>
-      <p>If you did not request this, please ignore this email.</p>
-    </div>
-  `;
-
-  await transporter.sendMail({
-    from: cfg.from,
-    to,
-    subject,
-    text,
-    html,
+  const nextKey = JSON.stringify({
+    host: cfg.host,
+    port: cfg.port,
+    secure: cfg.secure,
+    user: cfg.user,
+    pass: cfg.pass,
   });
+
+  if (!cachedTransporter || cachedTransportKey !== nextKey) {
+    cachedTransporter = createTransporter();
+    cachedTransportKey = nextKey;
+  }
+
+  return cachedTransporter;
+}
+
+function getEmailHealth() {
+  const cfg = getEmailConfig();
+  return {
+    configured: isEmailConfigured(),
+    host: cfg.host || "",
+    port: cfg.port || "",
+    secure: Boolean(cfg.secure),
+    from: cfg.from || "",
+    userHint: cfg.user ? cfg.user.replace(/^(.{2}).*(@.*)$/, "$1***$2") : "",
+  };
+}
+
+async function sendOtpEmail(to, otp) {
+  try {
+    const cfg = getEmailConfig();
+    const transporter = getTransporter();
+
+    const subject = "SVU Password Reset OTP";
+    const text = `Your SVU password reset OTP is ${otp}. It will expire in 5 minutes. If you did not request this, please ignore this email.`;
+    const html = `
+      <div style="font-family: Arial, sans-serif; line-height: 1.5; color: #111;">
+        <h2 style="margin-bottom: 8px;">SVU Password Reset</h2>
+        <p>Your OTP is:</p>
+        <p style="font-size: 24px; font-weight: bold; letter-spacing: 3px;">${otp}</p>
+        <p>This OTP will expire in <strong>5 minutes</strong>.</p>
+        <p>If you did not request this, please ignore this email.</p>
+      </div>
+    `;
+
+    const result = await transporter.sendMail({
+      from: cfg.from,
+      to,
+      subject,
+      text,
+      html,
+    });
+    
+    console.log(`OTP email sent successfully to ${to}: ${result.messageId}`);
+    return result;
+  } catch (err) {
+    console.error(`Failed to send OTP email to ${to}:`, err.message);
+    throw err;
+  }
 }
 
 module.exports = {
   isEmailConfigured,
+  getEmailHealth,
   sendOtpEmail,
 };

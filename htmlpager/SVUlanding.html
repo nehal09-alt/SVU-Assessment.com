@@ -3,96 +3,256 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Swami Vivekananda University – Examination Portal</title>
-  <link rel="stylesheet" href="SVUdashboard.css" />
+  <title>Swami Vivekananda University - Examination Portal</title>
+  <meta
+    name="description"
+    content="A futuristic examination portal for Swami Vivekananda University with secure student access, digital workflows, and a premium AI-inspired interface."
+  />
+  <link rel="stylesheet" href="SVUlanding.css" />
+  <script>
+    (function redirectToAppPort() {
+      const isLocalHost = window.location.hostname === "127.0.0.1" || window.location.hostname === "localhost";
+      if (isLocalHost && window.location.port && window.location.port !== "3010") {
+        const target = `${window.location.protocol}//${window.location.hostname}:3010${window.location.pathname}${window.location.search}${window.location.hash}`;
+        window.location.replace(target);
+      }
+    })();
+  </script>
 </head>
 <body>
-  <div class="page-wrapper landing-layout">
-    <header class="header">
-      <div class="logo-wrapper">
-        <img
-          src="SVU-LOGO.webp"
-          alt="Swami Vivekananda University Logo"
-          class="logo"
-        />
-      </div>
-      <div class="title-wrapper">
-        <h1>Swami Vivekananda University, Kolkata</h1>
-        <p>Dedicated to knowledge, excellence, and quality education in West Bengal.</p>
-      </div>
-      <nav class="top-nav">
-        <a href="SVUsingup.html" class="primary-link">Sign Up</a>
-        <a href="SVUsignin.html">Sign In</a>
-        <a href="SVUfaculty.html">Faculty</a>
-        <a href="SVUnotice.html">Notice</a>
+  <div class="loader" id="pageLoader" aria-hidden="true">
+    <div class="loader__ring"></div>
+    <p>Initializing SVU digital experience</p>
+  </div>
+
+  <div class="cursor-glow" id="cursorGlow" aria-hidden="true"></div>
+  <div class="site-shell">
+    <div class="ambient ambient-one" aria-hidden="true"></div>
+    <div class="ambient ambient-two" aria-hidden="true"></div>
+    <div class="ambient ambient-three" aria-hidden="true"></div>
+
+    <header class="nav-shell">
+      <nav class="navbar container">
+        <a class="brand" href="#home" aria-label="Swami Vivekananda University home">
+          <span class="brand__logo-wrap">
+            <img src="SVU-LOGO.webp" alt="Swami Vivekananda University logo" class="brand__logo" />
+          </span>
+          <span class="brand__text">
+            <strong>SVU Exam Portal</strong>
+            <small>Smart academic access</small>
+          </span>
+        </a>
+
+        <button class="nav-toggle" id="navToggle" type="button" aria-expanded="false" aria-controls="navMenu">
+          <span></span>
+          <span></span>
+        </button>
+
+        <div class="nav-menu" id="navMenu">
+          <a href="#features">Features</a>
+          <a href="#about">About</a>
+          <a href="#cta">Access</a>
+          <a href="SVUfaculty.html">Faculty</a>
+          <a href="SVUnotice.html">Notice</a>
+          <a href="SVUsignin.html" class="nav-link nav-link--ghost">Sign In</a>
+          <a href="SVUsingup.html" class="nav-link nav-link--primary">Get Started</a>
+        </div>
       </nav>
     </header>
 
-    <main class="landing-main">
-      <section class="landing-hero glass">
-        <div class="landing-badge">
-          Examination Portal · SVU
-        </div>
-        <h2 class="landing-title">Examination & Assessment Portal</h2>
-        <p class="landing-lead">
-          This website is a dedicated examination portal for students of Swami Vivekananda University.
-          It is used for managing student registration, secure sign in, and examination-related workflows.
-        </p>
-        <p class="landing-sub">
-          Swami Vivekananda University is an institution in West Bengal dedicated to the pursuit of knowledge and
-          excellence and providing quality education to students. The University offers a range of undergraduate,
-          postgraduate and diploma courses in engineering, management, humanities, agriculture, allied health
-          sciences, computer science, life science, and basic science.
-        </p>
+    <main>
+      <section class="hero" id="home">
+        <div class="hero__grid" aria-hidden="true"></div>
+        <div class="hero__particles" id="particles"></div>
+        <div class="container hero__content">
+          <div class="hero__copy reveal">
+            <div class="eyebrow">
+              <span class="eyebrow__dot"></span>
+              Examination Ecosystem
+            </div>
+            <h1>SWAMI VIVEKANANDA UNIVERSITY EXAM PORTAL</h1>
+            <p class="hero__lead">
+            Welcome to Swami Vivekananda University. We are an institution in West Bengal dedicated to the pursuit of knowledge and excellence and providing quality education to our students. Since our inception, we have been striving to provide our students with an exceptional learning experience. Our aim is to facilitate and nurture the growth and development of our students and to ensure that they reach their full potential.
+            </p>
 
-        <div class="landing-kpis">
-          <div class="landing-kpi">
-            <strong>10K+ Students</strong>
-            Across multiple schools and disciplines under one roof.
-          </div>
-          <div class="landing-kpi">
-            <strong>50+ Courses</strong>
-            Undergraduate, postgraduate and diploma programs.
-          </div>
-          <div class="landing-kpi">
-            <strong>98% Placement</strong>
-            Strong industry collaboration and career outcomes.
-          </div>
-        </div>
+            <div class="hero__actions">
+              <a class="button button--primary" href="SVUsingup.html">Create Student Account</a>
+              <a class="button button--secondary" href="SVUsignin.html">Student Sign In</a>
+            </div>
 
-        <p class="landing-sub" style="margin-top: 12px;">
-          Key schools include the School of Engineering, Humanities & Social Science, Agriculture, Management,
-          Allied Health Science, Legal Studies, Computer Science, Life Science, and Basic Science.
-        </p>
+            <div class="hero__stats">
+              <article class="stat-card reveal">
+                <strong>10K+</strong>
+                <span>Students supported across digital examination flows</span>
+              </article>
+              <article class="stat-card reveal">
+                <strong>50+</strong>
+                <span>Programs aligned with secure academic access</span>
+              </article>
+              <article class="stat-card reveal">
+                <strong>24/7</strong>
+                <span>Portal availability for notices, sign-in, and readiness</span>
+              </article>
+            </div>
+          </div>
 
-        <div class="cta-row">
-          <a class="btn-primary" href="SVUsingup.html">Create Student Account</a>
-          <a class="btn-secondary" href="SVUsignin.html">Student Sign In</a>
-          <a class="btn-secondary" href="SVUnotice.html">View Notices</a>
+          <aside class="hero-panel reveal">
+            <div class="hero-panel__frame">
+              <div class="hero-panel__scan"></div>
+              <div class="hero-panel__topline">
+                <span>SVU Quantum Interface</span>
+                <span class="status-chip">Online</span>
+              </div>
+              <div class="hero-panel__center">
+                <img src="SVU-LOGO.webp" alt="SVU mark" />
+                <div>
+                  <h2>Examination Control Hub</h2>
+                  <p>Unified access for registration, notices, and student authentication.</p>
+                </div>
+              </div>
+              <div class="hero-panel__metrics">
+                <div>
+                  <small>Security</small>
+                  <strong>Encrypted</strong>
+                </div>
+                <div>
+                  <small>Workflows</small>
+                  <strong>Automated</strong>
+                </div>
+                <div>
+                  <small>Experience</small>
+                  <strong>Responsive</strong>
+                </div>
+              </div>
+            </div>
+          </aside>
         </div>
       </section>
 
-      <aside class="landing-side glass">
-        <div class="landing-image">
-          <!-- Use the logo image as a visual representation; you can replace with a campus photo if available -->
-          <img src="SVU-LOGO.webp" alt="Swami Vivekananda University campus / logo" />
+      <section class="section container" id="features">
+        <div class="section-heading reveal">
+          <p class="section-tag">Core Features</p>
+          <h2>A Portal for Examination for SUVian's</h2>
+          <p>
+            The vision of Swami Vivekananda University is to be a leading institution of higher education that contributes significantly to the advancement of knowledge, research and social development. Its goal is to provide a world-class educational experience that promotes intellectual growth, innovation and leadership among its students and teachers. The university sees itself as a center of academic excellence and a cutting-edge research center addressing current global challenges.
+          </p>
         </div>
-        <p class="landing-note">
-          Swami Vivekananda University provides an exceptional learning experience, with experienced faculty,
-          strong research culture, and modern infrastructure to support student growth and development.
-        </p>
-        <div class="landing-notice">
-          <strong>Note:</strong> This portal is for examination purposes only.  
-          Use your valid university registration number, email, and password to sign in. New students should
-          sign up before accessing examination services.
+
+        <div class="feature-grid">
+          <article class="feature-card reveal">
+            <span class="feature-card__index">01</span>
+            <h3>Secure student onboarding</h3>
+            <p>Fast registration journeys with guided account creation for examination access.</p>
+          </article>
+          <article class="feature-card reveal">
+            <span class="feature-card__index">02</span>
+            <h3>Real-time notice access</h3>
+            <p>Important exam updates, schedules, and portal information stay visible and easy to reach.</p>
+          </article>
+          <article class="feature-card reveal">
+            <span class="feature-card__index">03</span>
+            <h3>Faculty-ready navigation</h3>
+            <p>Quick paths for staff interfaces, academic management, and communication workflows.</p>
+          </article>
+          <article class="feature-card reveal">
+            <span class="feature-card__index">04</span>
+            <h3>Responsive by default</h3>
+            <p>A consistent futuristic experience across desktop, tablet, and mobile screen sizes.</p>
+          </article>
         </div>
-      </aside>
+      </section>
+
+      <section class="section section--split container" id="about">
+        <div class="about-copy reveal">
+          <p class="section-tag">About SVU</p>
+          <h2>A presentation layer for your university information.</h2>
+          <p>
+            This landing page keeps the real SVU context visible: examination workflows, student registration,
+            faculty access, and university communication, but upgrades the visual language to feel innovative and
+            cutting-edge.
+          </p>
+          <div class="about-points">
+            <div class="about-point">
+              <span></span>
+              SUVian's have full access of there lecture's. 
+            </div>
+            <div class="about-point">
+              <span></span>
+              Faculty Have access of Student Data . 
+            </div>
+            <div class="about-point">
+              <span></span>
+              Minimal structure  Database Provided to Faculty.  
+            </div>
+          </div>
+        </div>
+
+        <div class="about-panel reveal">
+          <div class="about-panel__header">
+            <span>System insight</span>
+            <span>SVU // 2026</span>
+          </div>
+          <div class="about-panel__grid">
+            <article>
+              <small>Institution</small>
+              <strong>
+                <a href="https://www.swamivivekanandauniversity.ac.in/" target="_blank">
+                    Swami Vivekananda University
+                </a>
+              </strong>
+            </article>
+            <article>
+              <small>Focus</small>
+              <strong>Examination and student services</strong>
+            </article>
+            <article>
+              <small>Features</small>
+              <strong>Student Data</strong>
+            </article>
+            <article>
+              <small>Thanks's to </small>
+              <strong>Dr. Nandan Gupta, Chancellor of Swami Vivekananda University, is a distinguished academic leader and educationist. A medical graduate from NRS Medical College and an MBA from IIM.</strong>
+            </article>
+          </div>
+        </div>
+      </section>
+
+      <section class="section container" id="cta">
+        <div class="cta-card reveal">
+          <div>
+            <p class="section-tag">Get Started</p>
+            <h2>Launch the SVU digital examination experience.</h2>
+            <p>
+              Create a student account, sign in securely, or open the latest notices and faculty pages from one
+              premium landing surface.
+            </p>
+          </div>
+          <div class="cta-card__actions">
+            <a class="button button--primary" href="SVUsingup.html">Start Registration</a>
+            <a class="button button--secondary" href="SVUnotice.html">Open Notices</a>
+          </div>
+        </div>
+      </section>
     </main>
 
     <footer class="footer">
-      <p>&copy; 2026 Swami Vivekananda University – Examination Portal. All rights reserved.</p>
+      <div class="container footer__inner">
+        <div>
+          <strong>SVU Examination Portal</strong>
+          <p>High-tech academic access with a clean identity.</p>
+          <p><a href="https://www.linkedin.com/in/md-nehal-khurshid-a2151b304/" target = "_blank" >Made by: Md Nehal Khurshid </a> 
+          </p>
+        </div>
+        <div class="footer__links">
+          <a href="SVUsignin.html">Sign In</a>
+          <a href="SVUsingup.html">Sign Up</a>
+          <a href="SVUfaculty.html">Faculty</a>
+          <a href="SVUnotice.html">Notice</a>
+        </div>
+      </div>
     </footer>
   </div>
+
+  <script src="SVUlanding.js"></script>
 </body>
 </html>
-
