@@ -408,6 +408,185 @@ function FacultySignin({ onSignedIn, pushToast }) {
   );
 }
 
+function FacultySelectionPanel({ session, onComplete, pushToast }) {
+  const [departments, setDepartments] = useState([]);
+  const [semesters, setSemesters] = useState([]);
+  const [subjects, setSubjects] = useState([]);
+  const [selectedDepartment, setSelectedDepartment] = useState(session?.department || "");
+  const [selectedSemester, setSelectedSemester] = useState(session?.semester || "");
+  const [selectedSubjects, setSelectedSubjects] = useState(Array.isArray(session?.subjects) ? session.subjects : []);
+  const [loading, setLoading] = useState(true);
+  const [loadingSemesters, setLoadingSemesters] = useState(false);
+  const [loadingSubjects, setLoadingSubjects] = useState(false);
+
+  useEffect(() => {
+    async function loadDepartments() {
+      setLoading(true);
+      try {
+        const data = await readJson(`${API_BASE}/courses?unique=true`);
+        setDepartments(Array.isArray(data.courses) ? data.courses : []);
+      } catch (error) {
+        pushToast("Load Failed", error.message);
+      } finally {
+        setLoading(false);
+      }
+    }
+    loadDepartments();
+  }, []);
+
+  useEffect(() => {
+    if (!selectedDepartment) {
+      setSemesters([]);
+      setSelectedSemester("");
+      setSubjects([]);
+      setSelectedSubjects([]);
+      return;
+    }
+
+    async function loadSemesters() {
+      setLoadingSemesters(true);
+      try {
+        const data = await readJson(`${API_BASE}/courses?course=${encodeURIComponent(selectedDepartment)}&semesters=true`);
+        setSemesters(Array.isArray(data.semesters) ? data.semesters : []);
+      } catch (error) {
+        pushToast("Load Failed", error.message);
+      } finally {
+        setLoadingSemesters(false);
+      }
+    }
+    loadSemesters();
+  }, [selectedDepartment]);
+
+  useEffect(() => {
+    if (!selectedDepartment || !selectedSemester) {
+      setSubjects([]);
+      setSelectedSubjects([]);
+      return;
+    }
+
+    async function loadSubjects() {
+      setLoadingSubjects(true);
+      try {
+        const data = await readJson(`${API_BASE}/courses?course=${encodeURIComponent(selectedDepartment)}&semester=${encodeURIComponent(selectedSemester)}`);
+        const available = Array.isArray(data.subjects) ? data.subjects : [];
+        setSubjects(available.map((item) => ({
+          name: String(item.subject || item.name || "").trim(),
+          year: String(item.year || "").trim(),
+        })).filter((item) => item.name));
+      } catch (error) {
+        pushToast("Load Failed", error.message);
+      } finally {
+        setLoadingSubjects(false);
+      }
+    }
+    loadSubjects();
+  }, [selectedDepartment, selectedSemester]);
+
+  function toggleSubject(subjectName) {
+    setSelectedSubjects((current) =>
+      current.includes(subjectName)
+        ? current.filter((item) => item !== subjectName)
+        : [...current, subjectName]
+    );
+  }
+
+  function handleSubmit(event) {
+    event.preventDefault();
+    if (!selectedDepartment || !selectedSemester || selectedSubjects.length === 0) {
+      pushToast("Selection Required", "Please choose department, semester, and at least one subject.");
+      return;
+    }
+
+    const updatedSession = {
+      ...session,
+      department: selectedDepartment,
+      semester: selectedSemester,
+      subjects: selectedSubjects,
+    };
+    writeSession(FACULTY_AUTH_KEY, updatedSession);
+    onComplete(updatedSession);
+  }
+
+  const availableSubjects = subjects.filter((item, index, self) => self.findIndex((other) => other.name === item.name) === index);
+
+  if (loading) {
+    return (
+      <div className="grid min-h-screen place-items-center px-4 py-8">
+        <LoadingPanel label="Loading course selection..." />
+      </div>
+    );
+  }
+
+  return (
+    <div className="grid min-h-screen grid-cols-1 gap-6 p-4 lg:grid-cols-[280px_minmax(0,1fr)] lg:p-6">
+      <Sidebar role="faculty" />
+      <main className="space-y-6">
+        <section className="lms-glass rounded-[28px] p-6">
+          <div className="mb-4">
+            <div className="text-xs uppercase tracking-[0.3em] text-slate-400">Faculty Setup</div>
+            <h3 className="mt-2 text-xl font-semibold text-white">Choose department, semester, and subjects</h3>
+          </div>
+
+          <form onSubmit={handleSubmit} className="space-y-6">
+            <div>
+              <label className="block text-sm font-medium text-slate-300">Department</label>
+              <select className="lms-select mt-3 w-full" value={selectedDepartment} onChange={(event) => setSelectedDepartment(event.target.value)} required>
+                <option value="">Choose department</option>
+                {departments.map((department) => (
+                  <option key={department} value={department}>{department}</option>
+                ))}
+              </select>
+            </div>
+
+            <div>
+              <label className="block text-sm font-medium text-slate-300">Semester</label>
+              <select className="lms-select mt-3 w-full" value={selectedSemester} onChange={(event) => setSelectedSemester(event.target.value)} disabled={!selectedDepartment || loadingSemesters} required>
+                <option value="">Choose semester</option>
+                {semesters.map((semester) => (
+                  <option key={semester} value={semester}>{semester}</option>
+                ))}
+              </select>
+            </div>
+
+            <div>
+              <div className="mb-3 flex items-center justify-between">
+                <label className="text-sm font-medium text-slate-300">Subjects</label>
+                <span className="text-xs text-slate-500">{selectedSubjects.length} selected</span>
+              </div>
+              <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
+                {availableSubjects.length === 0 ? (
+                  <div className="rounded-2xl border border-slate-700/60 bg-slate-950/30 p-6 text-sm text-slate-400">
+                    {loadingSubjects ? "Loading subjects..." : "Choose department and semester to load subjects."}
+                  </div>
+                ) : availableSubjects.map((subject) => (
+                  <button
+                    key={subject.name}
+                    type="button"
+                    onClick={() => toggleSubject(subject.name)}
+                    className={classNames(
+                      "rounded-2xl border p-4 text-left transition",
+                      selectedSubjects.includes(subject.name)
+                        ? "border-cyan-400 bg-cyan-400/10 text-cyan-300"
+                        : "border-slate-700/70 bg-slate-950/30 text-slate-300 hover:border-slate-600"
+                    )}
+                  >
+                    <div className="text-sm font-medium">{subject.name}</div>
+                    {subject.year ? <div className="text-xs text-slate-500 mt-1">Year {subject.year}</div> : null}
+                  </button>
+                ))}
+              </div>
+            </div>
+
+            <button className="lms-gradient-btn w-full rounded-2xl px-5 py-4 font-semibold text-slate-950" type="submit">
+              Save Selection and Continue
+            </button>
+          </form>
+        </section>
+      </main>
+    </div>
+  );
+}
+
 function FacultyApp({ pushToast }) {
   const [session, setSession] = useState(() => readSession(FACULTY_AUTH_KEY));
   const [loading, setLoading] = useState(true);
@@ -418,8 +597,14 @@ function FacultyApp({ pushToast }) {
   const [savingGradeId, setSavingGradeId] = useState("");
   const [draftGrades, setDraftGrades] = useState({});
 
+  const availableSubjects = (dashboard.subjects && dashboard.subjects.length)
+    ? dashboard.subjects
+    : (Array.isArray(session?.subjects) ? session.subjects.map((name) => ({ id: name, name })) : []);
+
+  const hasCompleteSelection = session?.department && session?.semester && Array.isArray(session?.subjects) && session.subjects.length > 0;
+
   async function loadDashboard(activeSubjectId = "") {
-    if (!session?.email) {
+    if (!session?.email || !hasCompleteSelection) {
       setLoading(false);
       return;
     }
@@ -432,6 +617,7 @@ function FacultyApp({ pushToast }) {
         body: JSON.stringify({
           email: session.email,
           subjectId: activeSubjectId,
+          allowedSubjects: session.subjects,
         }),
       });
       setDashboard(data);
@@ -447,13 +633,19 @@ function FacultyApp({ pushToast }) {
   }
 
   useEffect(() => {
-    if (session?.email) {
+    if (session?.email && hasCompleteSelection) {
       loadDashboard(subjectId);
+    } else {
+      setLoading(false);
     }
-  }, [session, subjectId]);
+  }, [session, subjectId, hasCompleteSelection]);
 
   if (!session?.email) {
     return <FacultySignin onSignedIn={setSession} pushToast={pushToast} />;
+  }
+
+  if (!hasCompleteSelection) {
+    return <FacultySelectionPanel session={session} onComplete={setSession} pushToast={pushToast} />;
   }
 
   async function createAssignmentRecord(event) {
@@ -465,6 +657,7 @@ function FacultyApp({ pushToast }) {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           email: session.email,
+          allowedSubjects: session.subjects,
           ...createForm,
         }),
       });
@@ -501,6 +694,18 @@ function FacultyApp({ pushToast }) {
     }
   }
 
+  function resetSelection() {
+    const updated = {
+      ...session,
+      department: "",
+      semester: "",
+      subjects: [],
+    };
+    writeSession(FACULTY_AUTH_KEY, updated);
+    setSession(updated);
+    setSubjectId("");
+  }
+
   return (
     <div className="grid min-h-screen grid-cols-1 gap-6 p-4 lg:grid-cols-[280px_minmax(0,1fr)] lg:p-6">
       <Sidebar role="faculty" />
@@ -513,11 +718,21 @@ function FacultyApp({ pushToast }) {
               <p className="mt-2 max-w-3xl text-sm text-slate-400">
                 Filter by subject, publish new assignments, evaluate submissions, and save marks with remarks.
               </p>
+              <div className="mt-4 flex flex-wrap gap-3 text-sm text-slate-300">
+                <span className="rounded-full border border-slate-700/70 bg-slate-950/40 px-3 py-2">Department: {session.department || "Not set"}</span>
+                <span className="rounded-full border border-slate-700/70 bg-slate-950/40 px-3 py-2">Semester: {session.semester || "Not set"}</span>
+                <span className="rounded-full border border-slate-700/70 bg-slate-950/40 px-3 py-2">Subjects: {Array.isArray(session.subjects) ? session.subjects.length : 0}</span>
+              </div>
             </div>
-            <div className="grid gap-3 sm:grid-cols-3">
-              <MetricCard label="Subjects" value={String((dashboard.subjects || []).length)} />
-              <MetricCard label="Assignments" value={String((dashboard.assignments || []).length)} />
-              <MetricCard label="Submissions" value={String((dashboard.submissions || []).length)} />
+            <div className="grid gap-3 sm:grid-cols-2">
+              <button type="button" onClick={resetSelection} className="lms-outline-btn rounded-2xl px-5 py-3 text-sm font-semibold text-white">
+                Change Selection
+              </button>
+              <div className="grid gap-3 sm:grid-cols-3">
+                <MetricCard label="Subjects" value={String((dashboard.subjects || []).length)} />
+                <MetricCard label="Assignments" value={String((dashboard.assignments || []).length)} />
+                <MetricCard label="Submissions" value={String((dashboard.submissions || []).length)} />
+              </div>
             </div>
           </div>
         </section>
@@ -531,7 +746,7 @@ function FacultyApp({ pushToast }) {
               </div>
               <select className="lms-select" value={subjectId} onChange={(event) => setSubjectId(event.target.value)}>
                 <option value="">All Assigned Subjects</option>
-                {(dashboard.subjects || []).map((subject) => (
+                {availableSubjects.map((subject) => (
                   <option key={subject.id} value={subject.id}>{subject.name}</option>
                 ))}
               </select>
@@ -545,7 +760,7 @@ function FacultyApp({ pushToast }) {
               <div className="space-y-4">
                 <select className="lms-select" value={createForm.subjectName} onChange={(event) => setCreateForm({ ...createForm, subjectName: event.target.value })} required>
                   <option value="">Choose Subject</option>
-                  {(dashboard.subjects || []).map((subject) => (
+                  {availableSubjects.map((subject) => (
                     <option key={subject.id} value={subject.name}>{subject.name}</option>
                   ))}
                 </select>

@@ -63,13 +63,21 @@ async function loadFacultyProfile(client, session) {
     throw new Error(error.message || "Could not load faculty profile.");
   }
 
-  return data || {
+  const profile = data || {
     id: session?.name || "faculty",
     name: session?.name || "Faculty Member",
     department: "",
     semester: "",
     year: "",
     role: "faculty",
+  };
+
+  // Use session values if available (from selection screen)
+  return {
+    ...profile,
+    department: session?.department || profile.department || "",
+    semester: session?.semester || profile.semester || "",
+    year: session?.year || profile.year || "",
   };
 }
 
@@ -93,6 +101,43 @@ async function loadSubjects(client, profile, session) {
     .order("name");
   if (error) throw new Error(error.message || "Could not load fallback subjects.");
   return data || [];
+}
+
+async function ensureSubjectsExist(client, profile, session) {
+  if (!profile?.id || !session?.subjects || !session?.department || !session?.semester) {
+    return [];
+  }
+
+  // First, try to load existing subjects for this faculty
+  const { data: existingSubjects, error: loadError } = await client
+    .from("subjects")
+    .select("id, name, department, semester, year, faculty_id")
+    .eq("faculty_id", profile.id)
+    .order("name");
+
+  if (loadError) throw new Error(loadError.message || "Could not load subjects.");
+
+  if (existingSubjects && existingSubjects.length > 0) {
+    return existingSubjects;
+  }
+
+  // If no subjects exist, create them based on selected subjects
+  const subjectsToCreate = session.subjects.map(subjectName => ({
+    name: subjectName,
+    department: session.department,
+    semester: session.semester,
+    year: new Date().getFullYear().toString(),
+    faculty_id: profile.id
+  }));
+
+  const { data: createdSubjects, error: createError } = await client
+    .from("subjects")
+    .insert(subjectsToCreate)
+    .select("id, name, department, semester, year, faculty_id");
+
+  if (createError) throw new Error(createError.message || "Could not create subjects.");
+
+  return createdSubjects || [];
 }
 
 async function loadAssessments(client, subjectId) {
@@ -175,7 +220,210 @@ function EmptyCard({ title, message }) {
   );
 }
 
-function FacultySignIn({ onSignedIn, pushToast }) {
+function FacultySelectionScreen({ session, onSelectionComplete, pushToast }) {
+  const [departments, setDepartments] = useState([]);
+  const [semesters, setSemesters] = useState([]);
+  const [subjects, setSubjects] = useState([]);
+  const [selectedDepartment, setSelectedDepartment] = useState("");
+  const [selectedSemester, setSelectedSemester] = useState("");
+  const [selectedSubjects, setSelectedSubjects] = useState([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    loadDepartments();
+  }, []);
+
+  useEffect(() => {
+    if (selectedDepartment) {
+      loadSemesters(selectedDepartment);
+      setSelectedSemester("");
+      setSubjects([]);
+      setSelectedSubjects([]);
+    }
+  }, [selectedDepartment]);
+
+  useEffect(() => {
+    if (selectedDepartment && selectedSemester) {
+      loadSubjects(selectedDepartment, selectedSemester);
+      setSelectedSubjects([]);
+    }
+  }, [selectedSemester]);
+
+  async function loadDepartments() {
+    try {
+      const response = await fetch(`${API_BASE}/courses?unique=true`);
+      const data = await response.json();
+      if (response.ok) {
+        setDepartments(data.courses || []);
+      } else {
+        pushToast("Load Failed", data.message || "Could not load departments.");
+      }
+    } catch (error) {
+      pushToast("Load Failed", "Could not load departments.");
+    } finally {
+      setLoading(false);
+    }
+  }
+
+  async function loadSemesters(department) {
+    try {
+      const response = await fetch(`${API_BASE}/courses?course=${encodeURIComponent(department)}&semesters=true`);
+      const data = await response.json();
+      if (response.ok) {
+        setSemesters(data.semesters || []);
+      } else {
+        pushToast("Load Failed", data.message || "Could not load semesters.");
+      }
+    } catch (error) {
+      pushToast("Load Failed", "Could not load semesters.");
+    }
+  }
+
+  async function loadSubjects(department, semester) {
+    try {
+      const response = await fetch(`${API_BASE}/courses?course=${encodeURIComponent(department)}&semester=${encodeURIComponent(semester)}`);
+      const data = await response.json();
+      if (response.ok) {
+        setSubjects(data.subjects || []);
+      } else {
+        pushToast("Load Failed", data.message || "Could not load subjects.");
+      }
+    } catch (error) {
+      pushToast("Load Failed", "Could not load subjects.");
+    }
+  }
+
+  function toggleSubject(subject) {
+    setSelectedSubjects(prev => 
+      prev.includes(subject) 
+        ? prev.filter(s => s !== subject)
+        : [...prev, subject]
+    );
+  }
+
+  function handleComplete() {
+    if (!selectedDepartment || !selectedSemester || selectedSubjects.length === 0) {
+      pushToast("Selection Required", "Please select department, semester, and at least one subject.");
+      return;
+    }
+
+    const selection = {
+      department: selectedDepartment,
+      semester: selectedSemester,
+      subjects: selectedSubjects,
+    };
+
+    // Update session with selection
+    const updatedSession = { ...session, ...selection };
+    writeSession(FACULTY_SESSION_KEY, updatedSession);
+    onSelectionComplete(updatedSession);
+  }
+
+  if (loading) {
+    return (
+      <div className="mx-auto grid min-h-screen max-w-6xl items-center px-4 py-8">
+        <LoadingCard label="Loading course data..." />
+      </div>
+    );
+  }
+
+  return (
+    <div className="mx-auto grid min-h-screen max-w-6xl items-center gap-6 px-4 py-8 lg:px-6">
+      <section className="space-y-5">
+        <div className="inline-flex rounded-full border border-cyan-400/20 bg-cyan-400/10 px-4 py-2 text-xs uppercase tracking-[0.3em] text-cyan-300">
+          Faculty Setup
+        </div>
+        <h2 className="max-w-2xl text-5xl font-semibold tracking-tight text-white">
+          Configure your teaching profile
+        </h2>
+        <p className="max-w-2xl text-base leading-7 text-slate-400">
+          Select your department, semester, and subjects to access the assessment panel.
+        </p>
+      </section>
+
+      <div className="lms-glass rounded-[32px] p-6 space-y-6">
+        <div>
+          <h3 className="text-xl font-semibold text-white mb-4">Select Your Department</h3>
+          <div className="grid gap-3 md:grid-cols-2 lg:grid-cols-3">
+            {departments.map((dept) => (
+              <button
+                key={dept}
+                type="button"
+                onClick={() => setSelectedDepartment(dept)}
+                className={classNames(
+                  "rounded-2xl border p-4 text-left transition",
+                  selectedDepartment === dept
+                    ? "border-cyan-400 bg-cyan-400/10 text-cyan-300"
+                    : "border-slate-700/70 bg-slate-950/30 text-slate-300 hover:border-slate-600"
+                )}
+              >
+                <div className="text-sm font-medium">{dept}</div>
+              </button>
+            ))}
+          </div>
+        </div>
+
+        {selectedDepartment && (
+          <div>
+            <h3 className="text-xl font-semibold text-white mb-4">Select Semester</h3>
+            <div className="grid gap-3 md:grid-cols-4">
+              {semesters.map((sem) => (
+                <button
+                  key={sem}
+                  type="button"
+                  onClick={() => setSelectedSemester(sem)}
+                  className={classNames(
+                    "rounded-2xl border p-4 text-center transition",
+                    selectedSemester === sem
+                      ? "border-cyan-400 bg-cyan-400/10 text-cyan-300"
+                      : "border-slate-700/70 bg-slate-950/30 text-slate-300 hover:border-slate-600"
+                  )}
+                >
+                  <div className="text-sm font-medium">Semester {sem}</div>
+                </button>
+              ))}
+            </div>
+          </div>
+        )}
+
+        {selectedDepartment && selectedSemester && (
+          <div>
+            <h3 className="text-xl font-semibold text-white mb-4">Select Subjects</h3>
+            <div className="grid gap-3 md:grid-cols-2 lg:grid-cols-3">
+              {subjects.map((subject) => (
+                <button
+                  key={subject.subject}
+                  type="button"
+                  onClick={() => toggleSubject(subject.subject)}
+                  className={classNames(
+                    "rounded-2xl border p-4 text-left transition",
+                    selectedSubjects.includes(subject.subject)
+                      ? "border-cyan-400 bg-cyan-400/10 text-cyan-300"
+                      : "border-slate-700/70 bg-slate-950/30 text-slate-300 hover:border-slate-600"
+                  )}
+                >
+                  <div className="text-sm font-medium">{subject.subject}</div>
+                  <div className="text-xs text-slate-400 mt-1">{subject.year}</div>
+                </button>
+              ))}
+            </div>
+          </div>
+        )}
+
+        <div className="pt-4">
+          <button
+            type="button"
+            onClick={handleComplete}
+            className="lms-gradient-btn w-full rounded-2xl px-5 py-4 font-semibold text-slate-950"
+            disabled={!selectedDepartment || !selectedSemester || selectedSubjects.length === 0}
+          >
+            Complete Setup & Enter Assessment Panel
+          </button>
+        </div>
+      </div>
+    </div>
+  );
+}
   const [form, setForm] = useState({ email: "", password: "" });
   const [loading, setLoading] = useState(false);
 
@@ -318,7 +566,15 @@ function FacultyAssessmentPanel({ session, pushToast }) {
       try {
         const client = getSupabaseClient();
         const profile = await loadFacultyProfile(client, session);
-        const subjectList = await loadSubjects(client, profile, session);
+        
+        // Ensure subjects exist in database for selected subjects
+        let subjectList = [];
+        if (session?.subjects && session.subjects.length > 0) {
+          subjectList = await ensureSubjectsExist(client, profile, session);
+        } else {
+          subjectList = await loadSubjects(client, profile, session);
+        }
+        
         setFacultyProfile(profile);
         setSubjects(subjectList);
         const firstSubjectId = subjectList[0]?.id || "";
@@ -602,13 +858,26 @@ function App() {
     window.setTimeout(() => setToasts((current) => current.filter((item) => item.id !== id)), 4000);
   }
 
+  function handleSignIn(session) {
+    setSession(session);
+  }
+
+  function handleSelectionComplete(session) {
+    setSession(session);
+  }
+
+  const hasBasicSession = session?.email || session?.name;
+  const hasCompleteSession = hasBasicSession && session?.department && session?.semester && session?.subjects;
+
   return (
     <>
       <Toasts items={toasts} onDismiss={(id) => setToasts((current) => current.filter((item) => item.id !== id))} />
-      {session?.email || session?.name ? (
-        <FacultyAssessmentPanel session={session} pushToast={pushToast} />
+      {!hasBasicSession ? (
+        <FacultySignIn onSignedIn={handleSignIn} pushToast={pushToast} />
+      ) : !hasCompleteSession ? (
+        <FacultySelectionScreen session={session} onSelectionComplete={handleSelectionComplete} pushToast={pushToast} />
       ) : (
-        <FacultySignIn onSignedIn={setSession} pushToast={pushToast} />
+        <FacultyAssessmentPanel session={session} pushToast={pushToast} />
       )}
     </>
   );

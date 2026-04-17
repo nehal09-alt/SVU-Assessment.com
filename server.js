@@ -1054,16 +1054,15 @@ app.post("/lms/assignment/faculty/dashboard", async (req, res) => {
       return res.status(404).json({ message: "Faculty account not found." });
     }
 
+    const allowedSubjects = Array.isArray(body.allowedSubjects)
+      ? body.allowedSubjects
+      : (Array.isArray(faculty.subjects) ? faculty.subjects : []);
+
     const facultyProfile = await ensureProfile({
       role: "faculty",
       name: faculty.name,
       email,
     });
-
-    const allowedSubjects = Array.isArray(faculty.subjects) ? faculty.subjects : [];
-    for (const subjectName of allowedSubjects) {
-      await ensureSubject({ name: subjectName, facultyId: facultyProfile.id });
-    }
 
     const dashboard = await listFacultyDashboard({
       facultyProfileId: facultyProfile.id,
@@ -1105,7 +1104,12 @@ app.post("/lms/assignment/faculty/create", async (req, res) => {
       return res.status(404).json({ message: "Faculty account not found." });
     }
 
-    if (Array.isArray(faculty.subjects) && !faculty.subjects.includes(subjectName)) {
+    const allowedSubjects = Array.isArray(body.allowedSubjects) ? body.allowedSubjects : (Array.isArray(faculty.subjects) ? faculty.subjects : []);
+    if (allowedSubjects.length > 0 && !allowedSubjects.includes(subjectName)) {
+      return res.status(403).json({ message: "You can only create assignments for your selected subjects." });
+    }
+
+    if (allowedSubjects.length === 0 && Array.isArray(faculty.subjects) && faculty.subjects.length > 0 && !faculty.subjects.includes(subjectName)) {
       return res.status(403).json({ message: "You can only create assignments for your own subjects." });
     }
 
