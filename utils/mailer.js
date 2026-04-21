@@ -112,8 +112,6 @@ async function sendOtpEmail(to, otp) {
       text,
       html,
     });
-    
-    console.log(`OTP email sent successfully to ${to}: ${result.messageId}`);
     return result;
   } catch (err) {
     console.error(`Failed to send OTP email to ${to}:`, err.message);

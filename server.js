@@ -17,9 +17,9 @@ const { getUniqueCourseNames, getCoursesFor, getSemestersForCourse, getSupabaseC
 const { findFacultyByEmail, saveFaculty } = require("./utils/supabase-faculty");
 const {
   ASSIGNMENT_BUCKET,
+  SUBMISSION_BUCKET,
   createAssignment,
   ensureProfile,
-  ensureSubject,
   gradeSubmission,
   listFacultyDashboard,
   listStudentDashboard,
@@ -74,6 +74,37 @@ function loadEnvFile() {
 }
 
 loadEnvFile();
+
+function isMissingProfilesTableError(error) {
+  const message = String(error?.message || "").toLowerCase();
+  return (
+    message.includes("public.profiles") ||
+    message.includes("relation \"profiles\" does not exist") ||
+    message.includes("could not find the table") ||
+    message.includes("table 'profiles'")
+  );
+}
+
+function createSyntheticProfile({ role, name, email = "", regNumber = "" }) {
+  const normalizedRole = role === "faculty" ? "faculty" : "student";
+  return {
+    id: crypto.createHash("sha256").update(`${normalizedRole}:${String(email).toLowerCase()}:${String(regNumber).toUpperCase()}`).digest("hex").slice(0, 32),
+    name: String(name || (normalizedRole === "faculty" ? "Faculty Member" : "Student")).trim(),
+    role: normalizedRole,
+  };
+}
+
+async function safeEnsureProfile(profileArgs) {
+  try {
+    return await ensureProfile(profileArgs);
+  } catch (err) {
+    if (isMissingProfilesTableError(err)) {
+      console.warn("Fallback to synthetic profile because the Supabase profiles table is unavailable.", err.message);
+      return createSyntheticProfile(profileArgs);
+    }
+    throw err;
+  }
+}
 
 const app = express();
 const JSON_BODY_LIMIT = process.env.JSON_BODY_LIMIT || "5mb";
@@ -131,7 +162,6 @@ function loadStudentData() {
     try {
       const jsonData = fs.readFileSync(jsonPath, 'utf8');
       studentData = JSON.parse(jsonData) || [];
-      console.log(`Loaded ${studentData.length} student records from JSON`);
       return;
     } catch (err) {
       console.error('Error loading JSON:', err.message);
@@ -164,7 +194,6 @@ function loadStudentData() {
           return null;
         }).filter(item => item && item.regNum);
       }
-      console.log(`Loaded ${studentData.length} student records from CSV`);
     } catch (err) {
       console.error('Error loading CSV:', err.message);
     }
@@ -941,7 +970,8 @@ app.get("/lms/student-subjects", async (req, res) => {
 
 app.get("/lms/assignment/config", (req, res) => {
   return res.status(200).json({
-    bucket: ASSIGNMENT_BUCKET,
+    assignmentBucket: ASSIGNMENT_BUCKET,
+    submissionBucket: SUBMISSION_BUCKET,
     maxUploadMb: 10,
   });
 });
@@ -951,6 +981,7 @@ app.post("/lms/assignment/student/dashboard", async (req, res) => {
   const regNumber = String(body.regNumber || "").trim();
   const email = String(body.email || "").trim().toLowerCase();
   const subjectId = String(body.subjectId || "").trim();
+  const subjectName = String(body.subjectName || "").trim();
 
   if (!regNumber || !email) {
     return res.status(400).json({ message: "regNumber and email are required." });
@@ -962,7 +993,7 @@ app.post("/lms/assignment/student/dashboard", async (req, res) => {
       return res.status(404).json({ message: "Student profile not found." });
     }
 
-    const lmsProfile = await ensureProfile({
+    const lmsProfile = await safeEnsureProfile({
       role: "student",
       name: studentProfile.studentName,
       email,
@@ -976,6 +1007,9 @@ app.post("/lms/assignment/student/dashboard", async (req, res) => {
       studentProfileId: lmsProfile.id,
       allowedSubjectNames,
       subjectId,
+      subjectName,
+      department: studentProfile.course || body.course || "",
+      semester: normalizeSemesterValue(studentProfile.semester || body.semester),
     });
 
     return res.status(200).json({
@@ -1013,7 +1047,7 @@ app.post("/lms/assignment/student/submit", async (req, res) => {
       return res.status(404).json({ message: "Student profile not found." });
     }
 
-    const lmsProfile = await ensureProfile({
+    const lmsProfile = await safeEnsureProfile({
       role: "student",
       name: studentProfile.studentName,
       email,
@@ -1058,7 +1092,7 @@ app.post("/lms/assignment/faculty/dashboard", async (req, res) => {
       ? body.allowedSubjects
       : (Array.isArray(faculty.subjects) ? faculty.subjects : []);
 
-    const facultyProfile = await ensureProfile({
+    const facultyProfile = await safeEnsureProfile({
       role: "faculty",
       name: faculty.name,
       email,
@@ -1093,9 +1127,14 @@ app.post("/lms/assignment/faculty/create", async (req, res) => {
   const title = String(body.title || "").trim();
   const description = String(body.description || "").trim();
   const dueDate = String(body.dueDate || "").trim();
+  const department = String(body.department || "").trim();
+  const semester = String(body.semester || "").trim();
+  const fileName = String(body.fileName || "").trim();
+  const fileType = String(body.fileType || "").trim();
+  const fileData = String(body.fileData || "").trim();
 
-  if (!email || !subjectName || !title || !dueDate) {
-    return res.status(400).json({ message: "email, subjectName, title, and dueDate are required." });
+  if (!email || !subjectName || !title || !dueDate || !department || !semester) {
+    return res.status(400).json({ message: "email, subjectName, title, dueDate, department, and semester are required." });
   }
 
   try {
@@ -1113,7 +1152,7 @@ app.post("/lms/assignment/faculty/create", async (req, res) => {
       return res.status(403).json({ message: "You can only create assignments for your own subjects." });
     }
 
-    const facultyProfile = await ensureProfile({
+    const facultyProfile = await safeEnsureProfile({
       role: "faculty",
       name: faculty.name,
       email,
@@ -1122,9 +1161,14 @@ app.post("/lms/assignment/faculty/create", async (req, res) => {
     const assignment = await createAssignment({
       facultyProfile,
       subjectName,
+      department,
+      semester,
       title,
       description,
-      dueDate,
+      deadline: dueDate,
+      fileName: fileName || null,
+      fileType: fileType || null,
+      fileData: fileData || null,
     });
 
     return res.status(201).json({
@@ -1154,7 +1198,7 @@ app.post("/lms/assignment/faculty/grade", async (req, res) => {
       return res.status(404).json({ message: "Faculty account not found." });
     }
 
-    const facultyProfile = await ensureProfile({
+    const facultyProfile = await safeEnsureProfile({
       role: "faculty",
       name: faculty.name,
       email,

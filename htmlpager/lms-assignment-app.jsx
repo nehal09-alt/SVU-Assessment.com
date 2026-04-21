@@ -3,6 +3,18 @@ const { useEffect, useMemo, useState } = React;
 const API_BASE = window.SVUCommon.getApiBase();
 const STUDENT_AUTH_KEY = "svuAuthSession";
 const FACULTY_AUTH_KEY = "svuFacultySession";
+const ALLOWED_FILE_TYPES = [
+  "application/pdf",
+  "application/msword",
+  "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
+  "application/zip",
+  "application/x-zip-compressed",
+  "application/vnd.ms-excel",
+  "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+  "text/plain",
+  "application/vnd.ms-powerpoint",
+  "application/vnd.openxmlformats-officedocument.presentationml.presentation",
+];
 
 function classNames(...values) {
   return values.filter(Boolean).join(" ");
@@ -18,6 +30,13 @@ function statusTone(value) {
   if (value === "submitted") return "submitted";
   if (value === "late") return "late";
   return "pending";
+}
+
+function isValidFileType(file) {
+  if (!file) return false;
+  if (ALLOWED_FILE_TYPES.includes(file.type)) return true;
+  const name = String(file.name || "").toLowerCase();
+  return [".pdf", ".doc", ".docx", ".zip", ".xls", ".xlsx", ".txt", ".ppt", ".pptx"].some((ext) => name.endsWith(ext));
 }
 
 function readSession(key) {
@@ -41,26 +60,26 @@ async function readJson(url, options) {
   return data;
 }
 
-async function fetchAssignmentsWithSubmissions(studentProfile, selectedSubjectId) {
-  if (!selectedSubjectId) {
-    return [];
+async function fetchAssignmentsWithSubmissions(studentProfile, selectedSubjectId, selectedSubjectName) {
+  const requestBody = {
+    regNumber: studentProfile.regNumber,
+    email: studentProfile.email,
+    course: studentProfile.department,
+    semester: studentProfile.semester,
+  };
+
+  if (selectedSubjectId) {
+    requestBody.subjectId = selectedSubjectId;
   }
 
-  const isUuidLike = /^[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i.test(String(selectedSubjectId));
-  if (!isUuidLike) {
-    return [];
+  if (selectedSubjectName) {
+    requestBody.subjectName = selectedSubjectName;
   }
 
   const data = await readJson(`${API_BASE}/lms/assignment/student/dashboard`, {
     method: "POST",
     headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({
-      regNumber: studentProfile.regNumber,
-      email: studentProfile.email,
-      course: studentProfile.department,
-      semester: studentProfile.semester,
-      subjectId: selectedSubjectId,
-    }),
+    body: JSON.stringify(requestBody),
   });
 
   return data.assignments || [];
@@ -155,6 +174,7 @@ function StudentApp({ pushToast }) {
       };
       const subjects = Array.isArray(subjectPayload.subjects) ? subjectPayload.subjects : [];
       const nextSubjectId = activeSubjectId || subjects[0]?.id || "";
+      const nextSubjectName = subjects.find((subject) => subject.id === nextSubjectId)?.name || "";
 
       setDashboard({
         profile: studentProfile,
@@ -166,7 +186,7 @@ function StudentApp({ pushToast }) {
         setSubjectId(nextSubjectId);
       }
 
-      const assignments = await fetchAssignmentsWithSubmissions(studentProfile, nextSubjectId);
+      const assignments = await fetchAssignmentsWithSubmissions(studentProfile, nextSubjectId, nextSubjectName);
       setDashboard({
         profile: studentProfile,
         subjects,
@@ -197,6 +217,11 @@ function StudentApp({ pushToast }) {
     const draft = drafts[assignment.id] || {};
     if (!draft.file) {
       pushToast("File Required", "Choose a file before submitting.");
+      return;
+    }
+
+    if (!isValidFileType(draft.file)) {
+      pushToast("Invalid File", "Use PDF, Word, Excel, PowerPoint, ZIP, or TXT.");
       return;
     }
 
@@ -283,18 +308,23 @@ function StudentApp({ pushToast }) {
                   <div className="flex flex-col gap-4 xl:flex-row xl:items-start xl:justify-between">
                     <div>
                       <div className="text-xs uppercase tracking-[0.28em] text-cyan-300">
-                        {(dashboard.subjects || []).find((subject) => subject.id === assignment.subject_id)?.name || "Subject"}
+                        {assignment.subject || "Subject"}
                       </div>
                       <h3 className="mt-2 text-2xl font-semibold text-white">{assignment.title}</h3>
                       <p className="mt-3 max-w-3xl text-sm leading-6 text-slate-400">{assignment.description || "No description provided."}</p>
                     </div>
                     <div className="flex flex-wrap items-center gap-3">
-                      <span className={classNames("lms-status-pill rounded-full px-4 py-2 text-xs font-semibold uppercase tracking-[0.2em]", statusTone(submission?.derivedStatus || "pending"))}>
-                        {statusLabel(submission?.derivedStatus || "pending")}
+                      <span className={classNames("lms-status-pill rounded-full px-4 py-2 text-xs font-semibold uppercase tracking-[0.2em]", statusTone(submission?.status || "pending"))}>
+                        {statusLabel(submission?.status || "pending")}
                       </span>
                       <div className="rounded-full border border-slate-700/70 bg-slate-950/40 px-4 py-2 text-xs uppercase tracking-[0.2em] text-slate-300">
                         Due {new Date(assignment.due_date).toLocaleString()}
                       </div>
+                      {assignment.download_url ? (
+                        <a className="text-cyan-300 underline" href={assignment.download_url} target="_blank" rel="noreferrer">
+                          Download Assignment
+                        </a>
+                      ) : null}
                     </div>
                   </div>
 
@@ -652,17 +682,33 @@ function FacultyApp({ pushToast }) {
     event.preventDefault();
     setSavingCreate(true);
     try {
+      const payload = {
+        email: session.email,
+        allowedSubjects: session.subjects,
+        department: session.department,
+        semester: session.semester,
+        subjectName: createForm.subjectName,
+        title: createForm.title,
+        description: createForm.description,
+        dueDate: createForm.dueDate,
+      };
+
+      if (createForm.file) {
+        if (!isValidFileType(createForm.file)) {
+          throw new Error("File type not supported. Use PDF, Word, Excel, PowerPoint, ZIP, or TXT.");
+        }
+        payload.fileName = createForm.file.name;
+        payload.fileType = createForm.file.type || "application/octet-stream";
+        payload.fileData = await fileToBase64(createForm.file);
+      }
+
       await readJson(`${API_BASE}/lms/assignment/faculty/create`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          email: session.email,
-          allowedSubjects: session.subjects,
-          ...createForm,
-        }),
+        body: JSON.stringify(payload),
       });
       pushToast("Assignment Created", "The assignment is now visible in the LMS feed.");
-      setCreateForm({ ...createForm, title: "", description: "", dueDate: "" });
+      setCreateForm({ subjectName: createForm.subjectName, title: "", description: "", dueDate: "", file: null });
       await loadDashboard(subjectId);
     } catch (error) {
       pushToast("Create Failed", error.message);
@@ -766,6 +812,15 @@ function FacultyApp({ pushToast }) {
                 </select>
                 <input className="lms-input" placeholder="Assignment title" value={createForm.title} onChange={(event) => setCreateForm({ ...createForm, title: event.target.value })} required />
                 <textarea className="lms-textarea min-h-[140px]" placeholder="Assignment description" value={createForm.description} onChange={(event) => setCreateForm({ ...createForm, description: event.target.value })} />
+                <label className="block">
+                  <span className="mb-2 block text-sm font-medium text-slate-300">Upload Assignment Brief</span>
+                  <input
+                    className="lms-input"
+                    type="file"
+                    accept=".pdf,.doc,.docx,.zip,.xls,.xlsx,.txt,.ppt,.pptx"
+                    onChange={(event) => setCreateForm({ ...createForm, file: event.target.files?.[0] || null })}
+                  />
+                </label>
                 <input className="lms-input" type="datetime-local" value={createForm.dueDate} onChange={(event) => setCreateForm({ ...createForm, dueDate: event.target.value })} required />
                 <button className="lms-gradient-btn w-full rounded-2xl px-5 py-4 font-semibold text-slate-950" disabled={savingCreate}>
                   {savingCreate ? "Saving..." : "Publish Assignment"}
@@ -792,7 +847,7 @@ function FacultyApp({ pushToast }) {
                   {(dashboard.assignments || []).map((assignment) => (
                     <div key={assignment.id} className="rounded-2xl border border-slate-700/60 bg-slate-950/30 p-4">
                       <div className="text-xs uppercase tracking-[0.24em] text-cyan-300">
-                        {(dashboard.subjects || []).find((subject) => subject.id === assignment.subject_id)?.name || "Subject"}
+                        {assignment.subject || "Subject"}
                       </div>
                       <div className="mt-2 text-lg font-semibold text-white">{assignment.title}</div>
                       <div className="mt-2 text-sm text-slate-400">{assignment.description || "No description provided."}</div>
@@ -839,7 +894,11 @@ function FacultyApp({ pushToast }) {
                               <td className="font-medium text-white">{submission.student_name}</td>
                               <td className="text-slate-300">{assignment?.title || "Assignment"}</td>
                               <td>
-                                <a className="text-cyan-300 underline" href={submission.file_url} target="_blank" rel="noreferrer">View / Download</a>
+                                {submission.download_url ? (
+                                  <a className="text-cyan-300 underline" href={submission.download_url} target="_blank" rel="noreferrer">Download</a>
+                                ) : (
+                                  <span className="text-slate-500">No file</span>
+                                )}
                               </td>
                               <td className="text-slate-300">{new Date(submission.submitted_at).toLocaleString()}</td>
                               <td>

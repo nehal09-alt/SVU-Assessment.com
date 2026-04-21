@@ -48,6 +48,28 @@ function deriveSubjectQuery(studentProfile, overrides = {}) {
   };
 }
 
+function isMissingProfilesTableError(error) {
+  const message = String(error?.message || "").toLowerCase();
+  return (
+    message.includes("public.profiles") ||
+    message.includes("relation \"profiles\" does not exist") ||
+    message.includes("could not find the table") ||
+    message.includes("table 'profiles'")
+  );
+}
+
+function createSyntheticProfile({ role, name, email = "", regNumber = "", department = "", semester = "", year = "" }) {
+  const normalizedRole = role === "faculty" ? "faculty" : "student";
+  return {
+    id: hashToUuid(`${PROFILE_NAMESPACE}:${normalizedRole}:${String(email || "").trim().toLowerCase()}:${String(regNumber || "").trim().toUpperCase()}`),
+    name: String(name || (normalizedRole === "faculty" ? "Faculty Member" : "Student")).trim(),
+    department: String(department || "").trim(),
+    semester: normalizeSemesterValue(semester),
+    year: String(year || "").trim(),
+    role: normalizedRole,
+  };
+}
+
 async function ensureProfile({ role, name, email = "", regNumber = "", department = "", semester = "", year = "" }) {
   const normalizedRole = role === "faculty" ? "faculty" : "student";
   const seed = normalizedRole === "faculty"
@@ -63,17 +85,25 @@ async function ensureProfile({ role, name, email = "", regNumber = "", departmen
     role: normalizedRole,
   };
 
-  const { data, error } = await supabaseAdmin
-    .from("profiles")
-    .upsert(payload, { onConflict: "id" })
-    .select("id, name, department, semester, year, role")
-    .single();
+  try {
+    const { data, error } = await supabaseAdmin
+      .from("profiles")
+      .upsert(payload, { onConflict: "id" })
+      .select("id, name, department, semester, year, role")
+      .single();
 
-  if (error) {
-    throw new Error(error.message || "Could not ensure profile.");
+    if (error) {
+      throw error;
+    }
+
+    return data;
+  } catch (err) {
+    if (isMissingProfilesTableError(err)) {
+      console.warn("Supabase profiles table unavailable; falling back to synthetic profile.", err.message);
+      return createSyntheticProfile({ role, name, email, regNumber, department, semester, year });
+    }
+    throw new Error(err.message || "Could not ensure profile.");
   }
-
-  return data;
 }
 
 async function fetchSubjectsForStudent(studentProfile, overrides = {}) {
@@ -275,15 +305,23 @@ async function listFacultyAssessmentDashboard({ email, subjectId = "" }) {
   }
 
   const studentIds = [...new Set((marks || []).map((mark) => mark.student_id).filter(Boolean))];
-  const { data: studentProfiles, error: profileError } = studentIds.length === 0
-    ? { data: [], error: null }
-    : await supabaseAdmin
+  let studentProfiles = [];
+
+  if (studentIds.length > 0) {
+    const { data, error: profileError } = await supabaseAdmin
       .from("profiles")
       .select("id, name, role")
       .in("id", studentIds);
 
-  if (profileError) {
-    throw new Error(profileError.message || "Could not load student profiles.");
+    if (profileError) {
+      if (isMissingProfilesTableError(profileError)) {
+        console.warn("Supabase profiles table unavailable; using student names from marks instead.", profileError.message);
+      } else {
+        throw new Error(profileError.message || "Could not load student profiles.");
+      }
+    } else {
+      studentProfiles = data || [];
+    }
   }
 
   const profileMap = new Map((studentProfiles || []).map((item) => [item.id, item]));
