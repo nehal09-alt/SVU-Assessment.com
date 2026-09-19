@@ -3,7 +3,7 @@
 A comprehensive web-based platform for **SWAMI VIVEKANANDA University (SVU)** designed to manage student registration, secure authentication, and academic assessments. The portal streamlines the student onboarding process and provides dedicated dashboards for both students and faculty to track assessments and academic progress efficiently.
 
 
-# Hot to start Project - 
+# How to start Project - 
   Extract all Folder / files 
   1. Npm start 
   it will live on Localhost:port/svuassessment.html
