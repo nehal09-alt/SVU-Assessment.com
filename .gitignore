@@ -1,4 +1,9 @@
 .env
+.env.local
+.env.production
+.env.*.local
+.env.*
+!.env.example
 data/
 *.traineddata
 CSE_2024/

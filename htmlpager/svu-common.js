@@ -2,11 +2,13 @@
   const STORAGE_KEY = "svuTheme";
 
   function getApiBase() {
-    return (
-      window.SVU_API_BASE ||
-      localStorage.getItem("svuApiBase") ||
-      `${window.location.protocol}//${window.location.hostname}:3010`
-    ).replace(/\/$/, "");
+    const explicitBase = window.SVU_API_BASE || localStorage.getItem("svuApiBase");
+    if (explicitBase) {
+      return String(explicitBase).replace(/\/$/, "");
+    }
+
+    const isLocalDev = ["localhost", "127.0.0.1"].includes(window.location.hostname);
+    return isLocalDev ? `${window.location.protocol}//${window.location.hostname}:3010` : window.location.origin;
   }
 
   function parseServerMessage(text) {

@@ -116,6 +116,7 @@ app.use(express.json({ limit: JSON_BODY_LIMIT }));
 app.use(express.urlencoded({ extended: false, limit: JSON_BODY_LIMIT }));
 app.use((req, res, next) => {
   const origin = req.headers.origin || "";
+  const configuredFrontendUrl = String(process.env.FRONTEND_URL || "").trim();
   const allowedOrigins = new Set([
     "http://127.0.0.1:3000",
     "http://localhost:3000",
@@ -125,8 +126,20 @@ app.use((req, res, next) => {
     "http://localhost:3010",
   ]);
 
-  if (allowedOrigins.has(origin)) {
+  if (configuredFrontendUrl) {
+    try {
+      allowedOrigins.add(new URL(configuredFrontendUrl).origin);
+    } catch (_) {
+      allowedOrigins.add(configuredFrontendUrl.replace(/\/$/, ""));
+    }
+  }
+
+  if (origin && (allowedOrigins.has(origin) || origin === new URL(process.env.SUPABASE_URL || "https://example.com").origin)) {
     res.header("Access-Control-Allow-Origin", origin);
+  } else if (!origin && configuredFrontendUrl) {
+    res.header("Access-Control-Allow-Origin", configuredFrontendUrl.replace(/\/$/, ""));
+  } else if (!origin) {
+    res.header("Access-Control-Allow-Origin", "http://localhost:3010");
   }
 
   res.header("Vary", "Origin");
@@ -152,6 +165,10 @@ const staticOpts = {
 
 app.use(express.static(path.join(__dirname, "htmlpager"), staticOpts));
 app.use("/htmlpager", express.static(path.join(__dirname, "htmlpager"), staticOpts));
+
+app.get("/", (req, res) => {
+  return res.redirect(302, "/SVUlanding.html");
+});
 
 let studentData = [];
 
@@ -1953,18 +1970,22 @@ app.use((req, res) => {
   return res.status(404).json({ message: "Route not found" });
 });
 
-const server = app.listen(PORT, () => {
-  console.log(`Server running on http://localhost:${PORT}`);
-});
+if (require.main === module) {
+  const server = app.listen(PORT, () => {
+    console.log(`Server running on http://localhost:${PORT}`);
+  });
 
-server.on("error", (err) => {
-  if (err.code === "EADDRINUSE") {
-    console.error(
-      `Port ${PORT} is already in use. Stop the other server or run this app with a different port, for example: $env:PORT=3002; node server.js`
-    );
-    return;
-  }
+  server.on("error", (err) => {
+    if (err.code === "EADDRINUSE") {
+      console.error(
+        `Port ${PORT} is already in use. Stop the other server or run this app with a different port, for example: $env:PORT=3002; node server.js`
+      );
+      return;
+    }
 
-  console.error("Server failed to start:", err);
-});
+    console.error("Server failed to start:", err);
+  });
+}
+
+module.exports = app;
 

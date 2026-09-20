@@ -3,7 +3,7 @@ const { createClient } = require("@supabase/supabase-js");
 
 const supabaseUrl = process.env.SUPABASE_URL;
 const supabaseAnonKey = process.env.SUPABASE_ANON_KEY;
-const supabaseServiceRoleKey = process.env.SUPABASE_SERVICE_ROLE_KEY || "";
+const supabaseSecretKey = process.env.SUPABASE_SECRET_KEY || process.env.SUPABASE_SERVICE_ROLE_KEY || "";
 
 if (!supabaseUrl || !supabaseAnonKey) {
   console.error("Missing Supabase credentials. Set SUPABASE_URL and SUPABASE_ANON_KEY in .env");
@@ -35,7 +35,7 @@ function createSupabaseClient(accessToken) {
 function createSupabaseAdminClient() {
   return createClient(
     supabaseUrl,
-    supabaseServiceRoleKey || supabaseAnonKey,
+    supabaseSecretKey || supabaseAnonKey,
     clientOptions
   );
 }
