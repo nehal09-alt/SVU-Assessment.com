@@ -1,22 +1,48 @@
-const { supabase } = require("./supabase-client");
+const { supabase, supabaseAdmin } = require("./supabase-client");
+
+function normalizeStudentRecord(student) {
+  if (!student || typeof student !== "object") {
+    return null;
+  }
+
+  const regNumber = student.regnum || student.regNum || student.regNumber || student.registration_number || "";
+  const rollNumber = student.rollnum || student.rollNum || student.rollNumber || student.admitNumber || student.sno || "";
+  const studentName = student.name || student.studentName || student.full_name || "";
+  const course = student.dept || student.department || student.course || "";
+
+  return {
+    ...student,
+    regNumber: String(regNumber || "").trim(),
+    regnum: String(regNumber || "").trim(),
+    regNum: String(regNumber || "").trim(),
+    rollNumber: String(rollNumber || "").trim(),
+    rollnum: String(rollNumber || "").trim(),
+    rollNum: String(rollNumber || "").trim(),
+    studentName: String(studentName || "").trim(),
+    name: String(studentName || "").trim(),
+    course: String(course || "").trim(),
+    dept: String(course || "").trim(),
+  };
+}
 
 /**
  * Load all students from Supabase
  */
 async function loadStudents() {
   try {
-    const { data, error } = await supabase
+    const client = supabaseAdmin || supabase;
+    const { data, error } = await client
       .from("students")
       .select("*");
 
     if (error) {
-      console.error("Error loading students from Supabase:", error);
+      console.error("[supabase-student-data] Error loading students from Supabase:", error);
       return [];
     }
 
-    return data || [];
+    return Array.isArray(data) ? data.map(normalizeStudentRecord).filter(Boolean) : [];
   } catch (err) {
-    console.error("Error loading students:", err);
+    console.error("[supabase-student-data] Error loading students:", err);
     return [];
   }
 }
@@ -25,22 +51,51 @@ async function loadStudents() {
  * Find student by registration number
  */
 async function findStudentByRegNumber(regNum) {
+  const normalizedRegNum = String(regNum || "").trim();
+
+  if (!normalizedRegNum) {
+    const error = new Error("Registration number is required for student lookup.");
+    console.error("[supabase-student-data] Missing registration number.", error.message);
+    throw error;
+  }
+
+  const client = supabaseAdmin || supabase;
+  const hasUrl = Boolean(process.env.SUPABASE_URL);
+  const hasSecretKey = Boolean(process.env.SUPABASE_SECRET_KEY || process.env.SUPABASE_SERVICE_ROLE_KEY);
+
+  console.log("[supabase-student-data] Student lookup requested", {
+    regNum: normalizedRegNum,
+    table: "students",
+    column: "regnum",
+    hasSupabaseUrl: hasUrl,
+    hasSupabaseSecret: hasSecretKey,
+  });
+
   try {
-    const { data, error } = await supabase
+    const { data, error } = await client
       .from("students")
       .select("*")
-      .eq("regnum", regNum)
-      .single();
+      .eq("regnum", normalizedRegNum)
+      .maybeSingle();
 
-    if (error && error.code !== "PGRST116") {
-      // PGRST116 means no rows found - that's ok
-      console.error("Error finding student:", error);
+    if (error) {
+      console.error("[supabase-student-data] Supabase query error while finding student:", error);
+      throw error;
     }
 
-    return data || null;
+    if (!data) {
+      console.warn("[supabase-student-data] Student not found in Supabase:", {
+        regNum: normalizedRegNum,
+        table: "students",
+        column: "regnum",
+      });
+      return null;
+    }
+
+    return normalizeStudentRecord(data);
   } catch (err) {
-    console.error("Error finding student:", err);
-    return null;
+    console.error("[supabase-student-data] Error finding student:", err);
+    throw err;
   }
 }
 
@@ -96,16 +151,17 @@ async function getStudentProfile(regNum) {
     return null;
   }
 
-  const semesterNumber = calculateSemesterFromRegNumber(student.regnum || student.regNum || "");
+  const normalized = normalizeStudentRecord(student);
+  const semesterNumber = calculateSemesterFromRegNumber(normalized.regnum || normalized.regNum || "");
   return {
-    studentName: student.name || "Student",
-    regNumber: student.regnum,
-    admitNumber: String(student.rollnum || student.sno).padStart(3, "0"),
-    admitCardNumber: String(student.rollnum || student.sno).padStart(3, "0"),
-    course: student.dept || "B.Tech",
-    rollNumber: student.rollnum || "",
-    dob: student.dob || "",
-    gender: student.gender || "",
+    studentName: normalized.name || "Student",
+    regNumber: normalized.regnum || normalized.regNum || "",
+    admitNumber: String(normalized.rollnum || normalized.rollNum || normalized.sno || "").padStart(3, "0"),
+    admitCardNumber: String(normalized.rollnum || normalized.rollNum || normalized.sno || "").padStart(3, "0"),
+    course: normalized.dept || "B.Tech",
+    rollNumber: normalized.rollnum || normalized.rollNum || "",
+    dob: normalized.dob || "",
+    gender: normalized.gender || "",
     semester: semesterNumber ? formatSemesterLabel(semesterNumber) : "",
   };
 }

@@ -744,8 +744,28 @@ function isSafeImageDataUrl(value) {
 
 app.get("/student-info", async (req, res) => {
   const regNumber = (req.query.regNumber || "").toString().trim();
+
+  console.log("[student-info] Request received", {
+    regNumber,
+    hasSupabaseUrl: Boolean(process.env.SUPABASE_URL),
+    hasSupabaseSecret: Boolean(process.env.SUPABASE_SECRET_KEY || process.env.SUPABASE_SERVICE_ROLE_KEY),
+    localStudentDataLoaded: studentData.length,
+    table: "students",
+    column: "regnum",
+  });
+
   if (!regNumber) {
     return res.status(400).json({ message: "regNumber is required" });
+  }
+
+  if (!process.env.SUPABASE_URL || !(process.env.SUPABASE_SECRET_KEY || process.env.SUPABASE_SERVICE_ROLE_KEY)) {
+    console.error("[student-info] Missing required Supabase environment variables.", {
+      hasSupabaseUrl: Boolean(process.env.SUPABASE_URL),
+      hasSupabaseSecret: Boolean(process.env.SUPABASE_SECRET_KEY || process.env.SUPABASE_SERVICE_ROLE_KEY),
+    });
+    return res.status(500).json({
+      message: "Student lookup is misconfigured. Missing SUPABASE_URL and SUPABASE_SECRET_KEY.",
+    });
   }
 
   try {
@@ -756,7 +776,8 @@ app.get("/student-info", async (req, res) => {
     }
 
     if (!match) {
-      return res.status(404).json({ message: "Registration number not found" });
+      console.warn("[student-info] Student not found in local dataset or Supabase:", { regNumber, table: "students", column: "regnum" });
+      return res.status(404).json({ message: `Registration number not found: ${regNumber}` });
     }
 
     const semesterNumber = match.semester || calculateSemesterFromRegNumber(match.regNum || match.regnum || "") || null;
@@ -768,8 +789,11 @@ app.get("/student-info", async (req, res) => {
       semester: semesterNumber ? formatSemesterLabel(semesterNumber) : "",
     });
   } catch (err) {
-    console.error("Error retrieving student-info:", err);
-    return res.status(500).json({ message: "Failed to retrieve student info" });
+    console.error("[student-info] Supabase query error while retrieving student-info:", err);
+    return res.status(500).json({
+      message: "Failed to retrieve student info from Supabase.",
+      detail: err && err.message ? err.message : "Unknown server error",
+    });
   }
 });
 
