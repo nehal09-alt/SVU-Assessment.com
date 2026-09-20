@@ -742,8 +742,8 @@ function isSafeImageDataUrl(value) {
   return Buffer.byteLength(trimmed, "utf8") <= 2 * 1024 * 1024;
 }
 
-app.get("/student-info", async (req, res) => {
-  const regNumber = (req.query.regNumber || "").toString().trim();
+app.get(["/student-info", "/student_info/:regNum"], async (req, res) => {
+  const regNumber = String(req.params?.regNum || req.query.regNumber || "").trim();
 
   console.log("[student-info] Request received", {
     regNumber,
@@ -769,7 +769,7 @@ app.get("/student-info", async (req, res) => {
   }
 
   try {
-    let match = studentData.find((s) => s.regNum === regNumber);
+    let match = studentData.find((s) => (s.regNum || s.regnum || "").toString().trim() === regNumber);
 
     if (!match) {
       match = await findStudentByRegNumber(regNumber);
@@ -777,7 +777,7 @@ app.get("/student-info", async (req, res) => {
 
     if (!match) {
       console.warn("[student-info] Student not found in local dataset or Supabase:", { regNumber, table: "students", column: "regnum" });
-      return res.status(404).json({ message: `Registration number not found: ${regNumber}` });
+      return res.status(404).json({ message: "Student not found" });
     }
 
     const semesterNumber = match.semester || calculateSemesterFromRegNumber(match.regNum || match.regnum || "") || null;
