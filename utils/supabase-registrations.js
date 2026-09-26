@@ -1,11 +1,26 @@
 const { supabaseAdmin } = require("./supabase-client");
 
-const REGISTRATION_TABLE_CANDIDATES = [
-  process.env.SUPABASE_REGISTRATIONS_TABLE,
-  "registrations",
-  "registration data",
-  "registration_data",
-].filter(Boolean);
+const DEFAULT_REGISTRATIONS_TABLE = "registrations";
+
+function normalizeRegistrationEmail(value) {
+  return String(value || "").trim().toLowerCase();
+}
+
+function normalizeRegistrationRegNumber(value) {
+  return String(value || "").trim().toUpperCase();
+}
+
+function resolveRegistrationsTableName() {
+  const configuredTable = String(process.env.SUPABASE_REGISTRATIONS_TABLE || "").trim();
+  const tableName = configuredTable || DEFAULT_REGISTRATIONS_TABLE;
+
+  console.info("[auth:registrations] using table", {
+    tableName,
+    configured: Boolean(configuredTable),
+  });
+
+  return tableName;
+}
 
 const REGISTRATION_ALLOWED_COLUMNS = new Set([
   "id",
@@ -66,27 +81,34 @@ function isMissingTableError(error) {
 }
 
 async function runRegistrationQuery(buildQuery) {
-  let lastError = null;
+  const tableName = resolveRegistrationsTableName();
 
-  for (const tableName of REGISTRATION_TABLE_CANDIDATES) {
+  try {
     const { data, error, count } = await buildQuery(tableName);
 
-    if (!error) {
-      return { data, count, tableName, error: null };
-    }
-
-    lastError = error;
-    if (!isMissingTableError(error)) {
+    if (error) {
+      console.error("[auth:registrations] query failed", {
+        tableName,
+        code: error.code || "",
+        message: error.message ? "Supabase query error" : "",
+      });
       return { data, count, tableName, error };
     }
-  }
 
-  return {
-    data: null,
-    count: null,
-    tableName: REGISTRATION_TABLE_CANDIDATES[0] || "registrations",
-    error: lastError,
-  };
+    console.info("[auth:registrations] query succeeded", {
+      tableName,
+      rowCount: Array.isArray(data) ? data.length : data ? 1 : 0,
+    });
+
+    return { data, count, tableName, error: null };
+  } catch (err) {
+    console.error("[auth:registrations] unexpected query error", {
+      tableName,
+      code: err && err.code ? String(err.code) : "",
+      message: err && err.message ? "Unexpected query error" : "",
+    });
+    return { data: null, count: null, tableName, error: err };
+  }
 }
 
 function compactPatch(patch) {
@@ -213,26 +235,45 @@ async function findRegistration(registrationIdOrEmail) {
     return null;
   }
 
+  const normalizedLookup = lookup.includes("@")
+    ? normalizeRegistrationEmail(lookup)
+    : normalizeRegistrationRegNumber(lookup);
+
   try {
     const { data, error } = await runRegistrationQuery((tableName) => {
-      let query = supabaseAdmin.from(tableName).select("*");
+      const query = supabaseAdmin.from(tableName).select("*");
 
       if (lookup.includes("@")) {
-        query = query.eq("email", lookup.toLowerCase());
-      } else {
-        query = query.or(`id.eq.${lookup},regnumber.eq.${lookup}`);
+        return query.eq("email", normalizedLookup).maybeSingle();
       }
 
-      return query.single();
+      return query.eq("regnumber", normalizedLookup).maybeSingle();
     });
 
     if (error && error.code !== "PGRST116") {
-      console.error("Error finding registration:", error);
+      console.error("[auth:registrations] find registration error", {
+        field: lookup.includes("@") ? "email" : "regnumber",
+        tableName: data && data.tableName ? data.tableName : resolveRegistrationsTableName(),
+        code: error.code || "",
+        message: error.message ? "Supabase read error" : "",
+      });
+    }
+
+    if (!data) {
+      console.info("[auth:registrations] no registration record found", {
+        field: lookup.includes("@") ? "email" : "regnumber",
+        tableName: resolveRegistrationsTableName(),
+      });
     }
 
     return data || null;
   } catch (err) {
-    console.error("Error finding registration:", err);
+    console.error("[auth:registrations] unexpected find registration error", {
+      field: lookup.includes("@") ? "email" : "regnumber",
+      tableName: resolveRegistrationsTableName(),
+      code: err && err.code ? String(err.code) : "",
+      message: err && err.message ? "Unexpected read error" : "",
+    });
     return null;
   }
 }
@@ -244,17 +285,28 @@ async function saveRegistration(registrationData) {
   try {
     let sanitized = sanitizeRegistrationData(registrationData);
 
+    if (sanitized.email) {
+      sanitized.email = normalizeRegistrationEmail(sanitized.email);
+    }
+
+    if (sanitized.regnumber) {
+      sanitized.regnumber = normalizeRegistrationRegNumber(sanitized.regnumber);
+    }
+
+    const tableName = resolveRegistrationsTableName();
+    console.info("[auth:registrations] saving to table", { tableName, hasEmail: Boolean(sanitized.email), hasRegNumber: Boolean(sanitized.regnumber), hasPasswordField: Object.prototype.hasOwnProperty.call(sanitized, "password") });
+
     for (let attempt = 0; attempt < 4; attempt += 1) {
-      const { data, error } = await runRegistrationQuery((tableName) => {
-      let query = supabaseAdmin.from(tableName);
+      const { data, error } = await runRegistrationQuery((currentTableName) => {
+        let query = supabaseAdmin.from(currentTableName);
 
-      if (sanitized.id) {
-        query = query.update(sanitized).eq("id", sanitized.id);
-      } else {
-        query = query.insert([sanitized]);
-      }
+        if (sanitized.id) {
+          query = query.update(sanitized).eq("id", sanitized.id);
+        } else {
+          query = query.insert([sanitized]);
+        }
 
-      return query.select();
+        return query.select();
       });
 
       if (!error) {
@@ -263,18 +315,21 @@ async function saveRegistration(registrationData) {
 
       const missingColumn = getMissingColumnFromError(error);
       if (missingColumn && Object.prototype.hasOwnProperty.call(sanitized, missingColumn)) {
-        console.warn(`Retrying registration save without unsupported column: ${missingColumn}`);
+        console.warn("[auth:registrations] retrying save without unsupported column", { tableName, missingColumn });
         delete sanitized[missingColumn];
         continue;
       }
 
-      console.error("Error saving registration:", error);
+      console.error("[auth:registrations] save error", { tableName, code: error.code || "", message: error.message ? "Supabase save error" : "" });
       return null;
     }
 
     return null;
   } catch (err) {
-    console.error("Error saving registration:", err);
+    console.error("[auth:registrations] unexpected save error", {
+      code: err && err.code ? String(err.code) : "",
+      message: err && err.message ? "Unexpected save error" : "",
+    });
     return null;
   }
 }

@@ -502,12 +502,22 @@ function isBcryptHash(value) {
 }
 
 function compareStoredPassword(storedPassword, candidatePassword) {
-  if (typeof storedPassword !== "string") {
+  if (typeof storedPassword !== "string" || !storedPassword.trim()) {
+    console.warn("[auth:student] stored password missing or invalid", {
+      hasStoredPassword: typeof storedPassword === "string",
+      storedPasswordLength: typeof storedPassword === "string" ? storedPassword.length : 0,
+      hasCandidatePassword: typeof candidatePassword === "string",
+    });
     return Promise.resolve(false);
   }
 
   if (!isBcryptHash(storedPassword)) {
-    return Promise.resolve(storedPassword === candidatePassword);
+    console.warn("[auth:student] stored password is not a valid bcrypt hash", {
+      hasStoredPassword: true,
+      storedPasswordLength: storedPassword.length,
+      hasCandidatePassword: typeof candidatePassword === "string",
+    });
+    return Promise.resolve(false);
   }
 
   return new Promise((resolve, reject) => {
