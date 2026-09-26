@@ -550,10 +550,13 @@ const PROFILE_TOKEN_SECRET =
 const PROFILE_TOKEN_TTL_MS = Number(process.env.PROFILE_TOKEN_TTL_MS) || 24 * 60 * 60 * 1000;
 
 function safeProfileSummary(entry, studentProfile) {
-  const rawSemester = entry.semester;
-  const semesterLabel = rawSemester == null || rawSemester === ""
-    ? ""
-    : (Number.isFinite(Number(rawSemester)) ? formatSemesterLabel(Number(rawSemester)) : String(rawSemester));
+  const authoritativeSemesterValue = studentProfile?.semester
+    ? normalizeSemesterValue(studentProfile.semester)
+    : "";
+  const semesterLabel = authoritativeSemesterValue
+    ? formatSemesterLabel(Number(authoritativeSemesterValue))
+    : "";
+
   const rawYear = entry.year;
   const yearLabel = rawYear == null || rawYear === ""
     ? ""

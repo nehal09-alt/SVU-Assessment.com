@@ -728,14 +728,17 @@
     }
 
     function getPreferredSemesters(auth) {
-      const savedSemester = normalizeSemesterValue(auth?.semester);
-      if (savedSemester) {
-        return [savedSemester];
+      const currentSemester = normalizeSemesterValue(auth?.semester);
+      if (!currentSemester) {
+        return [];
       }
 
-      const enrollmentYear = extractEnrollmentYear(auth?.regNumber);
-      const studyYear = calculateStudyYear(enrollmentYear);
-      return getSemestersForStudyYear(studyYear);
+      const numericSemester = Number(currentSemester);
+      if (!Number.isFinite(numericSemester) || numericSemester < 1) {
+        return [];
+      }
+
+      return [String(numericSemester)];
     }
 
     function renderStudentDetails(auth) {
@@ -1316,6 +1319,10 @@
           return;
         }
 
+        const nextSemester = result.profile && Object.prototype.hasOwnProperty.call(result.profile, "semester")
+          ? (result.profile.semester || "")
+          : "";
+
         const nextAuth = {
           ...auth,
           studentName: result.profile?.studentName || auth.studentName || "",
@@ -1325,7 +1332,7 @@
           email: result.profile?.email || auth.email,
           course: result.profile?.course || auth.course || "",
           year: result.profile?.year || auth.year || "",
-          semester: result.profile?.semester || auth.semester || "",
+          semester: nextSemester,
           passwordStatus: result.profile?.passwordStatus || auth.passwordStatus || "hidden",
           profilePhoto: result.profilePhoto || auth.profilePhoto || "",
           profileToken: result.profileToken || auth.profileToken || "",
